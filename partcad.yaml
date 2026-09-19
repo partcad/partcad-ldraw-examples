@@ -1,0 +1,41 @@
+# PartCAD package: worked examples built from the LDraw parts library.
+#
+# The parts come from '//pub/universe/lego/ldraw', which serves the LDraw
+# library (https://library.ldraw.org) as parametric PartCAD parts. Nothing is
+# vendored here: this package is the assemblies, and the geometry is meshed
+# from LDraw's own .dat files on demand.
+name: //pub/examples/lego
+
+desc: Assemblies built from the LDraw LEGO parts library.
+url: https://library.ldraw.org/
+poc: kuzmenkor@gmail.com
+partcad: ">=0.8.95"
+
+# Nothing here is a catalogue item somebody can order: these are models built
+# out of parts that already exist.
+manufacturable: false
+
+dependencies:
+  pub:
+    type: git
+    url: https://github.com/partcad/partcad-index.git
+    revision: main
+
+assemblies:
+  castle:
+    type: assy
+    path: castle.assy
+    desc: A gothic castle built from LDraw LEGO parts.
+    interference:
+      # Every part is placed by coordinates rather than joined, and a LEGO stud
+      # is meant to occupy the part above it - that interference is what makes
+      # bricks grip. So this check has something true to say about almost every
+      # pair here and nowhere to read that it is intended: an overlap which is
+      # meant to be there is stated on the joint that causes it, and a
+      # coordinate is not a joint.
+      #
+      # Off, rather than given a 'minVolume' high enough to swallow a stud:
+      # that floor is a rounding tolerance and making it carry this would be a
+      # number pretending to be one. See the README for what would make the
+      # check meaningful here.
+      skip: true

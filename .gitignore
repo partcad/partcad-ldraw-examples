@@ -1,0 +1,4 @@
+# PartCAD's own caches and generated artifacts.
+.partcad/
+*.pyc
+__pycache__/
