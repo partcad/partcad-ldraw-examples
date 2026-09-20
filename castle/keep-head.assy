@@ -37,10 +37,20 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_sw_p0
-    location: [[0.0, 201.6, 0.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_sw_c19
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_sw_p1
-    location: [[0.0, 211.2, 0.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_sw_p0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_se_c17
     location: [[40.0, 172.8, 0.0], [0, 1, 0], 0]
@@ -62,10 +72,20 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_se_p0
-    location: [[40.0, 201.6, 0.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_se_c19
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_se_p1
-    location: [[40.0, 211.2, 0.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_se_p0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_nw_c17
     location: [[0.0, 172.8, 40.0], [0, 1, 0], 0]
@@ -87,10 +107,20 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_nw_p0
-    location: [[0.0, 201.6, 40.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_nw_c19
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_nw_p1
-    location: [[0.0, 211.2, 40.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_nw_p0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_ne_c17
     location: [[40.0, 172.8, 40.0], [0, 1, 0], 0]
@@ -112,10 +142,20 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_ne_p0
-    location: [[40.0, 201.6, 40.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_ne_c19
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_ne_p1
-    location: [[40.0, 211.2, 40.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_ne_p0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:6233
     name: keep_spire
     location: [[20.0, 182.4, 20.0], [0, 1, 0], 0]
@@ -124,4 +164,9 @@ links:
     location: [[20.0, 192.0, 20.0], [0, 1, 0], 0]
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_f1
-    location: [[20.0, 201.6, 20.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_f0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0

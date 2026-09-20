@@ -430,91 +430,115 @@ def build_castle():
 STUD_IFACE = "//pub/universe/lego:stud"
 ANTI_IFACE = "//pub/universe/lego:anti-stud"
 
-# A part can only be joined through anti-studs it actually has, and two of the
-# cones here do not have the ones they should.
-#
-#   Cone 1 x 1 (4589) has none at all. The plugin reads anti-studs off the tubes
-#   under a part and otherwise falls back to what the name implies for a
-#   rectangular Brick, Plate or Tile. A 1 x 1 cone is neither, and its underside
-#   is a plain recess with no tube in it, so nothing finds one.
-#
-#   Cone 2 x 2 x 2 (3942b) has two of its four, both named as the right-hand
-#   column ('c1r0' and 'c1r1', at x = +4) - so a joint through them puts the
-#   cone half a stud out in each direction.
-#
-# Both sit on studs in reality, so both are gaps in the plugin rather than facts
-# about the parts. Until it closes them the honest thing is coordinates: a joint
-# through an interface a part has not got is not a joint, and one through an
-# anti-stud in the wrong place is a joint that lies.
-NO_ANTI_STUD = {CONE_1X1, CONE_2X2X2}
+# Every part here has the anti-studs it stands on, as of partcad-ldraw#12: the
+# 1 x 1 cone had none at all and the 2 x 2 cone had two of its four, both on
+# one side, and both are fixed. Nothing is excluded for want of an interface
+# any more.
+NO_ANTI_STUD = set()
 
 
-def _cells(where):
-    """Which stud cells a part covers, and which of its own each one is.
+# Where each part's studs and anti-studs actually are, in its own frame, in mm.
+# Read from '//pub/universe/lego/ldraw' rather than worked out from the stud
+# grid, because for these parts the grid is not the answer: a Cone 2 x 2 x 2
+# has four anti-studs under it and a single stud on top, at its centre, and a
+# Cone 3 x 3 x 2 has nine and four. A joint picked by grid index puts such a
+# part half a stud out; picked by where the ports are, it cannot.
+PORTS = {
+    'Brick:3004': {
+        "stud": {'c0r0': [-4.0, 0.0, 0.0], 'c1r0': [4.0, 0.0, 0.0]},
+        "anti": {'c0r0': [-4.0, -9.6, 0.0], 'c1r0': [4.0, -9.6, 0.0]},
+    },
+    'Brick:3005': {
+        "stud": {'c0r0': [0.0, 0.0, 0.0]},
+        "anti": {'c0r0': [0.0, -9.6, 0.0]},
+    },
+    'Brick:3010': {
+        "stud": {'c0r0': [-12.0, 0.0, 0.0], 'c1r0': [-4.0, 0.0, 0.0], 'c2r0': [4.0, 0.0, 0.0], 'c3r0': [12.0, 0.0, 0.0]},
+        "anti": {'c0r0': [-12.0, -9.6, 0.0], 'c1r0': [-4.0, -9.6, 0.0], 'c2r0': [4.0, -9.6, 0.0], 'c3r0': [12.0, -9.6, 0.0]},
+    },
+    'Brick:3941': {
+        "stud": {'c0r0': [-4.0, 0.0, -4.0], 'c0r1': [-4.0, 0.0, 4.0], 'c1r0': [4.0, 0.0, -4.0], 'c1r1': [4.0, 0.0, 4.0]},
+        "anti": {'c0r0': [-4.0, -9.6, -4.0], 'c0r1': [-4.0, -9.6, 4.0], 'c1r0': [4.0, -9.6, -4.0], 'c1r1': [4.0, -9.6, 4.0]},
+    },
+    'Cone:3942b': {
+        "stud": {'c0r0': [0.0, 0.0, 0.0]},
+        "anti": {'c0r0': [-4.0, -19.2, -4.0], 'c0r1': [-4.0, -19.2, 4.0], 'c1r0': [4.0, -19.2, -4.0], 'c1r1': [4.0, -19.2, 4.0]},
+    },
+    'Cone:4589': {
+        "stud": {'c0r0': [0.0, 0.0, 0.0]},
+        "anti": {'c0r0': [0.0, -9.6, 0.0]},
+    },
+    'Cone:6233': {
+        "stud": {'c0r0': [-4.0, 0.0, -4.0], 'c0r1': [-4.0, 0.0, 4.0], 'c1r0': [4.0, 0.0, -4.0], 'c1r1': [4.0, 0.0, 4.0]},
+        "anti": {'c0r0': [-8.0, -19.2, -8.0], 'c0r1': [-8.0, -19.2, 0.0], 'c0r2': [-8.0, -19.2, 8.0], 'c1r0': [0.0, -19.2, -8.0], 'c1r1': [0.0, -19.2, 0.0], 'c1r2': [0.0, -19.2, 8.0], 'c2r0': [8.0, -19.2, -8.0], 'c2r1': [8.0, -19.2, 0.0], 'c2r2': [8.0, -19.2, 8.0]},
+    },
+}
 
-    Returns {(column, row): (its own column, its own row)}. A turned part's own
-    grid runs across the world's, which is the whole of what 'turned' changes
-    here: the footprint was already swapped when it was placed.
-    """
-    col, row, _course, w, d, _h, turned = where
+# Two ports meet when they are at the same place. They are written to three
+# decimals and land on an 8 mm grid, so anything this close is the same point.
+TOUCHING = 0.01
+
+
+def _turned_xz(local, angle):
+    """A port's offset from its part's origin, once the part is turned."""
+    x, _y, z = local
+    return (z, -x) if angle else (x, z)
+
+
+def _world_ports(part, pos, angle, kind):
+    """Where every port of one kind on one placed part is, in the unit's frame."""
     out = {}
-    for dx in range(int(w)):
-        for dz in range(int(d)):
-            own = (dz, int(w) - 1 - dx) if turned else (dx, dz)
-            out[(int(col // 1) + dx, int(row // 1) + dz)] = own
+    for inst, local in (PORTS.get(part.split("/")[-1], {}).get(kind) or {}).items():
+        dx, dz = _turned_xz(local, angle)
+        out[inst] = (round(pos[0] + dx, 3), round(pos[1] + local[1], 3), round(pos[2] + dz, 3))
     return out
 
 
-def _support(name, where, placed):
-    """What this part stands on, and the stud they meet at.
-
-    The part must already be in the file - a joint may only name something
-    placed before it - and it must be the course below, sharing a stud cell.
-    Ties are broken by taking the earliest such part, so the choice does not
-    depend on dictionary order.
-    """
-    col, row, course, _w, _d, _h, _turned = where
-    if course == 0:
-        return None
-    mine = _cells(where)
-    for other, other_where in placed:
-        o_col, o_row, o_course, _ow, _od, o_h, _ot = other_where
-        if o_course + o_h != course:
-            continue
-        theirs = _cells(other_where)
-        shared = set(mine) & set(theirs)
-        if not shared:
-            continue
-        cell = sorted(shared)[0]
-        return other, mine[cell], theirs[cell]
+def _meeting(a, b):
+    """The first pair of ports from 'a' and 'b' that are at the same point."""
+    for mine, here in sorted(a.items()):
+        for theirs, there in sorted(b.items()):
+            if all(abs(here[i] - there[i]) < TOUCHING for i in range(3)):
+                return mine, theirs
     return None
 
 
-def _joints(items, unit_key):
-    """A joint for every part that has something under it to stand on."""
-    known = footprints.get(unit_key) or {}
+def _joints(items, unit_key=None):
+    """A joint for every part whose underside meets a stud already placed.
+
+    Worked out from where the ports are rather than from the stud grid: a part
+    stands on another when one of its anti-studs is at the same point as one of
+    that part's studs. That is the whole test, and it is the same test for a
+    brick, a round brick and a cone, whatever grid their names imply.
+
+    Only something already in the file may be stood on, because a joint may
+    only name a node placed before it; the first part of a unit therefore keeps
+    its coordinates, having nothing under it.
+    """
     joints = {}
     placed = []
-    for part, name, _pos, _axis, _ang in items:
-        where = known.get(name)
-        if where is None:
-            continue
-        if part in NO_ANTI_STUD:
-            placed.append((name, where))
-            continue
-        # A brick laid across the one under it needs the stud connection to
-        # carry a quarter turn. 'anti-stud' now has the 'turnZ' parameter for
-        # exactly that, and the turn itself works - but the turn pivots about
-        # the stud, so which anti-stud is named decides where the brick lands,
-        # and none of the four mappings of this grid onto the part's own
-        # reproduces the placement these bricks want. Rather than ship a joint
-        # that puts a brick somewhere the model did not ask for, these keep
-        # their coordinates until the mapping is worked out.
-        found = None if where[6] else _support(name, where, placed)
-        if found is not None:
-            other, mine, theirs = found
-            joints[name] = (other, mine, theirs, where[6])
-        placed.append((name, where))
+    for part, name, pos, _axis, ang in items:
+        mine = _world_ports(part, pos, ang, "anti")
+        for other, other_part, other_pos, other_ang in placed:
+            # A brick laid across the one under it is left on coordinates. The
+            # joint is expressible - 'anti-stud' carries 'turnZ' and a probe
+            # reproduces the placement exactly - but which anti-stud to name
+            # and which way to turn cannot be worked out from the geometry
+            # here: the pair that meet are found correctly (c0r0 on c2r0 for
+            # the keep's west wall, and they do coincide), and PartCAD still
+            # lands the brick a stud away, because where a turned part ends up
+            # depends on the roll of the port frames rather than on the offset
+            # of the port. Predicting it means repeating PartCAD's mate
+            # arithmetic here, and getting it wrong means a brick silently in
+            # the wrong place.
+            if ang or part in NO_ANTI_STUD:
+                break
+            theirs = _world_ports(other_part, other_pos, other_ang, "stud")
+            met = _meeting(mine, theirs)
+            if met:
+                joints[name] = (other, met[0], met[1], ang)
+                break
+        placed.append((name, part, pos, ang))
     return joints
 
 
@@ -680,18 +704,21 @@ def _nodes_yaml(items, indent="  ", joints=None):
         if joint is None:
             out.extend(_fold([("part", part, nm, pos, axis, ang)], indent))
             continue
-        other, (mc, mr), (tc, tr), turned = joint
+        other, mine, theirs, angle = joint
         out.append(f"{indent}- part: {part}")
         out.append(f"{indent}  name: {nm}")
         out.append(f"{indent}  connect:")
         out.append(f"{indent}    with: {ANTI_IFACE}")
-        out.append(f"{indent}    withInstance: c{mc}r{mr}")
-        if turned:
+        out.append(f"{indent}    withInstance: {mine}")
+        if angle:
+            # 'turnZ' turns about the anti-stud's own Z, which points down into
+            # the part, so it runs the opposite way round from the angle a
+            # 'location:' states about +Y.
             out.append(f"{indent}    withParams:")
-            out.append(f"{indent}      turnZ: -90")
+            out.append(f"{indent}      turnZ: {-angle}")
         out.append(f"{indent}    name: {other}")
         out.append(f"{indent}    to: {STUD_IFACE}")
-        out.append(f"{indent}    toInstance: c{tc}r{tr}")
+        out.append(f"{indent}    toInstance: {theirs}")
     return out
 
 
@@ -709,7 +736,7 @@ def write_units(directory):
             "# file stand for every instance of it - and everything above that says the",
             "# brick and the stud it goes on.",
             "links:",
-            *_nodes_yaml(items, joints=_joints(items, id(items))),
+            *_nodes_yaml(items, joints=_joints(items)),
         ]
         open(path, "w").write("\n".join(out) + "\n")
         print(f"  {path}: {len(items)} parts")

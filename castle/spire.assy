@@ -12,7 +12,17 @@ links:
     location: [[4.0, 38.4, 4.0], [0, 1, 0], 0]
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: spire_s2
-    location: [[4.0, 48.0, 4.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: spire_s1
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: spire_s3
-    location: [[4.0, 57.6, 4.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: spire_s2
+      to: //pub/universe/lego:stud
+      toInstance: c0r0

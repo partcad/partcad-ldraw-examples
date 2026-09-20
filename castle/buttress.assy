@@ -65,4 +65,9 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: butt_p
-    location: [[0.0, 86.4, 0.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: butt_c7
+      to: //pub/universe/lego:stud
+      toInstance: c0r0

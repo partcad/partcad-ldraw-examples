@@ -92,26 +92,30 @@ instead — which brick they sit on, and which stud of it:
 ```
 
 `//pub/universe/lego` declares the pair — a `stud` on top of a part and an
-`anti-stud` underneath, one instance per stud, named `c<column>r<row>` in the
-part's own grid — and PartCAD works the coordinates out. **188 of the 276 part
-nodes** are joined that way. The rest keep coordinates, for three reasons:
+`anti-stud` underneath — and PartCAD works the coordinates out. **200 of the 276
+part nodes** are joined that way.
 
-* **48 are a unit's first course.** Nothing is under them to stand on; that is
+Which two ports meet is decided by where they *are*, not by the stud grid the
+part's name implies, because for several of these parts the grid is not the
+answer: a `Cone 2 x 2 x 2` has four anti-studs under it and a single stud on
+top, at its centre, and a `Cone 3 x 3 x 2` has nine and four. A joint picked by
+grid index puts such a part half a stud out.
+
+The remaining 76 keep coordinates, for two reasons:
+
+* **52 are a unit's first course.** Nothing is under them to stand on; that is
   what makes them the first course.
-* **24 are laid across the brick below.** A stud connection can carry a quarter
-  turn, and `anti-stud` would need a `turnZ` parameter to say so. The turn
-  pivots about the stud, so which anti-stud is named decides where the brick
-  lands, and that mapping is not worked out yet.
-* **16 are cones whose anti-studs are missing or misplaced.** `Cone 1 x 1`
-  (4589) has none — the plugin reads them off the tubes under a part, and a
-  1 x 1 cone has no tube — and `Cone 2 x 2 x 2` (3942b) has two of its four,
-  both named as the right-hand column. Both sit on studs in reality, so both are
-  gaps in `//pub/universe/lego/ldraw` rather than facts about the parts.
+* **24 are laid across the brick below.** The joint is expressible —
+  `anti-stud` carries a `turnZ` parameter and a probe reproduces the placement
+  exactly — but which anti-stud to name and which way to turn cannot be worked
+  out from the geometry here. The pair that meet are found correctly, and
+  PartCAD still lands the brick a stud away, because where a turned part ends up
+  depends on the roll of the port frames rather than on the offset of the port.
+  Predicting that means repeating PartCAD's mate arithmetic in the generator,
+  and getting it wrong means a brick silently in the wrong place.
 
-A joint through an interface a part has not got is not a joint, and one through
-an anti-stud in the wrong place is a joint that lies — so those wait for the
-plugin. The model is geometrically identical either way: every one of the 732
-parts ends up where it did before, to the last decimal.
+The model is geometrically identical either way: every one of the 732 parts ends
+up where it did before, to the last decimal.
 
 ### Jinja2, and why every step is still written down
 
