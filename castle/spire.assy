@@ -1,0 +1,17 @@
+# castle/spire: one of the pieces 'castle' is assembled from, built once here
+# and placed wherever it occurs. Coordinates are this piece's own - its
+# origin is the stud it starts at - which is what lets one file stand for
+# every instance of it.
+links:
+  - part: //pub/universe/lego/ldraw/Cone:3942b
+    name: spire_s0
+    location: [[4.0, 19.2, 4.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Cone:3942b
+    name: spire_s1
+    location: [[4.0, 38.4, 4.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: spire_s2
+    location: [[4.0, 48.0, 4.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: spire_s3
+    location: [[4.0, 57.6, 4.0], [0, 1, 0], 0]

@@ -1,0 +1,66 @@
+# castle/keep-head: one of the pieces 'castle' is assembled from, built once here
+# and placed wherever it occurs. Coordinates are this piece's own - its
+# origin is the stud it starts at - which is what lets one file stand for
+# every instance of it.
+links:
+  {% for name, x, y, z in [
+      ["keep_mS2", 16.0, 172.8, 0.0],
+      ["keep_mN2", 16.0, 172.8, 40.0],
+      ["keep_mW2", 0.0, 172.8, 16.0],
+      ["keep_mE2", 40.0, 172.8, 16.0],
+      ["keep_sw_c17", 0.0, 172.8, 0.0],
+      ["keep_sw_c18", 0.0, 182.4, 0.0],
+      ["keep_sw_c19", 0.0, 192.0, 0.0],
+    ] %}
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: {{ name }}
+    location: [[{{ x }}, {{ y }}, {{ z }}], [0, 1, 0], 0]
+  {% endfor %}
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_sw_p0
+    location: [[0.0, 201.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_sw_p1
+    location: [[0.0, 211.2, 0.0], [0, 1, 0], 0]
+  {% for i in range(3) %}
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_se_c{{ 17 + i * 1 }}
+    location: [[40.0, {{ (172.8 + i * 9.6) | round(3) }}, 0.0], [0, 1, 0], 0]
+  {% endfor %}
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_se_p0
+    location: [[40.0, 201.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_se_p1
+    location: [[40.0, 211.2, 0.0], [0, 1, 0], 0]
+  {% for i in range(3) %}
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_nw_c{{ 17 + i * 1 }}
+    location: [[0.0, {{ (172.8 + i * 9.6) | round(3) }}, 40.0], [0, 1, 0], 0]
+  {% endfor %}
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_nw_p0
+    location: [[0.0, 201.6, 40.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_nw_p1
+    location: [[0.0, 211.2, 40.0], [0, 1, 0], 0]
+  {% for i in range(3) %}
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_ne_c{{ 17 + i * 1 }}
+    location: [[40.0, {{ (172.8 + i * 9.6) | round(3) }}, 40.0], [0, 1, 0], 0]
+  {% endfor %}
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_ne_p0
+    location: [[40.0, 201.6, 40.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_ne_p1
+    location: [[40.0, 211.2, 40.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Cone:6233
+    name: keep_spire
+    location: [[20.0, 182.4, 20.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_f0
+    location: [[20.0, 192.0, 20.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_f1
+    location: [[20.0, 201.6, 20.0], [0, 1, 0], 0]

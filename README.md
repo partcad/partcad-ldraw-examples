@@ -37,6 +37,68 @@ pc inspect -a castle
 pc render -a -t png --view iso castle
 ```
 
+### The pieces it is built from
+
+A castle this size repeats itself: four identical corner towers, nine identical
+spires, sixteen identical buttresses. So `castle` is not 732 parts in one file -
+it is twelve sub-assemblies under `castle/`, placed 48 times between them. Each
+one is written once and built once, and every further use of it is a cache hit
+rather than a rebuild; 273 parts are described instead of 732.
+
+| sub-assembly | parts | used | |
+| --- | --- | --- | --- |
+| `castle/buttress` | 9 | 16 | a pier stepping out from the wall, capped with a pinnacle |
+| `castle/spire` | 4 | 9 | two 2x2 cones flaring off a tower, then two 1x1 cones to a point |
+| `castle/wall` | 65 | 3 | a stretch of curtain wall between two corner towers |
+| `castle/wall-gate` | 70 | 1 | the same wall with the gateway's pointed arch corbelled through it |
+| `castle/tower-corner` | 15 | 4 | the body of a corner tower |
+| `castle/tower-mural` | 12 | 3 | the body of a tower standing along a wall |
+| `castle/tower-gate` | 13 | 2 | the body of one of the gatehouse pair |
+| `castle/keep-courses` | 14 | 4 | two courses of the keep, the second breaking joint against the first |
+| `castle/keep-courses-lancets` | 20 | 2 | two courses of the keep, both cut by a lancet |
+| `castle/keep-courses-lancet-head` | 18 | 2 | the two courses a lancet ends in |
+| `castle/keep-course-last` | 6 | 1 | the keep's last course, carrying the parapet |
+| `castle/keep-head` | 27 | 1 | merlons, a bartizan at each corner, and the spire |
+
+Each is a PartCAD assembly in its own right, so any of them can be looked at,
+rendered or built alone:
+
+```shell
+pc inspect -a castle/tower-corner
+pc render -a -t png --view iso castle/wall
+```
+
+The keep is cut into pairs of courses rather than left whole because its
+masonry alternates: an even course and the odd one that breaks joint against
+it, three kinds of pair covering all of it but the last course and the roof.
+The walls are not split further - the gate wall differs from a plain one in
+every course, so there is no band of it the two could share.
+
+### Jinja2, and why every step is still written down
+
+An ASSY file has to enumerate every step. PartCAD reads the tree it makes to
+work out the bill of materials, and the assembly instructions are that tree
+written out a step to a page, so a step that is not in the file is a step
+nobody is told to take.
+
+The *text* need not repeat itself, though: every ASSY file is a Jinja2 template,
+rendered before it is parsed. A run of parts laid out regularly is written as
+the loop it is -
+
+```yaml
+{% for i in range(15) %}
+- part: //pub/universe/lego/ldraw/Brick:3941
+  name: t_c{{ i }}
+  location: [[4.0, {{ (9.6 + i * 9.6) | round(3) }}, 4.0], [0, 1, 0], 0]
+{% endfor %}
+```
+
+- and reaches the parser as the fifteen separate nodes it always was. Where
+there is no arithmetic to write, because the sixteen buttresses sit wherever
+the bays leave room for them, the loop runs over a table of placements instead.
+Between them the thirteen files are **321 nodes of YAML for a 732-part model**,
+and every one of those 732 parts is still a step of its own.
+
 ## A note on interference
 
 Every part here is placed by `location:` rather than joined by `connect:`, and a

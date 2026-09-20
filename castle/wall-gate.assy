@@ -1,0 +1,187 @@
+# castle/wall-gate: one of the pieces 'castle' is assembled from, built once here
+# and placed wherever it occurs. Coordinates are this piece's own - its
+# origin is the stud it starts at - which is what lets one file stand for
+# every instance of it.
+links:
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: wL_c0_0
+    location: [[12.0, 9.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: wL_c0_1
+    location: [[44.0, 9.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wL_c0_2
+    location: [[64.0, 9.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: wR_c0_0
+    location: [[124.0, 9.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: wR_c0_1
+    location: [[156.0, 9.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wL_c1_0
+    location: [[4.0, 19.2, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: wL_c1_1
+    location: [[28.0, 19.2, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wL_c1_2
+    location: [[52.0, 19.2, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wL_c1_3
+    location: [[64.0, 19.2, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wR_c1_0
+    location: [[116.0, 19.2, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: wR_c1_1
+    location: [[140.0, 19.2, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wR_c1_2
+    location: [[164.0, 19.2, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wL_c2_0
+    location: [[4.0, 28.8, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wL_c2_1
+    location: [[16.0, 28.8, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wL_c2_2
+    location: [[36.0, 28.8, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wL_c2_3
+    location: [[48.0, 28.8, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wL_c2_4
+    location: [[64.0, 28.8, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wR_c2_0
+    location: [[124.0, 28.8, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wR_c2_1
+    location: [[136.0, 28.8, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wR_c2_2
+    location: [[156.0, 28.8, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wR_c2_3
+    location: [[168.0, 28.8, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wL_c3_0
+    location: [[4.0, 38.4, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wL_c3_1
+    location: [[16.0, 38.4, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wL_c3_2
+    location: [[36.0, 38.4, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wL_c3_3
+    location: [[48.0, 38.4, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wL_c3_4
+    location: [[64.0, 38.4, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wR_c3_0
+    location: [[124.0, 38.4, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wR_c3_1
+    location: [[136.0, 38.4, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wR_c3_2
+    location: [[156.0, 38.4, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wR_c3_3
+    location: [[168.0, 38.4, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wL_c4_0
+    location: [[4.0, 48.0, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wL_c4_1
+    location: [[16.0, 48.0, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wL_c4_2
+    location: [[36.0, 48.0, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wL_c4_3
+    location: [[48.0, 48.0, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wL_c4_4
+    location: [[64.0, 48.0, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wR_c4_0
+    location: [[124.0, 48.0, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wR_c4_1
+    location: [[136.0, 48.0, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wR_c4_2
+    location: [[156.0, 48.0, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wR_c4_3
+    location: [[168.0, 48.0, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wL_c5_0
+    location: [[4.0, 57.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: wL_c5_1
+    location: [[28.0, 57.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wL_c5_2
+    location: [[52.0, 57.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wL_c5_3
+    location: [[64.0, 57.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wR_c5_0
+    location: [[116.0, 57.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: wR_c5_1
+    location: [[140.0, 57.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: wR_c5_2
+    location: [[164.0, 57.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: wL_c6_0
+    location: [[12.0, 67.2, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: wL_c6_1
+    location: [[44.0, 67.2, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: wL_c6_2
+    location: [[64.0, 67.2, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: wR_c6_0
+    location: [[124.0, 67.2, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: wR_c6_1
+    location: [[156.0, 67.2, 0.0], [0, 1, 0], 0]
+  {% for i in range(11) %}
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: w_m{{ 0 + i * 2 }}
+    location: [[{{ (0.0 + i * 16.0) | round(3) }}, 76.8, 0.0], [0, 1, 0], 0]
+  {% endfor %}
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: gate_a0
+    location: [[72.0, 38.4, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: gate_a1
+    location: [[104.0, 38.4, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: gate_b0
+    location: [[76.0, 48.0, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: gate_b1
+    location: [[100.0, 48.0, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: gate_c0
+    location: [[84.0, 57.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: gate_c1
+    location: [[104.0, 57.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: gate_d_c6_0
+    location: [[84.0, 67.2, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: gate_d_c6_1
+    location: [[104.0, 67.2, 0.0], [0, 1, 0], 0]

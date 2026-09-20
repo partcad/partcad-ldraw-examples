@@ -1,0 +1,10 @@
+# castle/tower-mural: one of the pieces 'castle' is assembled from, built once here
+# and placed wherever it occurs. Coordinates are this piece's own - its
+# origin is the stud it starts at - which is what lets one file stand for
+# every instance of it.
+links:
+  {% for i in range(12) %}
+  - part: //pub/universe/lego/ldraw/Brick:3941
+    name: t_c{{ i }}
+    location: [[4.0, {{ (9.6 + i * 9.6) | round(3) }}, 4.0], [0, 1, 0], 0]
+  {% endfor %}

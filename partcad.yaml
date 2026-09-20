@@ -22,6 +22,42 @@ dependencies:
     revision: main
 
 assemblies:
+  castle/spire:
+    type: assy
+    desc: "A tower's needle roof - two 2x2 cones flaring off the tower, then two 1x1 cones drawing it to a point"
+  castle/buttress:
+    type: assy
+    desc: "A pier stepping out from the wall, capped with a pinnacle"
+  castle/tower-corner:
+    type: assy
+    desc: "The body of a corner tower, 15 courses of 2x2 round brick"
+  castle/tower-mural:
+    type: assy
+    desc: "The body of a tower standing along the wall, 12 courses"
+  castle/tower-gate:
+    type: assy
+    desc: "The body of one of the gatehouse pair, 13 courses"
+  castle/wall:
+    type: assy
+    desc: "A stretch of curtain wall between two corner towers, with its lancets and crenellations"
+  castle/wall-gate:
+    type: assy
+    desc: "The same wall with the gateway's pointed arch corbelled through it"
+  castle/keep-courses:
+    type: assy
+    desc: "Two courses of the keep's masonry, the second breaking joint against the first"
+  castle/keep-courses-lancets:
+    type: assy
+    desc: "Two courses of the keep, both cut by a lancet"
+  castle/keep-courses-lancet-head:
+    type: assy
+    desc: "The two courses a lancet ends in"
+  castle/keep-course-last:
+    type: assy
+    desc: "The keep's last course, carrying the parapet"
+  castle/keep-head:
+    type: assy
+    desc: "What finishes the keep - merlons, a bartizan at each corner, and the spire"
   castle:
     type: assy
     path: castle.assy

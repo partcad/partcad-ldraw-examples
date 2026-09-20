@@ -1,0 +1,65 @@
+# castle/keep-courses-lancets: one of the pieces 'castle' is assembled from, built once here
+# and placed wherever it occurs. Coordinates are this piece's own - its
+# origin is the stud it starts at - which is what lets one file stand for
+# every instance of it.
+links:
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kS_c0_0
+    location: [[4.0, 9.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kS_c0_1
+    location: [[28.0, 9.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: kS_c0_2
+    location: [[40.0, 9.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kN_c0_0
+    location: [[4.0, 9.6, 40.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kN_c0_1
+    location: [[28.0, 9.6, 40.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: kN_c0_2
+    location: [[40.0, 9.6, 40.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kW_c0_0
+    location: [[0.0, 9.6, 12.0], [0, 1, 0], 90]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: kW_c0_1
+    location: [[0.0, 9.6, 32.0], [0, 1, 0], 90]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kE_c0_0
+    location: [[40.0, 9.6, 12.0], [0, 1, 0], 90]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: kE_c0_1
+    location: [[40.0, 9.6, 32.0], [0, 1, 0], 90]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kS_c1_0
+    location: [[4.0, 19.2, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kS_c1_1
+    location: [[28.0, 19.2, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: kS_c1_2
+    location: [[40.0, 19.2, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kN_c1_0
+    location: [[4.0, 19.2, 40.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kN_c1_1
+    location: [[28.0, 19.2, 40.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: kN_c1_2
+    location: [[40.0, 19.2, 40.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kW_c1_0
+    location: [[0.0, 19.2, 12.0], [0, 1, 0], 90]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: kW_c1_1
+    location: [[0.0, 19.2, 32.0], [0, 1, 0], 90]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kE_c1_0
+    location: [[40.0, 19.2, 12.0], [0, 1, 0], 90]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: kE_c1_1
+    location: [[40.0, 19.2, 32.0], [0, 1, 0], 90]
