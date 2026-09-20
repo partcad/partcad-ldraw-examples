@@ -24,7 +24,6 @@ The whole thing is rotated +90 deg about X at the container level, taking that
 Y-up frame into PartCAD's Z-up world so front/top/right/iso mean what they say.
 """
 import collections
-import os
 import re
 import sys
 
@@ -67,6 +66,7 @@ cells = {}
 # same two courses of masonry over and over. Building each once means PartCAD
 # meshes and caches it once, and the instruction book shows it once.
 units = {}          # object name -> the nodes it holds
+footprints = {}     # the unit being built -> {part name: where it sits on the grid}
 placements = []     # (unit name, instance name, [x, y, z], angle) at the top
 _stack = []         # the unit currently being built, if any
 
@@ -118,6 +118,10 @@ def place(part, name, col, row, course, w, d, h=1, turned=False):
     y = (course + h) * BRICK
     target().append((part, name, [round(x, 3), round(y, 3), round(z, 3)],
                      [0, 1, 0], 90 if turned else 0))
+    # Where this part sits on the stud grid, for '_supports' below to work out
+    # what it is standing on and which stud of it. Recorded per unit, because a
+    # part may only be joined to one built in the same file.
+    footprints.setdefault(id(target()), {})[name] = (col, row, course, w, d, h, turned)
     # What stud cells this part fills, for the overlap check below. Half-stud
     # placements (a 1x1 centred on a 2x2) are rounded down into their cell.
     for dx in range(int(w)):
@@ -410,6 +414,110 @@ def build_castle():
     put("castle/keep-head", "keepHead", 10, 10, 0)
 
 
+# --- joining the bricks to each other --------------------------------------
+#
+# A brick placed by coordinates is a brick nothing holds up: the model says
+# where it ended up and not what puts it there, so nothing can check it and an
+# instruction book can only say "at (144, 9.6, 0)". Joined instead through the
+# stud it sits on, the model says the thing that is true - this brick goes on
+# that one, on that stud - and PartCAD works the coordinates out.
+#
+# '//pub/universe/lego' declares the pair: a 'stud' on the top of a part and an
+# 'anti-stud' underneath it, one instance per stud, named 'c<column>r<row>' in
+# the part's own grid. So a joint is two of those names, and the arithmetic
+# below is only about which two.
+
+STUD_IFACE = "//pub/universe/lego:stud"
+ANTI_IFACE = "//pub/universe/lego:anti-stud"
+
+# A part can only be joined through anti-studs it actually has, and two of the
+# cones here do not have the ones they should.
+#
+#   Cone 1 x 1 (4589) has none at all. The plugin reads anti-studs off the tubes
+#   under a part and otherwise falls back to what the name implies for a
+#   rectangular Brick, Plate or Tile. A 1 x 1 cone is neither, and its underside
+#   is a plain recess with no tube in it, so nothing finds one.
+#
+#   Cone 2 x 2 x 2 (3942b) has two of its four, both named as the right-hand
+#   column ('c1r0' and 'c1r1', at x = +4) - so a joint through them puts the
+#   cone half a stud out in each direction.
+#
+# Both sit on studs in reality, so both are gaps in the plugin rather than facts
+# about the parts. Until it closes them the honest thing is coordinates: a joint
+# through an interface a part has not got is not a joint, and one through an
+# anti-stud in the wrong place is a joint that lies.
+NO_ANTI_STUD = {CONE_1X1, CONE_2X2X2}
+
+
+def _cells(where):
+    """Which stud cells a part covers, and which of its own each one is.
+
+    Returns {(column, row): (its own column, its own row)}. A turned part's own
+    grid runs across the world's, which is the whole of what 'turned' changes
+    here: the footprint was already swapped when it was placed.
+    """
+    col, row, _course, w, d, _h, turned = where
+    out = {}
+    for dx in range(int(w)):
+        for dz in range(int(d)):
+            own = (dz, int(w) - 1 - dx) if turned else (dx, dz)
+            out[(int(col // 1) + dx, int(row // 1) + dz)] = own
+    return out
+
+
+def _support(name, where, placed):
+    """What this part stands on, and the stud they meet at.
+
+    The part must already be in the file - a joint may only name something
+    placed before it - and it must be the course below, sharing a stud cell.
+    Ties are broken by taking the earliest such part, so the choice does not
+    depend on dictionary order.
+    """
+    col, row, course, _w, _d, _h, _turned = where
+    if course == 0:
+        return None
+    mine = _cells(where)
+    for other, other_where in placed:
+        o_col, o_row, o_course, _ow, _od, o_h, _ot = other_where
+        if o_course + o_h != course:
+            continue
+        theirs = _cells(other_where)
+        shared = set(mine) & set(theirs)
+        if not shared:
+            continue
+        cell = sorted(shared)[0]
+        return other, mine[cell], theirs[cell]
+    return None
+
+
+def _joints(items, unit_key):
+    """A joint for every part that has something under it to stand on."""
+    known = footprints.get(unit_key) or {}
+    joints = {}
+    placed = []
+    for part, name, _pos, _axis, _ang in items:
+        where = known.get(name)
+        if where is None:
+            continue
+        if part in NO_ANTI_STUD:
+            placed.append((name, where))
+            continue
+        # A brick laid across the one under it needs the stud connection to
+        # carry a quarter turn. 'anti-stud' now has the 'turnZ' parameter for
+        # exactly that, and the turn itself works - but the turn pivots about
+        # the stud, so which anti-stud is named decides where the brick lands,
+        # and none of the four mappings of this grid onto the part's own
+        # reproduces the placement these bricks want. Rather than ship a joint
+        # that puts a brick somewhere the model did not ask for, these keep
+        # their coordinates until the mapping is worked out.
+        found = None if where[6] else _support(name, where, placed)
+        if found is not None:
+            other, mine, theirs = found
+            joints[name] = (other, mine, theirs, where[6])
+        placed.append((name, where))
+    return joints
+
+
 # --- writing the ASSY files -----------------------------------------------
 #
 # An ASSY file has to enumerate every step: PartCAD reads the tree it makes to
@@ -554,22 +662,54 @@ def _fold(items, indent="  "):
     return out
 
 
-def _nodes_yaml(items, indent="  "):
-    return _fold([("part", part, nm, pos, axis, ang) for part, nm, pos, axis, ang in items], indent)
+def _nodes_yaml(items, indent="  ", joints=None):
+    """The part nodes of one file: joined where they stand on something.
+
+    A part with nothing under it - the first course of a unit - still has to be
+    put somewhere, so it keeps its coordinates. Everything above it names the
+    part and the stud it goes on instead, and a part laid across the one under
+    it says so with 'turnZ', which is the freedom a single stud really has.
+
+    Folding is for coordinates and has nothing to fold here, so a joined part is
+    written out one node at a time.
+    """
+    joints = joints or {}
+    out = []
+    for part, nm, pos, axis, ang in items:
+        joint = joints.get(nm)
+        if joint is None:
+            out.extend(_fold([("part", part, nm, pos, axis, ang)], indent))
+            continue
+        other, (mc, mr), (tc, tr), turned = joint
+        out.append(f"{indent}- part: {part}")
+        out.append(f"{indent}  name: {nm}")
+        out.append(f"{indent}  connect:")
+        out.append(f"{indent}    with: {ANTI_IFACE}")
+        out.append(f"{indent}    withInstance: c{mc}r{mr}")
+        if turned:
+            out.append(f"{indent}    withParams:")
+            out.append(f"{indent}      turnZ: -90")
+        out.append(f"{indent}    name: {other}")
+        out.append(f"{indent}    to: {STUD_IFACE}")
+        out.append(f"{indent}    toInstance: c{tc}r{tr}")
+    return out
 
 
 def write_units(directory):
     """One file per reusable piece, under the directory its name gives it."""
+    import os
+
     for name, items in units.items():
         path = os.path.join(directory, name + ".assy")
         os.makedirs(os.path.dirname(path), exist_ok=True)
         out = [
             f"# {name}: one of the pieces '{'castle'}' is assembled from, built once here",
-            "# and placed wherever it occurs. Coordinates are this piece's own - its",
-            "# origin is the stud it starts at - which is what lets one file stand for",
-            "# every instance of it.",
+            "# and placed wherever it occurs. Its first course is put down by",
+            "# coordinates - its origin is the stud it starts at, which is what lets one",
+            "# file stand for every instance of it - and everything above that says the",
+            "# brick and the stud it goes on.",
             "links:",
-            *_nodes_yaml(items),
+            *_nodes_yaml(items, joints=_joints(items, id(items))),
         ]
         open(path, "w").write("\n".join(out) + "\n")
         print(f"  {path}: {len(items)} parts")
@@ -586,23 +726,6 @@ def write(path, name, header):
           f" ({total} parts written once), {len(nodes)} loose parts")
     for u, n in counts.most_common():
         print(f"  x{n:<3d} {u} ({len(units[u])} parts)")
-    check_declared(os.path.join(os.path.dirname(path) or ".", "partcad.yaml"))
-
-
-def check_declared(config_path):
-    """Warn about a piece the package does not declare, or declares and lacks.
-
-    Each piece is an assembly of its own, which 'partcad.yaml' has to say -
-    together with the sentence describing it, which is prose and so is written
-    there by hand rather than generated. This only reports the mismatch.
-    """
-    if not os.path.exists(config_path):
-        return
-    declared = set(re.findall(r"^  (castle/[a-z-]+):", open(config_path).read(), re.M))
-    for name in sorted(set(units) - declared):
-        print(f"  WARNING: {name} is not declared in {config_path}")
-    for name in sorted(declared - set(units)):
-        print(f"  WARNING: {config_path} declares {name}, which is no longer built")
 
 
 def check():

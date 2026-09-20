@@ -1,7 +1,8 @@
 # castle/keep-course-last: one of the pieces 'castle' is assembled from, built once here
-# and placed wherever it occurs. Coordinates are this piece's own - its
-# origin is the stud it starts at - which is what lets one file stand for
-# every instance of it.
+# and placed wherever it occurs. Its first course is put down by
+# coordinates - its origin is the stud it starts at, which is what lets one
+# file stand for every instance of it - and everything above that says the
+# brick and the stud it goes on.
 links:
   - part: //pub/universe/lego/ldraw/Brick:3010
     name: kS_c0_0

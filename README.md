@@ -74,6 +74,45 @@ it, three kinds of pair covering all of it but the last course and the roof.
 The walls are not split further - the gate wall differs from a plain one in
 every course, so there is no band of it the two could share.
 
+### Joined, not just placed
+
+A brick placed by coordinates is a brick nothing holds up: the file says where
+it ended up, not what puts it there. Most of these bricks say the other thing
+instead — which brick they sit on, and which stud of it:
+
+```yaml
+- part: //pub/universe/lego/ldraw/Brick:3010
+  name: w_c1_0
+  connect:
+    with: //pub/universe/lego:anti-stud
+    withInstance: c0r0
+    name: w_c0_0
+    to: //pub/universe/lego:stud
+    toInstance: c2r0
+```
+
+`//pub/universe/lego` declares the pair — a `stud` on top of a part and an
+`anti-stud` underneath, one instance per stud, named `c<column>r<row>` in the
+part's own grid — and PartCAD works the coordinates out. **188 of the 276 part
+nodes** are joined that way. The rest keep coordinates, for three reasons:
+
+* **48 are a unit's first course.** Nothing is under them to stand on; that is
+  what makes them the first course.
+* **24 are laid across the brick below.** A stud connection can carry a quarter
+  turn, and `anti-stud` would need a `turnZ` parameter to say so. The turn
+  pivots about the stud, so which anti-stud is named decides where the brick
+  lands, and that mapping is not worked out yet.
+* **16 are cones whose anti-studs are missing or misplaced.** `Cone 1 x 1`
+  (4589) has none — the plugin reads them off the tubes under a part, and a
+  1 x 1 cone has no tube — and `Cone 2 x 2 x 2` (3942b) has two of its four,
+  both named as the right-hand column. Both sit on studs in reality, so both are
+  gaps in `//pub/universe/lego/ldraw` rather than facts about the parts.
+
+A joint through an interface a part has not got is not a joint, and one through
+an anti-stud in the wrong place is a joint that lies — so those wait for the
+plugin. The model is geometrically identical either way: every one of the 732
+parts ends up where it did before, to the last decimal.
+
 ### Jinja2, and why every step is still written down
 
 An ASSY file has to enumerate every step. PartCAD reads the tree it makes to

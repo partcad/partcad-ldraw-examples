@@ -1,13 +1,68 @@
 # castle/buttress: one of the pieces 'castle' is assembled from, built once here
-# and placed wherever it occurs. Coordinates are this piece's own - its
-# origin is the stud it starts at - which is what lets one file stand for
-# every instance of it.
+# and placed wherever it occurs. Its first course is put down by
+# coordinates - its origin is the stud it starts at, which is what lets one
+# file stand for every instance of it - and everything above that says the
+# brick and the stud it goes on.
 links:
-  {% for i in range(8) %}
   - part: //pub/universe/lego/ldraw/Brick:3005
-    name: butt_c{{ i }}
-    location: [[0.0, {{ (9.6 + i * 9.6) | round(3) }}, 0.0], [0, 1, 0], 0]
-  {% endfor %}
+    name: butt_c0
+    location: [[0.0, 9.6, 0.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: butt_c1
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: butt_c0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: butt_c2
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: butt_c1
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: butt_c3
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: butt_c2
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: butt_c4
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: butt_c3
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: butt_c5
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: butt_c4
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: butt_c6
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: butt_c5
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: butt_c7
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: butt_c6
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: butt_p
     location: [[0.0, 86.4, 0.0], [0, 1, 0], 0]
