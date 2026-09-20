@@ -9,7 +9,7 @@ name: //pub/examples/lego
 desc: Assemblies built from the LDraw LEGO parts library.
 url: https://library.ldraw.org/
 poc: kuzmenkor@gmail.com
-partcad: ">=0.8.95"
+partcad: ">=0.8.104"
 
 # Nothing here is a catalogue item somebody can order: these are models built
 # out of parts that already exist.
@@ -62,16 +62,13 @@ assemblies:
     type: assy
     path: castle.assy
     desc: A gothic castle built from LDraw LEGO parts.
-    interference:
-      # Every part is placed by coordinates rather than joined, and a LEGO stud
-      # is meant to occupy the part above it - that interference is what makes
-      # bricks grip. So this check has something true to say about almost every
-      # pair here and nowhere to read that it is intended: an overlap which is
-      # meant to be there is stated on the joint that causes it, and a
-      # coordinate is not a joint.
-      #
-      # Off, rather than given a 'minVolume' high enough to swallow a stud:
-      # that floor is a rounding tolerance and making it carry this would be a
-      # number pretending to be one. See the README for what would make the
-      # check meaningful here.
-      skip: true
+    # Every part is placed by coordinates rather than joined, and a LEGO stud is
+    # meant to occupy the part above it - that interference is what makes bricks
+    # grip. So the interference check has something true to say about almost
+    # every pair here and nowhere to read that it is intended: an overlap which
+    # is meant to be there is stated on the joint that causes it, and a
+    # coordinate is not a joint.
+    #
+    # Nothing turns it off. The package is 'manufacturable: false' - nobody is
+    # ordering a castle - and that is what makes the check report rather than
+    # fail. See the README for what would make it meaningful here.

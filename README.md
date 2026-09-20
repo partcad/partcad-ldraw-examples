@@ -108,9 +108,13 @@ about almost every pair in the model, and nowhere to read that it is intended:
 an overlap which is meant to be there is stated on the joint that causes it, and
 coordinates are not a joint.
 
-The check is therefore turned off on this assembly rather than given a threshold
-high enough to swallow a stud, which would be a number pretending to be a
-tolerance. What would make it meaningful is the stud / anti-stud mating in
+Nothing here turns the check off. The package is `manufacturable: false` —
+nobody is ordering a castle — and that is what makes interference report what it
+finds rather than fail on it. Giving it a threshold high enough to swallow a
+stud would be worse than either: that floor is a rounding tolerance, and making
+it carry this would be a number pretending to be one.
+
+What would make the check meaningful is the stud / anti-stud mating in
 `//pub/universe/lego/ldraw` declaring `snapIn: true` — a stud in an anti-stud is
 an interference fit wherever it occurs — and this assembly being generated with
 `connect:` so each brick is joined to the one it sits on. Both are worth doing
