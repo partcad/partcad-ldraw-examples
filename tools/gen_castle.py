@@ -24,6 +24,7 @@ The whole thing is rotated +90 deg about X at the container level, taking that
 Y-up frame into PartCAD's Z-up world so front/top/right/iso mean what they say.
 """
 import collections
+import math
 import re
 import sys
 
@@ -66,7 +67,7 @@ cells = {}
 # same two courses of masonry over and over. Building each once means PartCAD
 # meshes and caches it once, and the instruction book shows it once.
 units = {}          # object name -> the nodes it holds
-footprints = {}     # the unit being built -> {part name: where it sits on the grid}
+origins = {}        # unit name -> where its first brick used to sit, in the unit's own frame
 placements = []     # (unit name, instance name, [x, y, z], angle) at the top
 _stack = []         # the unit currently being built, if any
 
@@ -118,10 +119,6 @@ def place(part, name, col, row, course, w, d, h=1, turned=False):
     y = (course + h) * BRICK
     target().append((part, name, [round(x, 3), round(y, 3), round(z, 3)],
                      [0, 1, 0], 90 if turned else 0))
-    # Where this part sits on the stud grid, for '_supports' below to work out
-    # what it is standing on and which stud of it. Recorded per unit, because a
-    # part may only be joined to one built in the same file.
-    footprints.setdefault(id(target()), {})[name] = (col, row, course, w, d, h, turned)
     # What stud cells this part fills, for the overlap check below. Half-stud
     # placements (a 1x1 centred on a 2x2) are rounded down into their cell.
     for dx in range(int(w)):
@@ -726,7 +723,16 @@ def _nodes_yaml(ordered, indent="  "):
     part is written out one node at a time.
     """
     out = []
-    for (part, nm, pos, axis, ang), joint in ordered:
+    for index, ((part, nm, pos, axis, ang), joint) in enumerate(ordered):
+        if joint is None and index == 0:
+            # The piece's own origin. Where it goes is decided by whatever
+            # places the piece, so saying it here would be saying it twice -
+            # and the coordinates are relative to this node anyway.
+            out.append(f"{indent}- part: {part}")
+            out.append(f"{indent}  name: {nm}")
+            if ang:
+                out.append(f"{indent}  location: [[0.0, 0.0, 0.0], [{axis[0]}, {axis[1]}, {axis[2]}], {ang}]")
+            continue
         if joint is None:
             out.extend(_fold([("part", part, nm, pos, axis, ang)], indent))
             continue
@@ -754,23 +760,50 @@ def write_units(directory):
     for name, items in units.items():
         path = os.path.join(directory, name + ".assy")
         os.makedirs(os.path.dirname(path), exist_ok=True)
+        ordered = _joints(items)
+        root = ordered[0][0][2]
+        origins[name] = list(root)
+        shifted = [
+            ((part, nm, [round(pos[i] - root[i], 3) for i in range(3)], axis, ang), joint)
+            for (part, nm, pos, axis, ang), joint in ordered
+        ]
         out = [
             f"# {name}: one of the pieces '{'castle'}' is assembled from, built once here",
-            "# and placed wherever it occurs. Its first course is put down by",
-            "# coordinates - its origin is the stud it starts at, which is what lets one",
-            "# file stand for every instance of it - and everything above that says the",
-            "# brick and the stud it goes on.",
+            "# and placed wherever it occurs. The piece's own origin is the first brick",
+            "# of it, which is why that one says no coordinates: where it goes is for",
+            "# whatever places the piece to decide. Everything after it names the brick",
+            "# and the stud it goes on.",
             "links:",
-            *_nodes_yaml(_joints(items)),
+            *_nodes_yaml(shifted),
         ]
         open(path, "w").write("\n".join(out) + "\n")
         print(f"  {path}: {len(items)} parts")
 
 
+def _shifted_by(pos, origin, angle):
+    """'pos', moved by 'origin' as the piece's own frame carries it."""
+    radians = math.radians(angle)
+    cos, sin = math.cos(radians), math.sin(radians)
+    x = origin[0] * cos + origin[2] * sin
+    z = -origin[0] * sin + origin[2] * cos
+    return [round(pos[0] + x, 3), round(pos[1] + origin[1], 3), round(pos[2] + z, 3)]
+
+
 def write(path, name, header):
     out = [*header, f"name: {name}", "location: [[0, 0, 0], [1, 0, 0], 90]", "links:"]
     counts = collections.Counter(u for u, _, _, _ in placements)
-    out.extend(_fold([("assembly", u, nm, pos, [0, 1, 0], ang) for u, nm, pos, ang in placements]))
+    # A piece's own origin is its first brick, not the corner of its footprint,
+    # so where the piece goes is where that brick goes. 'origins' says how far
+    # the two are apart in the piece's own frame; turned with the piece, it is
+    # what puts the piece back where the grid wanted it.
+    out.extend(
+        _fold(
+            [
+                ("assembly", u, nm, _shifted_by(pos, origins.get(u, (0, 0, 0)), ang), [0, 1, 0], ang)
+                for u, nm, pos, ang in placements
+            ]
+        )
+    )
     out.extend(_nodes_yaml(nodes))
     open(path, "w").write("\n".join(out) + "\n")
     total = sum(len(v) for v in units.values())

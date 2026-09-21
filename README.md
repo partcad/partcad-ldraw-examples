@@ -109,8 +109,11 @@ bridge. So the order is grown rather than given — take whatever can be joined 
 what is already down, and only when nothing can, put another part down by
 coordinates. Most pieces need exactly one.
 
-The remaining 49 keep coordinates. One per piece is the root it is all grown
-from; the rest are where a run is genuinely broken — the keep's short courses,
+Each piece's **first brick says nothing at all** — no coordinates and no joint.
+It is the piece's own origin, and where that goes is for whatever places the
+piece to decide, so saying it here would be saying it twice.
+
+The remaining 37 keep coordinates. They are where a run is genuinely broken — the keep's short courses,
 the merlons and bartizans that sit on a course belonging to another piece, the
 gateway's corbelled arch, and the two stacked `Cone 2 x 2 x 2` of a spire, whose
 single top stud meets an underside that declares no anti-stud at its centre.

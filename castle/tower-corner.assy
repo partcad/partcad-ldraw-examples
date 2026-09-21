@@ -1,12 +1,11 @@
 # castle/tower-corner: one of the pieces 'castle' is assembled from, built once here
-# and placed wherever it occurs. Its first course is put down by
-# coordinates - its origin is the stud it starts at, which is what lets one
-# file stand for every instance of it - and everything above that says the
-# brick and the stud it goes on.
+# and placed wherever it occurs. The piece's own origin is the first brick
+# of it, which is why that one says no coordinates: where it goes is for
+# whatever places the piece to decide. Everything after it names the brick
+# and the stud it goes on.
 links:
   - part: //pub/universe/lego/ldraw/Brick:3941
     name: t_c0
-    location: [[4.0, 9.6, 4.0], [0, 1, 0], 0]
   - part: //pub/universe/lego/ldraw/Brick:3941
     name: t_c1
     connect:

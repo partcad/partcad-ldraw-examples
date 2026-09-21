@@ -1,12 +1,11 @@
 # castle/wall-gate: one of the pieces 'castle' is assembled from, built once here
-# and placed wherever it occurs. Its first course is put down by
-# coordinates - its origin is the stud it starts at, which is what lets one
-# file stand for every instance of it - and everything above that says the
-# brick and the stud it goes on.
+# and placed wherever it occurs. The piece's own origin is the first brick
+# of it, which is why that one says no coordinates: where it goes is for
+# whatever places the piece to decide. Everything after it names the brick
+# and the stud it goes on.
 links:
   - part: //pub/universe/lego/ldraw/Brick:3010
     name: wL_c0_0
-    location: [[12.0, 9.6, 0.0], [0, 1, 0], 0]
   - part: //pub/universe/lego/ldraw/Brick:3004
     name: wL_c1_0
     connect:
@@ -209,7 +208,7 @@ links:
       toInstance: c2r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: wL_c0_2
-    location: [[64.0, 9.6, 0.0], [0, 1, 0], 0]
+    location: [[52.0, 0.0, 0.0], [0, 1, 0], 0]
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: wL_c1_3
     connect:
@@ -268,7 +267,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3010
     name: wR_c0_0
-    location: [[124.0, 9.6, 0.0], [0, 1, 0], 0]
+    location: [[112.0, 0.0, 0.0], [0, 1, 0], 0]
   - part: //pub/universe/lego/ldraw/Brick:3004
     name: wR_c1_0
     connect:
@@ -471,7 +470,7 @@ links:
       toInstance: c2r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: w_m10
-    location: [[80.0, 76.8, 0.0], [0, 1, 0], 0]
+    location: [[68.0, 67.2, 0.0], [0, 1, 0], 0]
   - part: //pub/universe/lego/ldraw/Brick:3010
     name: gate_d_c6_0
     connect:

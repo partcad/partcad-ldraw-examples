@@ -13,66 +13,66 @@ location: [[0, 0, 0], [1, 0, 0], 90]
 links:
   - assembly: castle/wall-gate
     name: wallS
-    location: [[16.0, 0.0, 0.0], [0, 1, 0], 0]
+    location: [[28.0, 9.6, 0.0], [0, 1, 0], 0]
   - assembly: castle/wall
     name: wallN
-    location: [[16.0, 0.0, 200.0], [0, 1, 0], 0]
+    location: [[28.0, 9.6, 200.0], [0, 1, 0], 0]
   - assembly: castle/wall
     name: wallW
-    location: [[0.0, 0.0, 16.0], [0, 1, 0], 270]
+    location: [[0.0, 9.6, 28.0], [0, 1, 0], 270]
   - assembly: castle/wall
     name: wallE
-    location: [[200.0, 0.0, 16.0], [0, 1, 0], 270]
+    location: [[200.0, 9.6, 28.0], [0, 1, 0], 270]
   {% for name, x, z in [
-      ["towerSW", 0.0, 0.0],
-      ["towerSE", 192.0, 0.0],
-      ["towerNW", 0.0, 192.0],
-      ["towerNE", 192.0, 192.0],
+      ["towerSW", 4.0, 4.0],
+      ["towerSE", 196.0, 4.0],
+      ["towerNW", 4.0, 196.0],
+      ["towerNE", 196.0, 196.0],
     ] %}
   - assembly: castle/tower-corner
     name: {{ name }}
-    location: [[{{ x }}, 0.0, {{ z }}], [0, 1, 0], 0]
+    location: [[{{ x }}, 9.6, {{ z }}], [0, 1, 0], 0]
   {% endfor %}
   {% for name, x, z in [
-      ["spireSW", 0.0, 0.0],
-      ["spireSE", 192.0, 0.0],
-      ["spireNW", 0.0, 192.0],
-      ["spireNE", 192.0, 192.0],
+      ["spireSW", 4.0, 4.0],
+      ["spireSE", 196.0, 4.0],
+      ["spireNW", 4.0, 196.0],
+      ["spireNE", 196.0, 196.0],
     ] %}
   - assembly: castle/spire
     name: {{ name }}
-    location: [[{{ x }}, 144.0, {{ z }}], [0, 1, 0], 0]
+    location: [[{{ x }}, 163.2, {{ z }}], [0, 1, 0], 0]
   {% endfor %}
   {% for name, x, z in [
-      ["towerN", 96.0, 208.0],
-      ["towerW", -16.0, 96.0],
-      ["towerE", 208.0, 96.0],
+      ["towerN", 100.0, 212.0],
+      ["towerW", -12.0, 100.0],
+      ["towerE", 212.0, 100.0],
     ] %}
   - assembly: castle/tower-mural
     name: {{ name }}
-    location: [[{{ x }}, 0.0, {{ z }}], [0, 1, 0], 0]
+    location: [[{{ x }}, 9.6, {{ z }}], [0, 1, 0], 0]
   {% endfor %}
   {% for name, x, z in [
-      ["spireN", 96.0, 208.0],
-      ["spireW", -16.0, 96.0],
-      ["spireE", 208.0, 96.0],
+      ["spireN", 100.0, 212.0],
+      ["spireW", -12.0, 100.0],
+      ["spireE", 212.0, 100.0],
     ] %}
   - assembly: castle/spire
     name: {{ name }}
-    location: [[{{ x }}, 115.2, {{ z }}], [0, 1, 0], 0]
+    location: [[{{ x }}, 134.4, {{ z }}], [0, 1, 0], 0]
   {% endfor %}
   - assembly: castle/tower-gate
     name: gateW
-    location: [[64.0, 0.0, -16.0], [0, 1, 0], 0]
+    location: [[68.0, 9.6, -12.0], [0, 1, 0], 0]
   - assembly: castle/tower-gate
     name: gateE
-    location: [[128.0, 0.0, -16.0], [0, 1, 0], 0]
+    location: [[132.0, 9.6, -12.0], [0, 1, 0], 0]
   - assembly: castle/spire
     name: gateSpireW
-    location: [[64.0, 124.8, -16.0], [0, 1, 0], 0]
+    location: [[68.0, 144.0, -12.0], [0, 1, 0], 0]
   - assembly: castle/spire
     name: gateSpireE
-    location: [[128.0, 124.8, -16.0], [0, 1, 0], 0]
+    location: [[132.0, 144.0, -12.0], [0, 1, 0], 0]
   {% for name, x, z in [
       ["buttS4", 32.0, -8.0],
       ["buttS6", 48.0, -8.0],
@@ -93,33 +93,33 @@ links:
     ] %}
   - assembly: castle/buttress
     name: {{ name }}
-    location: [[{{ x }}, 0.0, {{ z }}], [0, 1, 0], 0]
+    location: [[{{ x }}, 9.6, {{ z }}], [0, 1, 0], 0]
   {% endfor %}
   {% for name, y in [
-      ["keepC0", 0.0],
-      ["keepC2", 19.2],
-      ["keepC8", 76.8],
-      ["keepC14", 134.4],
+      ["keepC0", 9.6],
+      ["keepC2", 28.8],
+      ["keepC8", 86.4],
+      ["keepC14", 144.0],
     ] %}
   - assembly: castle/keep-courses
     name: {{ name }}
-    location: [[80.0, {{ y }}, 80.0], [0, 1, 0], 0]
+    location: [[92.0, {{ y }}, 80.0], [0, 1, 0], 0]
   {% endfor %}
   - assembly: castle/keep-courses-lancets
     name: keepL4
-    location: [[80.0, 38.4, 80.0], [0, 1, 0], 0]
+    location: [[84.0, 48.0, 80.0], [0, 1, 0], 0]
   - assembly: castle/keep-courses-lancets
     name: keepL10
-    location: [[80.0, 96.0, 80.0], [0, 1, 0], 0]
+    location: [[84.0, 105.6, 80.0], [0, 1, 0], 0]
   - assembly: castle/keep-courses-lancet-head
     name: keepH6
-    location: [[80.0, 57.6, 80.0], [0, 1, 0], 0]
+    location: [[84.0, 67.2, 80.0], [0, 1, 0], 0]
   - assembly: castle/keep-courses-lancet-head
     name: keepH12
-    location: [[80.0, 115.2, 80.0], [0, 1, 0], 0]
+    location: [[84.0, 124.8, 80.0], [0, 1, 0], 0]
   - assembly: castle/keep-course-last
     name: keepLast
-    location: [[80.0, 153.6, 80.0], [0, 1, 0], 0]
+    location: [[92.0, 163.2, 80.0], [0, 1, 0], 0]
   - assembly: castle/keep-head
     name: keepHead
-    location: [[80.0, 0.0, 80.0], [0, 1, 0], 0]
+    location: [[96.0, 172.8, 80.0], [0, 1, 0], 0]
