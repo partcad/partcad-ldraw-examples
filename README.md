@@ -92,7 +92,7 @@ instead — which brick they sit on, and which stud of it:
 ```
 
 `//pub/universe/lego` declares the pair — a `stud` on top of a part and an
-`anti-stud` underneath — and PartCAD works the coordinates out. **214 of the 276
+`anti-stud` underneath — and PartCAD works the coordinates out. **224 of the 273
 part nodes** are joined that way, in the order they are put together.
 
 Which two ports meet is decided by where they *are*, not by the stud grid the
@@ -109,20 +109,18 @@ bridge. So the order is grown rather than given — take whatever can be joined 
 what is already down, and only when nothing can, put another part down by
 coordinates. Most pieces need exactly one.
 
-The remaining 62 keep coordinates, for two reasons:
+The remaining 49 keep coordinates. One per piece is the root it is all grown
+from; the rest are where a run is genuinely broken — the keep's short courses,
+the merlons and bartizans that sit on a course belonging to another piece, the
+gateway's corbelled arch, and the two stacked `Cone 2 x 2 x 2` of a spire, whose
+single top stud meets an underside that declares no anti-stud at its centre.
 
-* **38 have nothing placed to hold on to** at the point they are needed. One per
-  piece is the root it is all grown from; the rest are where a run is broken —
-  the keep's short courses, whose two sides are the turned bricks below, and the
-  merlons and bartizans that sit on a course belonging to another piece.
-* **24 are laid across the brick below.** The joint is expressible —
-  `anti-stud` carries a `turnZ` parameter and a probe reproduces the placement
-  exactly — but which anti-stud to name and which way to turn cannot be worked
-  out from the geometry here. The pair that meet are found correctly, and
-  PartCAD still lands the brick a stud away, because where a turned part ends up
-  depends on the roll of the port frames rather than on the offset of the port.
-  Predicting that means repeating PartCAD's mate arithmetic in the generator,
-  and getting it wrong means a brick silently in the wrong place.
+No joint here needs a turn, which was a surprise. A brick laid across the castle's
+grid *looks* like it needs one, and the keep is full of them — but what a joint
+has to turn is the difference between the two parts, not how either of them lies,
+and in the keep the brick below runs across too. The turn is zero and the bricks
+are joined like any other. (`anti-stud` carries a `turnZ` parameter for the case
+where it is not.)
 
 The model is geometrically identical either way: every one of the 732 parts ends
 up where it did before, to the last decimal.

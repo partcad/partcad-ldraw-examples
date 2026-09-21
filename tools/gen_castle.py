@@ -549,21 +549,19 @@ def _joint_to(item, placed):
     order made available, and either is a joint.
     """
     part, _name, pos, _axis, ang = item
-    if ang or part in NO_ANTI_STUD:
-        # A brick laid across the one below is left on coordinates. The joint is
-        # expressible - 'anti-stud' carries 'turnZ' and a probe reproduces the
-        # placement exactly - but which anti-stud to name and which way to turn
-        # cannot be worked out from the geometry here: the pair that meet are
-        # found correctly and PartCAD still lands the brick a stud away, because
-        # where a turned part ends up depends on the roll of the port frames
-        # rather than on the offset of the port.
+    if part in NO_ANTI_STUD:
         return None
     for kind, theirs_kind in (("anti", "stud"), ("stud", "anti")):
         mine = _world_ports(part, pos, ang, kind)
         for other, other_part, other_pos, other_ang in placed:
             met = _meeting(mine, _world_ports(other_part, other_pos, other_ang, theirs_kind))
             if met:
-                return (kind, met[0], other, met[1])
+                # What the joint has to turn is the difference between the two
+                # parts, not how either of them lies. A brick laid across the
+                # castle's grid, on a brick laid the same way, is not turned
+                # relative to what it sits on and needs no turn at all - which
+                # is most of the keep, where a whole wall runs across.
+                return (kind, met[0], other, met[1], (ang - other_ang) % 360)
     return None
 
 
@@ -732,7 +730,7 @@ def _nodes_yaml(ordered, indent="  "):
         if joint is None:
             out.extend(_fold([("part", part, nm, pos, axis, ang)], indent))
             continue
-        kind, mine, other, theirs = joint
+        kind, mine, other, theirs, turn = joint
         with_iface = ANTI_IFACE if kind == "anti" else STUD_IFACE
         to_iface = STUD_IFACE if kind == "anti" else ANTI_IFACE
         out.append(f"{indent}- part: {part}")
@@ -740,6 +738,9 @@ def _nodes_yaml(ordered, indent="  "):
         out.append(f"{indent}  connect:")
         out.append(f"{indent}    with: {with_iface}")
         out.append(f"{indent}    withInstance: {mine}")
+        if turn:
+            out.append(f"{indent}    withParams:")
+            out.append(f"{indent}      turnZ: {turn if turn <= 180 else turn - 360}")
         out.append(f"{indent}    name: {other}")
         out.append(f"{indent}    to: {to_iface}")
         out.append(f"{indent}    toInstance: {theirs}")

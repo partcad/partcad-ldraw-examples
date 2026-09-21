@@ -73,24 +73,44 @@ links:
   - part: //pub/universe/lego/ldraw/Brick:3004
     name: kW_c0_0
     location: [[0.0, 9.6, 12.0], [0, 1, 0], 90]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kW_c1_0
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kW_c0_0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: kW_c0_1
     location: [[0.0, 9.6, 32.0], [0, 1, 0], 90]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: kW_c1_1
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kW_c0_1
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3004
     name: kE_c0_0
     location: [[40.0, 9.6, 12.0], [0, 1, 0], 90]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kE_c1_0
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kE_c0_0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: kE_c0_1
     location: [[40.0, 9.6, 32.0], [0, 1, 0], 90]
-  - part: //pub/universe/lego/ldraw/Brick:3004
-    name: kW_c1_0
-    location: [[0.0, 19.2, 12.0], [0, 1, 0], 90]
-  - part: //pub/universe/lego/ldraw/Brick:3005
-    name: kW_c1_1
-    location: [[0.0, 19.2, 32.0], [0, 1, 0], 90]
-  - part: //pub/universe/lego/ldraw/Brick:3004
-    name: kE_c1_0
-    location: [[40.0, 19.2, 12.0], [0, 1, 0], 90]
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: kE_c1_1
-    location: [[40.0, 19.2, 32.0], [0, 1, 0], 90]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kE_c0_1
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
