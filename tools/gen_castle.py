@@ -780,6 +780,126 @@ def write_units(directory):
         print(f"  {path}: {len(items)} parts")
 
 
+# --- joining the pieces to each other ---------------------------------------
+#
+# The same question one level up. A piece is placed by coordinates for the same
+# reason a brick was: nothing says what holds it. What holds it is a stud, and
+# the pieces are full of them - but a stud inside a piece is the piece's own
+# business until the piece says otherwise, so each one has to externalize the
+# ones it is joined by. That is what 'map:' is for (see the PartCAD docs on the
+# ports and interfaces of an assembly): a name of the piece's choosing against
+# the node, the interface and the instance it stands for.
+
+exported = collections.defaultdict(dict)  # unit -> {exported name: (node, interface, instance)}
+
+
+def _placement_ports(unit, pos, angle, kind):
+    """Every port of one kind in one placed piece, in the castle's frame.
+
+    Keyed by the node inside the piece and the instance on it, which is what a
+    'map:' entry has to name.
+    """
+    # 'pos' is where the piece's *grid* corner goes, and a part's position in
+    # 'units' is in that same frame, so the two compose directly. The origin
+    # shift that 'write' applies cancels here: it moves the piece by exactly the
+    # amount the piece's own frame moved.
+    out = {}
+    for part, node, part_pos, _axis, part_ang in units[unit]:
+        local = list(part_pos)
+        for inst, port in (PORTS.get(part.split("/")[-1], {}).get(kind) or {}).items():
+            dx, dz = _turned_xz(port, part_ang)
+            px, pz = local[0] + dx, local[2] + dz
+            rx, rz = _rotate_xz(px, pz, angle)
+            out[(node, inst)] = (
+                (
+                    round(pos[0] + rx, 3),
+                    round(pos[1] + local[1] + port[1], 3),
+                    round(pos[2] + rz, 3),
+                ),
+                (angle + part_ang) % 360,
+            )
+    return out
+
+
+def _rotate_xz(x, z, angle):
+    radians = math.radians(angle)
+    cos, sin = math.cos(radians), math.sin(radians)
+    return (x * cos + z * sin, -x * sin + z * cos)
+
+
+def _meeting_square(a, b):
+    """A coincident pair whose two parts lie the same way, if there is one.
+
+    A piece is joined through a port of a brick inside it, and that brick may be
+    laid across the piece's own grid - the keep's last course is. Mating through
+    it turns the whole piece by the difference, which is a quarter turn nobody
+    asked for. There is nearly always another pair that does not, because a
+    piece meets another over several studs, so the square pair is taken first
+    and the turned one only if it is the only one.
+    """
+    fallback = None
+    for mine, (here, my_ang) in sorted(a.items()):
+        for theirs, (there, their_ang) in sorted(b.items()):
+            if any(abs(here[i] - there[i]) >= TOUCHING for i in range(3)):
+                continue
+            if my_ang == their_ang:
+                return mine, theirs
+            fallback = fallback or (mine, theirs)
+    return fallback
+
+
+def _export(unit, node, kind, inst):
+    """The name this piece externalizes one of its ports under, making it if new.
+
+    Named for what it is - the node and the stud on it - because a piece has no
+    better word for it, and because two pieces that export the same thing then
+    say the same thing.
+    """
+    name = "%s-%s-%s" % (node, kind, inst)
+    exported[unit][name] = (node, STUD_IFACE if kind == "stud" else ANTI_IFACE, inst)
+    return name
+
+
+def _piece_joints():
+    """Every piece placed, in the order they go together, with how each joins.
+
+    Grown exactly as the bricks inside a piece are: take whatever can be joined
+    to what is already standing, and only when nothing can, put a piece down by
+    coordinates.
+    """
+    remaining = list(placements)
+    standing = []
+    out = []
+    while remaining:
+        for i, (unit, instance, pos, angle) in enumerate(remaining):
+            joint = None
+            for kind, theirs in (("anti", "stud"), ("stud", "anti")):
+                mine = _placement_ports(unit, pos, angle, kind)
+                for other_unit, other_instance, other_pos, other_angle in standing:
+                    met = _meeting_square(mine, _placement_ports(other_unit, other_pos, other_angle, theirs))
+                    if met:
+                        joint = (
+                            kind,
+                            _export(unit, met[0][0], kind, met[0][1]),
+                            other_instance,
+                            theirs,
+                            _export(other_unit, met[1][0], theirs, met[1][1]),
+                        )
+                        break
+                if joint:
+                    break
+            if joint:
+                out.append(((unit, instance, pos, angle), joint))
+                standing.append((unit, instance, pos, angle))
+                del remaining[i]
+                break
+        else:
+            item = remaining.pop(0)
+            out.append((item, None))
+            standing.append(item)
+    return out
+
+
 def _shifted_by(pos, origin, angle):
     """'pos', moved by 'origin' as the piece's own frame carries it."""
     radians = math.radians(angle)
@@ -796,14 +916,26 @@ def write(path, name, header):
     # so where the piece goes is where that brick goes. 'origins' says how far
     # the two are apart in the piece's own frame; turned with the piece, it is
     # what puts the piece back where the grid wanted it.
-    out.extend(
-        _fold(
-            [
-                ("assembly", u, nm, _shifted_by(pos, origins.get(u, (0, 0, 0)), ang), [0, 1, 0], ang)
-                for u, nm, pos, ang in placements
-            ]
-        )
-    )
+    for index, ((u, nm, pos, ang), joint) in enumerate(_piece_joints()):
+        out.append(f"  - assembly: {u}")
+        out.append(f"    name: {nm}")
+        if joint is None:
+            # Unlike a piece, whose frame is its own business, the castle's
+            # pieces are placed against one grid: leaving the first one's
+            # coordinates out would move it and nothing else.
+            where = _shifted_by(pos, origins.get(u, (0, 0, 0)), ang)
+            out.append(f"    location: [[{where[0]}, {where[1]}, {where[2]}], [0, 1, 0], {ang}]")
+            continue
+        # A mapped interface instance keeps the interface it came from - the
+        # map names the instance, not the kind - so the connection names the
+        # interface and the instance the piece exported it as.
+        kind, mine, other, theirs_kind, theirs = joint
+        out.append("    connect:")
+        out.append(f"      with: {ANTI_IFACE if kind == 'anti' else STUD_IFACE}")
+        out.append(f"      withInstance: {mine}")
+        out.append(f"      name: {other}")
+        out.append(f"      to: {ANTI_IFACE if theirs_kind == 'anti' else STUD_IFACE}")
+        out.append(f"      toInstance: {theirs}")
     out.extend(_nodes_yaml(nodes))
     open(path, "w").write("\n".join(out) + "\n")
     total = sum(len(v) for v in units.values())
@@ -811,6 +943,13 @@ def write(path, name, header):
           f" ({total} parts written once), {len(nodes)} loose parts")
     for u, n in counts.most_common():
         print(f"  x{n:<3d} {u} ({len(units[u])} parts)")
+    if exported:
+        print("\n  what each piece has to externalize, for 'partcad.yaml':")
+        for unit in sorted(exported):
+            print(f"    {unit}:")
+            print("      map:")
+            for name, (node, iface, inst) in sorted(exported[unit].items()):
+                print(f"        {name}: [{node}, {iface}, {inst}]")
 
 
 def check():

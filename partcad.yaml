@@ -9,7 +9,7 @@ name: //pub/examples/lego
 desc: Assemblies built from the LDraw LEGO parts library.
 url: https://library.ldraw.org/
 poc: kuzmenkor@gmail.com
-partcad: ">=0.8.104"
+partcad: ">=0.8.115"
 
 # Nothing here is a catalogue item somebody can order: these are models built
 # out of parts that already exist.
@@ -24,18 +24,26 @@ dependencies:
 assemblies:
   castle/spire:
     type: assy
+    map:
+      spire_s0-anti-c0r0: [spire_s0, //pub/universe/lego:anti-stud, c0r0]
     desc: "A tower's needle roof - two 2x2 cones flaring off the tower, then two 1x1 cones drawing it to a point"
   castle/buttress:
     type: assy
     desc: "A pier stepping out from the wall, capped with a pinnacle"
   castle/tower-corner:
     type: assy
+    map:
+      t_c14-stud-c0r0: [t_c14, //pub/universe/lego:stud, c0r0]
     desc: "The body of a corner tower, 15 courses of 2x2 round brick"
   castle/tower-mural:
     type: assy
+    map:
+      t_c11-stud-c0r0: [t_c11, //pub/universe/lego:stud, c0r0]
     desc: "The body of a tower standing along the wall, 12 courses"
   castle/tower-gate:
     type: assy
+    map:
+      t_c12-stud-c0r0: [t_c12, //pub/universe/lego:stud, c0r0]
     desc: "The body of one of the gatehouse pair, 13 courses"
   castle/wall:
     type: assy
@@ -45,18 +53,33 @@ assemblies:
     desc: "The same wall with the gateway's pointed arch corbelled through it"
   castle/keep-courses:
     type: assy
+    map:
+      kE_c0_0-anti-c0r0: [kE_c0_0, //pub/universe/lego:anti-stud, c0r0]
+      kE_c1_0-stud-c0r0: [kE_c1_0, //pub/universe/lego:stud, c0r0]
+      kE_c1_1-stud-c0r0: [kE_c1_1, //pub/universe/lego:stud, c0r0]
     desc: "Two courses of the keep's masonry, the second breaking joint against the first"
   castle/keep-courses-lancets:
     type: assy
+    map:
+      kE_c0_0-anti-c0r0: [kE_c0_0, //pub/universe/lego:anti-stud, c0r0]
+      kE_c1_0-stud-c0r0: [kE_c1_0, //pub/universe/lego:stud, c0r0]
     desc: "Two courses of the keep, both cut by a lancet"
   castle/keep-courses-lancet-head:
     type: assy
+    map:
+      kE_c0_0-anti-c0r0: [kE_c0_0, //pub/universe/lego:anti-stud, c0r0]
+      kE_c1_1-stud-c0r0: [kE_c1_1, //pub/universe/lego:stud, c0r0]
     desc: "The two courses a lancet ends in"
   castle/keep-course-last:
     type: assy
+    map:
+      kE_c0_0-anti-c0r0: [kE_c0_0, //pub/universe/lego:anti-stud, c0r0]
+      kN_c0_0-stud-c2r0: [kN_c0_0, //pub/universe/lego:stud, c2r0]
     desc: "The keep's last course, carrying the parapet"
   castle/keep-head:
     type: assy
+    map:
+      keep_mN2-anti-c0r0: [keep_mN2, //pub/universe/lego:anti-stud, c0r0]
     desc: "What finishes the keep - merlons, a bartizan at each corner, and the spire"
   castle:
     type: assy

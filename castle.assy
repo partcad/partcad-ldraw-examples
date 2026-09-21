@@ -19,107 +19,229 @@ links:
     location: [[28.0, 9.6, 200.0], [0, 1, 0], 0]
   - assembly: castle/wall
     name: wallW
-    location: [[0.0, 9.6, 28.0], [0, 1, 0], 270]
+    location: [[-0.0, 9.6, 28.0], [0, 1, 0], 270]
   - assembly: castle/wall
     name: wallE
     location: [[200.0, 9.6, 28.0], [0, 1, 0], 270]
-  {% for name, x, z in [
-      ["towerSW", 4.0, 4.0],
-      ["towerSE", 196.0, 4.0],
-      ["towerNW", 4.0, 196.0],
-      ["towerNE", 196.0, 196.0],
-    ] %}
   - assembly: castle/tower-corner
-    name: {{ name }}
-    location: [[{{ x }}, 9.6, {{ z }}], [0, 1, 0], 0]
-  {% endfor %}
-  {% for name, x, z in [
-      ["spireSW", 4.0, 4.0],
-      ["spireSE", 196.0, 4.0],
-      ["spireNW", 4.0, 196.0],
-      ["spireNE", 196.0, 196.0],
-    ] %}
+    name: towerSW
+    location: [[4.0, 9.6, 4.0], [0, 1, 0], 0]
   - assembly: castle/spire
-    name: {{ name }}
-    location: [[{{ x }}, 163.2, {{ z }}], [0, 1, 0], 0]
-  {% endfor %}
-  {% for name, x, z in [
-      ["towerN", 100.0, 212.0],
-      ["towerW", -12.0, 100.0],
-      ["towerE", 212.0, 100.0],
-    ] %}
+    name: spireSW
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: spire_s0-anti-c0r0
+      name: towerSW
+      to: //pub/universe/lego:stud
+      toInstance: t_c14-stud-c0r0
+  - assembly: castle/tower-corner
+    name: towerSE
+    location: [[196.0, 9.6, 4.0], [0, 1, 0], 0]
+  - assembly: castle/spire
+    name: spireSE
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: spire_s0-anti-c0r0
+      name: towerSE
+      to: //pub/universe/lego:stud
+      toInstance: t_c14-stud-c0r0
+  - assembly: castle/tower-corner
+    name: towerNW
+    location: [[4.0, 9.6, 196.0], [0, 1, 0], 0]
+  - assembly: castle/spire
+    name: spireNW
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: spire_s0-anti-c0r0
+      name: towerNW
+      to: //pub/universe/lego:stud
+      toInstance: t_c14-stud-c0r0
+  - assembly: castle/tower-corner
+    name: towerNE
+    location: [[196.0, 9.6, 196.0], [0, 1, 0], 0]
+  - assembly: castle/spire
+    name: spireNE
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: spire_s0-anti-c0r0
+      name: towerNE
+      to: //pub/universe/lego:stud
+      toInstance: t_c14-stud-c0r0
   - assembly: castle/tower-mural
-    name: {{ name }}
-    location: [[{{ x }}, 9.6, {{ z }}], [0, 1, 0], 0]
-  {% endfor %}
-  {% for name, x, z in [
-      ["spireN", 100.0, 212.0],
-      ["spireW", -12.0, 100.0],
-      ["spireE", 212.0, 100.0],
-    ] %}
+    name: towerN
+    location: [[100.0, 9.6, 212.0], [0, 1, 0], 0]
   - assembly: castle/spire
-    name: {{ name }}
-    location: [[{{ x }}, 134.4, {{ z }}], [0, 1, 0], 0]
-  {% endfor %}
+    name: spireN
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: spire_s0-anti-c0r0
+      name: towerN
+      to: //pub/universe/lego:stud
+      toInstance: t_c11-stud-c0r0
+  - assembly: castle/tower-mural
+    name: towerW
+    location: [[-12.0, 9.6, 100.0], [0, 1, 0], 0]
+  - assembly: castle/spire
+    name: spireW
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: spire_s0-anti-c0r0
+      name: towerW
+      to: //pub/universe/lego:stud
+      toInstance: t_c11-stud-c0r0
+  - assembly: castle/tower-mural
+    name: towerE
+    location: [[212.0, 9.6, 100.0], [0, 1, 0], 0]
+  - assembly: castle/spire
+    name: spireE
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: spire_s0-anti-c0r0
+      name: towerE
+      to: //pub/universe/lego:stud
+      toInstance: t_c11-stud-c0r0
   - assembly: castle/tower-gate
     name: gateW
     location: [[68.0, 9.6, -12.0], [0, 1, 0], 0]
+  - assembly: castle/spire
+    name: gateSpireW
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: spire_s0-anti-c0r0
+      name: gateW
+      to: //pub/universe/lego:stud
+      toInstance: t_c12-stud-c0r0
   - assembly: castle/tower-gate
     name: gateE
     location: [[132.0, 9.6, -12.0], [0, 1, 0], 0]
   - assembly: castle/spire
-    name: gateSpireW
-    location: [[68.0, 144.0, -12.0], [0, 1, 0], 0]
-  - assembly: castle/spire
     name: gateSpireE
-    location: [[132.0, 144.0, -12.0], [0, 1, 0], 0]
-  {% for name, x, z in [
-      ["buttS4", 32.0, -8.0],
-      ["buttS6", 48.0, -8.0],
-      ["buttS19", 152.0, -8.0],
-      ["buttS21", 168.0, -8.0],
-      ["buttN5", 40.0, 208.0],
-      ["buttN8", 64.0, 208.0],
-      ["buttN17", 136.0, 208.0],
-      ["buttN20", 160.0, 208.0],
-      ["buttW5", -8.0, 40.0],
-      ["buttE5", 208.0, 40.0],
-      ["buttW8", -8.0, 64.0],
-      ["buttE8", 208.0, 64.0],
-      ["buttW17", -8.0, 136.0],
-      ["buttE17", 208.0, 136.0],
-      ["buttW20", -8.0, 160.0],
-      ["buttE20", 208.0, 160.0],
-    ] %}
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: spire_s0-anti-c0r0
+      name: gateE
+      to: //pub/universe/lego:stud
+      toInstance: t_c12-stud-c0r0
   - assembly: castle/buttress
-    name: {{ name }}
-    location: [[{{ x }}, 9.6, {{ z }}], [0, 1, 0], 0]
-  {% endfor %}
-  {% for name, y in [
-      ["keepC0", 9.6],
-      ["keepC2", 28.8],
-      ["keepC8", 86.4],
-      ["keepC14", 144.0],
-    ] %}
+    name: buttS4
+    location: [[32.0, 9.6, -8.0], [0, 1, 0], 0]
+  - assembly: castle/buttress
+    name: buttS6
+    location: [[48.0, 9.6, -8.0], [0, 1, 0], 0]
+  - assembly: castle/buttress
+    name: buttS19
+    location: [[152.0, 9.6, -8.0], [0, 1, 0], 0]
+  - assembly: castle/buttress
+    name: buttS21
+    location: [[168.0, 9.6, -8.0], [0, 1, 0], 0]
+  - assembly: castle/buttress
+    name: buttN5
+    location: [[40.0, 9.6, 208.0], [0, 1, 0], 0]
+  - assembly: castle/buttress
+    name: buttN8
+    location: [[64.0, 9.6, 208.0], [0, 1, 0], 0]
+  - assembly: castle/buttress
+    name: buttN17
+    location: [[136.0, 9.6, 208.0], [0, 1, 0], 0]
+  - assembly: castle/buttress
+    name: buttN20
+    location: [[160.0, 9.6, 208.0], [0, 1, 0], 0]
+  - assembly: castle/buttress
+    name: buttW5
+    location: [[-8.0, 9.6, 40.0], [0, 1, 0], 0]
+  - assembly: castle/buttress
+    name: buttE5
+    location: [[208.0, 9.6, 40.0], [0, 1, 0], 0]
+  - assembly: castle/buttress
+    name: buttW8
+    location: [[-8.0, 9.6, 64.0], [0, 1, 0], 0]
+  - assembly: castle/buttress
+    name: buttE8
+    location: [[208.0, 9.6, 64.0], [0, 1, 0], 0]
+  - assembly: castle/buttress
+    name: buttW17
+    location: [[-8.0, 9.6, 136.0], [0, 1, 0], 0]
+  - assembly: castle/buttress
+    name: buttE17
+    location: [[208.0, 9.6, 136.0], [0, 1, 0], 0]
+  - assembly: castle/buttress
+    name: buttW20
+    location: [[-8.0, 9.6, 160.0], [0, 1, 0], 0]
+  - assembly: castle/buttress
+    name: buttE20
+    location: [[208.0, 9.6, 160.0], [0, 1, 0], 0]
   - assembly: castle/keep-courses
-    name: {{ name }}
-    location: [[92.0, {{ y }}, 80.0], [0, 1, 0], 0]
-  {% endfor %}
+    name: keepC0
+    location: [[92.0, 9.6, 80.0], [0, 1, 0], 0]
+  - assembly: castle/keep-courses
+    name: keepC2
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: kE_c0_0-anti-c0r0
+      name: keepC0
+      to: //pub/universe/lego:stud
+      toInstance: kE_c1_1-stud-c0r0
   - assembly: castle/keep-courses-lancets
     name: keepL4
-    location: [[84.0, 48.0, 80.0], [0, 1, 0], 0]
-  - assembly: castle/keep-courses-lancets
-    name: keepL10
-    location: [[84.0, 105.6, 80.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: kE_c0_0-anti-c0r0
+      name: keepC2
+      to: //pub/universe/lego:stud
+      toInstance: kE_c1_0-stud-c0r0
   - assembly: castle/keep-courses-lancet-head
     name: keepH6
-    location: [[84.0, 67.2, 80.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: kE_c0_0-anti-c0r0
+      name: keepL4
+      to: //pub/universe/lego:stud
+      toInstance: kE_c1_0-stud-c0r0
+  - assembly: castle/keep-courses
+    name: keepC8
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: kE_c0_0-anti-c0r0
+      name: keepH6
+      to: //pub/universe/lego:stud
+      toInstance: kE_c1_1-stud-c0r0
+  - assembly: castle/keep-courses-lancets
+    name: keepL10
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: kE_c0_0-anti-c0r0
+      name: keepC8
+      to: //pub/universe/lego:stud
+      toInstance: kE_c1_0-stud-c0r0
   - assembly: castle/keep-courses-lancet-head
     name: keepH12
-    location: [[84.0, 124.8, 80.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: kE_c0_0-anti-c0r0
+      name: keepL10
+      to: //pub/universe/lego:stud
+      toInstance: kE_c1_0-stud-c0r0
+  - assembly: castle/keep-courses
+    name: keepC14
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: kE_c0_0-anti-c0r0
+      name: keepH12
+      to: //pub/universe/lego:stud
+      toInstance: kE_c1_1-stud-c0r0
   - assembly: castle/keep-course-last
     name: keepLast
-    location: [[92.0, 163.2, 80.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: kE_c0_0-anti-c0r0
+      name: keepC14
+      to: //pub/universe/lego:stud
+      toInstance: kE_c1_1-stud-c0r0
   - assembly: castle/keep-head
     name: keepHead
-    location: [[96.0, 172.8, 80.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: keep_mN2-anti-c0r0
+      name: keepLast
+      to: //pub/universe/lego:stud
+      toInstance: kN_c0_0-stud-c2r0

@@ -128,6 +128,39 @@ where it is not.)
 The model is geometrically identical either way: every one of the 732 parts ends
 up where it did before, to the last decimal.
 
+### The pieces join each other too
+
+A piece is placed by coordinates for the same reason a brick was: nothing says
+what holds it up. What holds it is a stud — but a stud inside a piece is the
+piece's own business until the piece says otherwise, so each one externalizes
+the ones it is joined by, with `map:`:
+
+```yaml
+assemblies:
+  castle/spire:
+    type: assy
+    map:
+      spire_s0-anti-c0r0: [spire_s0, //pub/universe/lego:anti-stud, c0r0]
+```
+
+A name of the piece's choosing, against the node inside it, the interface that
+node implements, and the instance. The interface is not renamed — it is a
+contract — but the instance name is the piece's to pick. Fourteen such entries
+across nine pieces are enough for **18 of the 48 placements**: every spire onto
+the tower it caps, and the whole keep, course-pair on course-pair, up to the
+head.
+
+The other 30 are the walls, the towers and the buttresses. They all stand on the
+ground, side by side, and nothing is under them: LEGO studs join what is above to
+what is below, and these meet edge to edge. Joining them means interfaces for the
+*sides* of a piece, which these parts do not have.
+
+One subtlety is worth knowing, because it bit: a piece is joined through a port
+of a brick inside it, and that brick may be laid across the piece's own grid —
+the keep's last course is. Mating through such a brick turns the whole piece by
+the difference, a quarter turn nobody asked for. Pieces meet over several studs,
+so there is nearly always a pair that lies square, and that is the pair to take.
+
 ### Jinja2, and why every step is still written down
 
 An ASSY file has to enumerate every step. PartCAD reads the tree it makes to
