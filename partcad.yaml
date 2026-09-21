@@ -29,27 +29,36 @@ assemblies:
     desc: "A tower's needle roof - two 2x2 cones flaring off the tower, then two 1x1 cones drawing it to a point"
   castle/buttress:
     type: assy
+    map:
+      butt_c0-anti-c0r0: [butt_c0, //pub/universe/lego:anti-stud, c0r0]
     desc: "A pier stepping out from the wall, capped with a pinnacle"
   castle/tower-corner:
     type: assy
     map:
+      t_c0-anti-c0r0: [t_c0, //pub/universe/lego:anti-stud, c0r0]
       t_c14-stud-c0r0: [t_c14, //pub/universe/lego:stud, c0r0]
     desc: "The body of a corner tower, 15 courses of 2x2 round brick"
   castle/tower-mural:
     type: assy
     map:
+      t_c0-anti-c0r0: [t_c0, //pub/universe/lego:anti-stud, c0r0]
       t_c11-stud-c0r0: [t_c11, //pub/universe/lego:stud, c0r0]
     desc: "The body of a tower standing along the wall, 12 courses"
   castle/tower-gate:
     type: assy
     map:
+      t_c0-anti-c0r0: [t_c0, //pub/universe/lego:anti-stud, c0r0]
       t_c12-stud-c0r0: [t_c12, //pub/universe/lego:stud, c0r0]
     desc: "The body of one of the gatehouse pair, 13 courses"
   castle/wall:
     type: assy
+    map:
+      w_c0_0-anti-c0r0: [w_c0_0, //pub/universe/lego:anti-stud, c0r0]
     desc: "A stretch of curtain wall between two corner towers, with its lancets and crenellations"
   castle/wall-gate:
     type: assy
+    map:
+      wL_c0_0-anti-c0r0: [wL_c0_0, //pub/universe/lego:anti-stud, c0r0]
     desc: "The same wall with the gateway's pointed arch corbelled through it"
   castle/keep-courses:
     type: assy
@@ -57,6 +66,7 @@ assemblies:
       kE_c0_0-anti-c0r0: [kE_c0_0, //pub/universe/lego:anti-stud, c0r0]
       kE_c1_0-stud-c0r0: [kE_c1_0, //pub/universe/lego:stud, c0r0]
       kE_c1_1-stud-c0r0: [kE_c1_1, //pub/universe/lego:stud, c0r0]
+      kN_c0_0-anti-c0r0: [kN_c0_0, //pub/universe/lego:anti-stud, c0r0]
     desc: "Two courses of the keep's masonry, the second breaking joint against the first"
   castle/keep-courses-lancets:
     type: assy

@@ -790,6 +790,17 @@ def write_units(directory):
 # ports and interfaces of an assembly): a name of the piece's choosing against
 # the node, the interface and the instance it stands for.
 
+# The one thing that holds the rest of it together. Everything else in the
+# castle stands on the ground, side by side, and a stud joins what is above to
+# what is below - so edge to edge they cannot be joined at all. A baseplate is
+# what LEGO answers that with, and the library has one big enough: 32 x 32
+# studs against the castle's 30, a stud to spare all round.
+BASEPLATE = f"{LEGO}/Baseplate:3811"
+BASEPLATE_STUDS = 32
+# Its studs are a centred grid: 'c<col>r<row>' at (8*col - 124, 0, 8*row - 124),
+# and its top is y = 0, which is where a brick on course 0 has its anti-studs.
+BASEPLATE_HALF = (BASEPLATE_STUDS - 1) * STUD / 2.0
+
 exported = collections.defaultdict(dict)  # unit -> {exported name: (node, interface, instance)}
 
 
@@ -821,6 +832,43 @@ def _placement_ports(unit, pos, angle, kind):
     return out
 
 
+def _baseplate_at():
+    """Where to put the baseplate so its studs land on the castle's grid.
+
+    Centred on what the castle covers, and then only on a whole stud: the
+    plate's own studs sit at half-stud offsets from its middle, so its centre
+    has to sit at one too or nothing on it would line up.
+    """
+    xs, zs = [], []
+    for unit, _instance, pos, angle in placements:
+        for _part, _node, part_pos, _axis, _ang in units[unit]:
+            rx, rz = _rotate_xz(part_pos[0], part_pos[2], angle)
+            xs.append(pos[0] + rx)
+            zs.append(pos[2] + rz)
+    middle = [(min(xs) + max(xs)) / 2.0, (min(zs) + max(zs)) / 2.0]
+    # A stud of the plate is at 'centre - BASEPLATE_HALF + 8k'; for that to be a
+    # multiple of the stud pitch the centre has to be too, offset by the half.
+    x, z = (round(STUD * round((m - BASEPLATE_HALF) / STUD) + BASEPLATE_HALF, 3) for m in middle)
+    # Its top is y = 0, which is where a brick on course 0 has its anti-studs.
+    return [x, 0.0, z]
+
+
+def _baseplate_ports(pos):
+    """The plate's studs, in the castle's frame, keyed as a joint names them."""
+    out = {}
+    for col in range(BASEPLATE_STUDS):
+        for row in range(BASEPLATE_STUDS):
+            out[(None, "c%dr%d" % (col, row))] = (
+                (
+                    round(pos[0] - BASEPLATE_HALF + col * STUD, 3),
+                    round(pos[1], 3),
+                    round(pos[2] - BASEPLATE_HALF + row * STUD, 3),
+                ),
+                0,
+            )
+    return out
+
+
 def _rotate_xz(x, z, angle):
     radians = math.radians(angle)
     cos, sin = math.cos(radians), math.sin(radians)
@@ -843,8 +891,8 @@ def _meeting_square(a, b):
             if any(abs(here[i] - there[i]) >= TOUCHING for i in range(3)):
                 continue
             if my_ang == their_ang:
-                return mine, theirs
-            fallback = fallback or (mine, theirs)
+                return mine, theirs, 0
+            fallback = fallback or (mine, theirs, (their_ang - my_ang) % 360)
     return fallback
 
 
@@ -867,23 +915,33 @@ def _piece_joints():
     to what is already standing, and only when nothing can, put a piece down by
     coordinates.
     """
+    plate_at = _baseplate_at()
+    plate = _baseplate_ports(plate_at)
     remaining = list(placements)
-    standing = []
-    out = []
+    # The plate is down before anything else, and everything that reaches the
+    # ground stands on it.
+    standing = [(None, "baseplate", plate_at, 0)]
+    out = [((BASEPLATE, "baseplate", plate_at, 0), None)]
     while remaining:
         for i, (unit, instance, pos, angle) in enumerate(remaining):
             joint = None
             for kind, theirs in (("anti", "stud"), ("stud", "anti")):
                 mine = _placement_ports(unit, pos, angle, kind)
                 for other_unit, other_instance, other_pos, other_angle in standing:
-                    met = _meeting_square(mine, _placement_ports(other_unit, other_pos, other_angle, theirs))
+                    if other_unit is None:
+                        if kind != "anti":
+                            continue
+                        met = _meeting_square(mine, plate)
+                    else:
+                        met = _meeting_square(mine, _placement_ports(other_unit, other_pos, other_angle, theirs))
                     if met:
                         joint = (
                             kind,
                             _export(unit, met[0][0], kind, met[0][1]),
                             other_instance,
-                            theirs,
-                            _export(other_unit, met[1][0], theirs, met[1][1]),
+                            theirs if other_unit is not None else "stud",
+                            met[1][1] if other_unit is None else _export(other_unit, met[1][0], theirs, met[1][1]),
+                            met[2],
                         )
                         break
                 if joint:
@@ -917,7 +975,7 @@ def write(path, name, header):
     # the two are apart in the piece's own frame; turned with the piece, it is
     # what puts the piece back where the grid wanted it.
     for index, ((u, nm, pos, ang), joint) in enumerate(_piece_joints()):
-        out.append(f"  - assembly: {u}")
+        out.append(f"  - {'part' if u == BASEPLATE else 'assembly'}: {u}")
         out.append(f"    name: {nm}")
         if joint is None:
             # Unlike a piece, whose frame is its own business, the castle's
@@ -929,10 +987,16 @@ def write(path, name, header):
         # A mapped interface instance keeps the interface it came from - the
         # map names the instance, not the kind - so the connection names the
         # interface and the instance the piece exported it as.
-        kind, mine, other, theirs_kind, theirs = joint
+        kind, mine, other, theirs_kind, theirs, turn = joint
         out.append("    connect:")
         out.append(f"      with: {ANTI_IFACE if kind == 'anti' else STUD_IFACE}")
         out.append(f"      withInstance: {mine}")
+        if turn:
+            # The piece lies the other way from what it is joined to - a wall
+            # running north against a plate whose studs all face the same way -
+            # so the joint carries the difference.
+            out.append("      withParams:")
+            out.append(f"        turnZ: {turn if turn <= 180 else turn - 360}")
         out.append(f"      name: {other}")
         out.append(f"      to: {ANTI_IFACE if theirs_kind == 'anti' else STUD_IFACE}")
         out.append(f"      toInstance: {theirs}")
