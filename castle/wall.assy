@@ -7,21 +7,6 @@ links:
   - part: //pub/universe/lego/ldraw/Brick:3010
     name: w_c0_0
     location: [[12.0, 9.6, 0.0], [0, 1, 0], 0]
-  - part: //pub/universe/lego/ldraw/Brick:3010
-    name: w_c0_1
-    location: [[44.0, 9.6, 0.0], [0, 1, 0], 0]
-  - part: //pub/universe/lego/ldraw/Brick:3010
-    name: w_c0_2
-    location: [[76.0, 9.6, 0.0], [0, 1, 0], 0]
-  - part: //pub/universe/lego/ldraw/Brick:3010
-    name: w_c0_3
-    location: [[108.0, 9.6, 0.0], [0, 1, 0], 0]
-  - part: //pub/universe/lego/ldraw/Brick:3010
-    name: w_c0_4
-    location: [[140.0, 9.6, 0.0], [0, 1, 0], 0]
-  - part: //pub/universe/lego/ldraw/Brick:3004
-    name: w_c0_5
-    location: [[164.0, 9.6, 0.0], [0, 1, 0], 0]
   - part: //pub/universe/lego/ldraw/Brick:3004
     name: w_c1_0
     connect:
@@ -39,12 +24,28 @@ links:
       to: //pub/universe/lego:stud
       toInstance: c2r0
   - part: //pub/universe/lego/ldraw/Brick:3010
+    name: w_c0_1
+    connect:
+      with: //pub/universe/lego:stud
+      withInstance: c0r0
+      name: w_c1_1
+      to: //pub/universe/lego:anti-stud
+      toInstance: c2r0
+  - part: //pub/universe/lego/ldraw/Brick:3010
     name: w_c1_2
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
       name: w_c0_1
       to: //pub/universe/lego:stud
+      toInstance: c2r0
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: w_c0_2
+    connect:
+      with: //pub/universe/lego:stud
+      withInstance: c0r0
+      name: w_c1_2
+      to: //pub/universe/lego:anti-stud
       toInstance: c2r0
   - part: //pub/universe/lego/ldraw/Brick:3010
     name: w_c1_3
@@ -55,6 +56,14 @@ links:
       to: //pub/universe/lego:stud
       toInstance: c2r0
   - part: //pub/universe/lego/ldraw/Brick:3010
+    name: w_c0_3
+    connect:
+      with: //pub/universe/lego:stud
+      withInstance: c0r0
+      name: w_c1_3
+      to: //pub/universe/lego:anti-stud
+      toInstance: c2r0
+  - part: //pub/universe/lego/ldraw/Brick:3010
     name: w_c1_4
     connect:
       with: //pub/universe/lego:anti-stud
@@ -63,12 +72,28 @@ links:
       to: //pub/universe/lego:stud
       toInstance: c2r0
   - part: //pub/universe/lego/ldraw/Brick:3010
+    name: w_c0_4
+    connect:
+      with: //pub/universe/lego:stud
+      withInstance: c0r0
+      name: w_c1_4
+      to: //pub/universe/lego:anti-stud
+      toInstance: c2r0
+  - part: //pub/universe/lego/ldraw/Brick:3010
     name: w_c1_5
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
       name: w_c0_4
       to: //pub/universe/lego:stud
+      toInstance: c2r0
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: w_c0_5
+    connect:
+      with: //pub/universe/lego:stud
+      withInstance: c0r0
+      name: w_c1_5
+      to: //pub/universe/lego:anti-stud
       toInstance: c2r0
   - part: //pub/universe/lego/ldraw/Brick:3004
     name: w_c2_0

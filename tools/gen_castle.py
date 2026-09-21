@@ -503,43 +503,73 @@ def _meeting(a, b):
     return None
 
 
-def _joints(items, unit_key=None):
-    """A joint for every part whose underside meets a stud already placed.
+def _ordered(items):
+    """The parts of one unit in an order where each one snaps to what is there.
 
-    Worked out from where the ports are rather than from the stud grid: a part
-    stands on another when one of its anti-studs is at the same point as one of
-    that part's studs. That is the whole test, and it is the same test for a
-    brick, a round brick and a cone, whatever grid their names imply.
+    A brick placed by coordinates is a brick nothing holds up, so the file wants
+    as few of those as it can manage - and course by course is the worst order
+    for that, because a unit's whole bottom course has nothing beneath it.
 
-    Only something already in the file may be stood on, because a joint may
-    only name a node placed before it; the first part of a unit therefore keeps
-    its coordinates, having nothing under it.
+    It does not have to go first. A brick joins to a stud under it *or* to an
+    anti-stud over it: put down one brick of the bottom course, then the brick
+    above that bridges it to its neighbour, and the neighbour then snaps up into
+    that bridge. Most of a course can be brought in that way, one at a time,
+    after the course above has given it something to hold on to.
+
+    So the order is grown rather than given: take whatever can be joined to what
+    is already down, and only when nothing can, put another part down by
+    coordinates and carry on. The original order breaks ties, so a unit that
+    needs no help is still written course by course.
     """
-    joints = {}
+    remaining = list(items)
     placed = []
-    for part, name, pos, _axis, ang in items:
-        mine = _world_ports(part, pos, ang, "anti")
+    out = []
+    while remaining:
+        for i, item in enumerate(remaining):
+            joint = _joint_to(item, placed)
+            if joint is not None:
+                out.append((item, joint))
+                placed.append((item[1], item[0], item[2], item[4]))
+                del remaining[i]
+                break
+        else:
+            # Nothing left can be joined to what is down: something has to be
+            # put where it goes and be the thing the next one holds on to.
+            item = remaining.pop(0)
+            out.append((item, None))
+            placed.append((item[1], item[0], item[2], item[4]))
+    return out
+
+
+def _joint_to(item, placed):
+    """How 'item' joins to something already placed, or None.
+
+    Both ways round: the part's anti-studs onto a stud already there, or its
+    studs up into an anti-stud already there. Which of the two is what the
+    order made available, and either is a joint.
+    """
+    part, _name, pos, _axis, ang = item
+    if ang or part in NO_ANTI_STUD:
+        # A brick laid across the one below is left on coordinates. The joint is
+        # expressible - 'anti-stud' carries 'turnZ' and a probe reproduces the
+        # placement exactly - but which anti-stud to name and which way to turn
+        # cannot be worked out from the geometry here: the pair that meet are
+        # found correctly and PartCAD still lands the brick a stud away, because
+        # where a turned part ends up depends on the roll of the port frames
+        # rather than on the offset of the port.
+        return None
+    for kind, theirs_kind in (("anti", "stud"), ("stud", "anti")):
+        mine = _world_ports(part, pos, ang, kind)
         for other, other_part, other_pos, other_ang in placed:
-            # A brick laid across the one under it is left on coordinates. The
-            # joint is expressible - 'anti-stud' carries 'turnZ' and a probe
-            # reproduces the placement exactly - but which anti-stud to name
-            # and which way to turn cannot be worked out from the geometry
-            # here: the pair that meet are found correctly (c0r0 on c2r0 for
-            # the keep's west wall, and they do coincide), and PartCAD still
-            # lands the brick a stud away, because where a turned part ends up
-            # depends on the roll of the port frames rather than on the offset
-            # of the port. Predicting it means repeating PartCAD's mate
-            # arithmetic here, and getting it wrong means a brick silently in
-            # the wrong place.
-            if ang or part in NO_ANTI_STUD:
-                break
-            theirs = _world_ports(other_part, other_pos, other_ang, "stud")
-            met = _meeting(mine, theirs)
+            met = _meeting(mine, _world_ports(other_part, other_pos, other_ang, theirs_kind))
             if met:
-                joints[name] = (other, met[0], met[1], ang)
-                break
-        placed.append((name, part, pos, ang))
-    return joints
+                return (kind, met[0], other, met[1])
+    return None
+
+
+def _joints(items):
+    """Every part of a unit, in build order, with how each one is joined."""
+    return _ordered(items)
 
 
 # --- writing the ASSY files -----------------------------------------------
@@ -686,38 +716,32 @@ def _fold(items, indent="  "):
     return out
 
 
-def _nodes_yaml(items, indent="  ", joints=None):
-    """The part nodes of one file: joined where they stand on something.
+def _nodes_yaml(ordered, indent="  "):
+    """The part nodes of one file, in the order they are put together.
 
-    A part with nothing under it - the first course of a unit - still has to be
-    put somewhere, so it keeps its coordinates. Everything above it names the
-    part and the stud it goes on instead, and a part laid across the one under
-    it says so with 'turnZ', which is the freedom a single stud really has.
+    A part that could be joined names the part and the port it joins to -
+    either its anti-stud onto a stud already there, or its stud up into an
+    anti-stud already there. A part that could not still has to be put
+    somewhere, so it keeps its coordinates.
 
-    Folding is for coordinates and has nothing to fold here, so a joined part is
-    written out one node at a time.
+    Folding is for coordinates and has nothing to fold in a joint, so a joined
+    part is written out one node at a time.
     """
-    joints = joints or {}
     out = []
-    for part, nm, pos, axis, ang in items:
-        joint = joints.get(nm)
+    for (part, nm, pos, axis, ang), joint in ordered:
         if joint is None:
             out.extend(_fold([("part", part, nm, pos, axis, ang)], indent))
             continue
-        other, mine, theirs, angle = joint
+        kind, mine, other, theirs = joint
+        with_iface = ANTI_IFACE if kind == "anti" else STUD_IFACE
+        to_iface = STUD_IFACE if kind == "anti" else ANTI_IFACE
         out.append(f"{indent}- part: {part}")
         out.append(f"{indent}  name: {nm}")
         out.append(f"{indent}  connect:")
-        out.append(f"{indent}    with: {ANTI_IFACE}")
+        out.append(f"{indent}    with: {with_iface}")
         out.append(f"{indent}    withInstance: {mine}")
-        if angle:
-            # 'turnZ' turns about the anti-stud's own Z, which points down into
-            # the part, so it runs the opposite way round from the angle a
-            # 'location:' states about +Y.
-            out.append(f"{indent}    withParams:")
-            out.append(f"{indent}      turnZ: {-angle}")
         out.append(f"{indent}    name: {other}")
-        out.append(f"{indent}    to: {STUD_IFACE}")
+        out.append(f"{indent}    to: {to_iface}")
         out.append(f"{indent}    toInstance: {theirs}")
     return out
 
@@ -736,7 +760,7 @@ def write_units(directory):
             "# file stand for every instance of it - and everything above that says the",
             "# brick and the stud it goes on.",
             "links:",
-            *_nodes_yaml(items, joints=_joints(items)),
+            *_nodes_yaml(_joints(items)),
         ]
         open(path, "w").write("\n".join(out) + "\n")
         print(f"  {path}: {len(items)} parts")

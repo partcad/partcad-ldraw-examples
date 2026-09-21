@@ -92,8 +92,8 @@ instead — which brick they sit on, and which stud of it:
 ```
 
 `//pub/universe/lego` declares the pair — a `stud` on top of a part and an
-`anti-stud` underneath — and PartCAD works the coordinates out. **200 of the 276
-part nodes** are joined that way.
+`anti-stud` underneath — and PartCAD works the coordinates out. **214 of the 276
+part nodes** are joined that way, in the order they are put together.
 
 Which two ports meet is decided by where they *are*, not by the stud grid the
 part's name implies, because for several of these parts the grid is not the
@@ -101,10 +101,20 @@ answer: a `Cone 2 x 2 x 2` has four anti-studs under it and a single stud on
 top, at its centre, and a `Cone 3 x 3 x 2` has nine and four. A joint picked by
 grid index puts such a part half a stud out.
 
-The remaining 76 keep coordinates, for two reasons:
+A brick joins downwards to a stud under it *or* upwards into an anti-stud over
+it, and that is what keeps the number of coordinates down. A unit's bottom
+course does not have to go first: put one brick of it down, add the brick above
+that bridges it to its neighbour, and the neighbour then snaps up into that
+bridge. So the order is grown rather than given — take whatever can be joined to
+what is already down, and only when nothing can, put another part down by
+coordinates. Most pieces need exactly one.
 
-* **52 are a unit's first course.** Nothing is under them to stand on; that is
-  what makes them the first course.
+The remaining 62 keep coordinates, for two reasons:
+
+* **38 have nothing placed to hold on to** at the point they are needed. One per
+  piece is the root it is all grown from; the rest are where a run is broken —
+  the keep's short courses, whose two sides are the turned bricks below, and the
+  merlons and bartizans that sit on a course belonging to another piece.
 * **24 are laid across the brick below.** The joint is expressible —
   `anti-stud` carries a `turnZ` parameter and a probe reproduces the placement
   exactly — but which anti-stud to name and which way to turn cannot be worked
