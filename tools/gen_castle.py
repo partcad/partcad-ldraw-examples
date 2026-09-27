@@ -53,6 +53,7 @@ BUTTRESS_TOP = 8  # buttresses stop just above the wall head
 # The keep is tall enough for two tiers of windows.
 KEEP_LANCETS = (4, 5, 6, 10, 11, 12)
 KEEP_SIZE = 6     # the keep's footprint, studs
+LANCET_BASE = 4   # the course a keep lancet starts at, within its piece
 
 # The gateway, in absolute stud columns of the south wall.
 GATE_FROM, GATE_TO = 11, 15
@@ -258,11 +259,12 @@ def keep(col, row, size, tag):
     place(CONE_1X1, f"{tag}_f1", col + (size - 1) / 2.0, row + (size - 1) / 2.0, KEEP_TOP + 3, 1, 1)
 
 
-def keep_head(col, row, size, tag):
+def keep_head(col, row, size, tag, base=0):
     """What finishes the keep: merlons between the corner turrets, a bartizan
-    at each corner, and the spire over the middle. Built at course KEEP_TOP,
-    which is course 0 of this piece."""
-    top = KEEP_TOP
+    at each corner, and the spire over the middle. It stands on the keep's last
+    course, so it is built as part of the piece that carries that course -
+    'base' is which course of that piece this is."""
+    top = KEEP_TOP - base
     for i in range(2, size - 2, 2):
         place(BRICK_1X1, f"{tag}_mS{i}", col + i, row, top, 1, 1)
         place(BRICK_1X1, f"{tag}_mN{i}", col + i, row + size - 1, top, 1, 1)
@@ -303,6 +305,31 @@ def gateway():
         run(course, GATE_FROM, 0, GATE_TO - GATE_FROM + 1, True, "gate_d", 0)
 
 
+def _keep_course(course):
+    """Which stretch of wall each side of the keep lays on this course.
+
+    The corners alternate. On an even course the south and north walls run the
+    whole width and the east and west fill in between them; on an odd course it
+    is the other way about. That is what ties the four walls into one: a brick
+    that spans a corner sits on one brick of each wall below it, and without it
+    the keep is four separate stacks that merely touch along their edges - which
+    is not a thing that holds together, however solid the picture looks.
+    """
+    if course % 2 == 0:
+        return {
+            "S": (0, 0, KEEP_SIZE, True),
+            "N": (0, KEEP_SIZE - 1, KEEP_SIZE, True),
+            "W": (0, 1, KEEP_SIZE - 2, False),
+            "E": (KEEP_SIZE - 1, 1, KEEP_SIZE - 2, False),
+        }
+    return {
+        "S": (1, 0, KEEP_SIZE - 2, True),
+        "N": (1, KEEP_SIZE - 1, KEEP_SIZE - 2, True),
+        "W": (0, 0, KEEP_SIZE, False),
+        "E": (KEEP_SIZE - 1, 0, KEEP_SIZE, False),
+    }
+
+
 def build_castle():
     E = SIZE - 1
     span = SIZE - 4  # the wall between the corner towers
@@ -339,32 +366,50 @@ def build_castle():
         for i in (0, 1):
             course = base + i
             offset = 2 if course % 2 else 0
-            lit = (2,) if course in lit_courses else ()
-            for side, (c, r, ln, horiz) in {
-                "S": (0, 0, KEEP_SIZE, True),
-                "N": (0, KEEP_SIZE - 1, KEEP_SIZE, True),
-                "W": (0, 1, KEEP_SIZE - 2, False),
-                "E": (KEEP_SIZE - 1, 1, KEEP_SIZE - 2, False),
-            }.items():
-                run(i, c, r, ln, horiz, f"{tag}{side}", offset, lit)
+            for side, (c, r, ln, horiz) in _keep_course(course).items():
+                # The lancet is a hole at a fixed place in the wall, so it is
+                # named by the cell it is at and turned into this run's own
+                # offset - which is not the same number on both courses, since
+                # they start in different places.
+                skip = ()
+                if course in lit_courses:
+                    at = (2 - c) if horiz else (3 - r)
+                    if 0 <= at < ln:
+                        skip = (at,)
+                run(i, c, r, ln, horiz, f"{tag}{side}", offset, skip)
 
     with unit("castle/keep-courses"):
         band("k", 0, ())
-    with unit("castle/keep-courses-lancets"):
-        band("k", 4, (4, 5))
-    with unit("castle/keep-courses-lancet-head"):
-        band("k", 6, (6,))
-    with unit("castle/keep-course-last"):
-        offset = 2 if (KEEP_TOP - 1) % 2 else 0
-        for side, (c, r, ln, horiz) in {
-            "S": (0, 0, KEEP_SIZE, True),
-            "N": (0, KEEP_SIZE - 1, KEEP_SIZE, True),
-            "W": (0, 1, KEEP_SIZE - 2, False),
-            "E": (KEEP_SIZE - 1, 1, KEEP_SIZE - 2, False),
-        }.items():
-            run(0, c, r, ln, horiz, f"k{side}", offset, ())
-    with unit("castle/keep-head"):
-        keep_head(0, 0, KEEP_SIZE, "keep")
+    # A lancet is a hole three courses tall, and the course above it is what
+    # closes it. Split across two pieces, each one is a wall with a gap in it
+    # and falls into a segment either side; taken together - the window and the
+    # course that caps it - the piece holds itself.
+    with unit("castle/keep-lancet"):
+        for i in range(4):
+            course = LANCET_BASE + i
+            offset = 2 if course % 2 else 0
+            for side, (c, r, ln, horiz) in _keep_course(course).items():
+                skip = ()
+                if i < 3:
+                    at = (2 - c) if horiz else (3 - r)
+                    if 0 <= at < ln:
+                        skip = (at,)
+                run(i, c, r, ln, horiz, f"k{side}", offset, skip)
+    # The keep is an odd number of courses tall, so one course is always left
+    # over. It does not get a piece of its own: a single course is six bricks
+    # laid side by side, and nothing in it holds anything else - an assembly
+    # that falls apart the moment it is picked up is not an assembly. It goes on
+    # the end of the piece below instead, which makes that one three courses.
+    with unit("castle/keep-top"):
+        for i in range(3):
+            course = KEEP_TOP - 3 + i
+            offset = 2 if course % 2 else 0
+            for side, (c, r, ln, horiz) in _keep_course(course).items():
+                run(i, c, r, ln, horiz, f"k{side}", offset, ())
+        # What finishes the keep stands on the course this piece ends with, so
+        # it belongs to this piece. On its own it was a crown of merlons and
+        # four turrets with nothing under any of them.
+        keep_head(0, 0, KEEP_SIZE, "keep", base=KEEP_TOP - 3)
 
     # --- and where each one goes ------------------------------------------
     put("castle/wall-gate", "wallS", 2, 0, 0)
@@ -401,14 +446,11 @@ def build_castle():
         put("castle/buttress", f"buttW{r}", -1, r, 0)
         put("castle/buttress", f"buttE{r}", SIZE, r, 0)
 
-    for i, base in enumerate((0, 2, 8, 14)):
+    for i, base in enumerate((0, 2, 8)):
         put("castle/keep-courses", f"keepC{base}", 10, 10, base)
     for base in (4, 10):
-        put("castle/keep-courses-lancets", f"keepL{base}", 10, 10, base)
-    for base in (6, 12):
-        put("castle/keep-courses-lancet-head", f"keepH{base}", 10, 10, base)
-    put("castle/keep-course-last", "keepLast", 10, 10, KEEP_TOP - 1)
-    put("castle/keep-head", "keepHead", 10, 10, 0)
+        put("castle/keep-lancet", f"keepL{base}", 10, 10, base)
+    put("castle/keep-top", "keepTop", 10, 10, KEEP_TOP - 3)
 
 
 # --- joining the bricks to each other --------------------------------------
@@ -549,16 +591,28 @@ def _joint_to(item, placed):
     if part in NO_ANTI_STUD:
         return None
     for kind, theirs_kind in (("anti", "stud"), ("stud", "anti")):
-        mine = _world_ports(part, pos, ang, kind)
+        mine = {i: (p, ang) for i, p in _world_ports(part, pos, ang, kind).items()}
         for other, other_part, other_pos, other_ang in placed:
-            met = _meeting(mine, _world_ports(other_part, other_pos, other_ang, theirs_kind))
-            if met:
-                # What the joint has to turn is the difference between the two
-                # parts, not how either of them lies. A brick laid across the
-                # castle's grid, on a brick laid the same way, is not turned
-                # relative to what it sits on and needs no turn at all - which
-                # is most of the keep, where a whole wall runs across.
-                return (kind, met[0], other, met[1], (ang - other_ang) % 360)
+            theirs = {
+                i: (p, other_ang)
+                for i, p in _world_ports(other_part, other_pos, other_ang, theirs_kind).items()
+            }
+            # What the joint has to turn is the difference between the two
+            # parts, not how either of them lies: a brick laid across the grid,
+            # on a brick laid the same way, is not turned relative to what it
+            # sits on. Where the two do lie differently - which is what bonding
+            # the keep's corners makes happen - the pair that lies square is
+            # preferred, because a turn pivots about the port it is named
+            # against and the two are not interchangeable.
+            met = _meeting_square(mine, theirs)
+            # Only a pair that lies square. A turned joint is expressible -
+            # 'anti-stud' carries 'turnZ' - but where it lands depends on which
+            # port it is named against as well as on the angle, and neither the
+            # sign nor the pivot can be worked out from the geometry here:
+            # every rule tried put some brick a stud from where it belongs.
+            # Coordinates that are merely silent beat a joint that lies.
+            if met and not met[2]:
+                return (kind, met[0], other, met[1], 0)
     return None
 
 

@@ -54,11 +54,9 @@ rather than a rebuild; 273 parts are described instead of 732.
 | `castle/tower-corner` | 15 | 4 | the body of a corner tower |
 | `castle/tower-mural` | 12 | 3 | the body of a tower standing along a wall |
 | `castle/tower-gate` | 13 | 2 | the body of one of the gatehouse pair |
-| `castle/keep-courses` | 14 | 4 | two courses of the keep, the second breaking joint against the first |
-| `castle/keep-courses-lancets` | 20 | 2 | two courses of the keep, both cut by a lancet |
-| `castle/keep-courses-lancet-head` | 18 | 2 | the two courses a lancet ends in |
-| `castle/keep-course-last` | 6 | 1 | the keep's last course, carrying the parapet |
-| `castle/keep-head` | 27 | 1 | merlons, a bartizan at each corner, and the spire |
+| `castle/keep-courses` | 14 | 3 | two courses of the keep, the second breaking joint against the first |
+| `castle/keep-lancet` | 38 | 2 | four courses: a lancet, and the course that closes it |
+| `castle/keep-top` | 47 | 1 | the keep's last three courses, its merlons, four bartizans and the spire |
 
 Each is a PartCAD assembly in its own right, so any of them can be looked at,
 rendered or built alone:
@@ -92,7 +90,7 @@ instead — which brick they sit on, and which stud of it:
 ```
 
 `//pub/universe/lego` declares the pair — a `stud` on top of a part and an
-`anti-stud` underneath — and PartCAD works the coordinates out. **224 of the 273
+`anti-stud` underneath — and PartCAD works the coordinates out. **254 of the 287
 part nodes** are joined that way, in the order they are put together.
 
 Which two ports meet is decided by where they *are*, not by the stud grid the
@@ -113,20 +111,17 @@ Each piece's **first brick says nothing at all** — no coordinates and no joint
 It is the piece's own origin, and where that goes is for whatever places the
 piece to decide, so saying it here would be saying it twice.
 
-The remaining 37 keep coordinates. They are where a run is genuinely broken — the keep's short courses,
-the merlons and bartizans that sit on a course belonging to another piece, the
-gateway's corbelled arch, and the two stacked `Cone 2 x 2 x 2` of a spire, whose
-single top stud meets an underside that declares no anti-stud at its centre.
+The remaining 23 keep coordinates, and all of them are in the keep. Where a
+piece's parts touch, they are joined; a part is left on coordinates only where
+the joint would have to be a *turned* one — a brick meeting another that lies
+the other way, which is what bonding the keep's corners creates. Such a joint is
+expressible (`anti-stud` carries a `turnZ` parameter) but where it lands depends
+on the port it is named against as well as on the angle, and neither could be
+worked out reliably here: every rule tried put some brick a stud from where it
+belongs. Coordinates that are merely silent beat a joint that lies.
 
-No joint here needs a turn, which was a surprise. A brick laid across the castle's
-grid *looks* like it needs one, and the keep is full of them — but what a joint
-has to turn is the difference between the two parts, not how either of them lies,
-and in the keep the brick below runs across too. The turn is zero and the bricks
-are joined like any other. (`anti-stud` carries a `turnZ` parameter for the case
-where it is not.)
-
-The model is geometrically identical either way: every one of the 732 parts ends
-up where it did before, to the last decimal.
+Every part is where the model says it should be: each piece was instantiated
+and every part compared against its intended place, and none of the 287 differs.
 
 ### The pieces join each other too
 

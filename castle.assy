@@ -337,68 +337,36 @@ links:
       withInstance: kE_c0_0-anti-c0r0
       name: keepC0
       to: //pub/universe/lego:stud
-      toInstance: kE_c1_1-stud-c0r0
-  - assembly: castle/keep-courses-lancets
+      toInstance: kE_c1_1-stud-c1r0
+  - assembly: castle/keep-lancet
     name: keepL4
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: kE_c0_0-anti-c0r0
       name: keepC2
       to: //pub/universe/lego:stud
-      toInstance: kE_c1_0-stud-c0r0
-  - assembly: castle/keep-courses-lancet-head
-    name: keepH6
-    connect:
-      with: //pub/universe/lego:anti-stud
-      withInstance: kE_c0_0-anti-c0r0
-      name: keepL4
-      to: //pub/universe/lego:stud
-      toInstance: kE_c1_0-stud-c0r0
+      toInstance: kE_c1_1-stud-c3r0
   - assembly: castle/keep-courses
     name: keepC8
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: kE_c0_0-anti-c0r0
-      name: keepH6
+      name: keepL4
       to: //pub/universe/lego:stud
-      toInstance: kE_c1_1-stud-c0r0
-  - assembly: castle/keep-courses-lancets
+      toInstance: kE_c3_1-stud-c1r0
+  - assembly: castle/keep-lancet
     name: keepL10
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: kE_c0_0-anti-c0r0
       name: keepC8
       to: //pub/universe/lego:stud
-      toInstance: kE_c1_0-stud-c0r0
-  - assembly: castle/keep-courses-lancet-head
-    name: keepH12
+      toInstance: kE_c1_1-stud-c3r0
+  - assembly: castle/keep-top
+    name: keepTop
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: kE_c0_0-anti-c0r0
       name: keepL10
       to: //pub/universe/lego:stud
-      toInstance: kE_c1_0-stud-c0r0
-  - assembly: castle/keep-courses
-    name: keepC14
-    connect:
-      with: //pub/universe/lego:anti-stud
-      withInstance: kE_c0_0-anti-c0r0
-      name: keepH12
-      to: //pub/universe/lego:stud
-      toInstance: kE_c1_1-stud-c0r0
-  - assembly: castle/keep-course-last
-    name: keepLast
-    connect:
-      with: //pub/universe/lego:anti-stud
-      withInstance: kE_c0_0-anti-c0r0
-      name: keepC14
-      to: //pub/universe/lego:stud
-      toInstance: kE_c1_1-stud-c0r0
-  - assembly: castle/keep-head
-    name: keepHead
-    connect:
-      with: //pub/universe/lego:anti-stud
-      withInstance: keep_mN2-anti-c0r0
-      name: keepLast
-      to: //pub/universe/lego:stud
-      toInstance: kN_c0_0-stud-c2r0
+      toInstance: kE_c3_1-stud-c1r0

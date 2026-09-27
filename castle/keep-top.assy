@@ -1,0 +1,341 @@
+# castle/keep-top: one of the pieces 'castle' is assembled from, built once here
+# and placed wherever it occurs. The piece's own origin is the first brick
+# of it, which is why that one says no coordinates: where it goes is for
+# whatever places the piece to decide. Everything after it names the brick
+# and the stud it goes on.
+links:
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: kS_c0_0
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kS_c1_0
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kS_c0_0
+      to: //pub/universe/lego:stud
+      toInstance: c1r0
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kS_c1_1
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kS_c0_0
+      to: //pub/universe/lego:stud
+      toInstance: c3r0
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kS_c0_1
+    connect:
+      with: //pub/universe/lego:stud
+      withInstance: c0r0
+      name: kS_c1_1
+      to: //pub/universe/lego:anti-stud
+      toInstance: c1r0
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: kS_c2_0
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c1r0
+      name: kS_c1_0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kS_c2_1
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kS_c1_1
+      to: //pub/universe/lego:stud
+      toInstance: c1r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_mS2
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kS_c2_0
+      to: //pub/universe/lego:stud
+      toInstance: c2r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_sw_c3
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kS_c2_0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_sw_c4
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_sw_c3
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_sw_c5
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_sw_c4
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_sw_p0
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_sw_c5
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_sw_p1
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_sw_p0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_se_c3
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kS_c2_1
+      to: //pub/universe/lego:stud
+      toInstance: c1r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_se_c4
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_se_c3
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_se_c5
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_se_c4
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_se_p0
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_se_c5
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_se_p1
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_se_p0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: kN_c0_0
+    location: [[0.0, 0.0, 40.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kN_c1_0
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kN_c0_0
+      to: //pub/universe/lego:stud
+      toInstance: c1r0
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kN_c1_1
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kN_c0_0
+      to: //pub/universe/lego:stud
+      toInstance: c3r0
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kN_c0_1
+    connect:
+      with: //pub/universe/lego:stud
+      withInstance: c0r0
+      name: kN_c1_1
+      to: //pub/universe/lego:anti-stud
+      toInstance: c1r0
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: kN_c2_0
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c1r0
+      name: kN_c1_0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kN_c2_1
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kN_c1_1
+      to: //pub/universe/lego:stud
+      toInstance: c1r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_mN2
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kN_c2_0
+      to: //pub/universe/lego:stud
+      toInstance: c2r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_nw_c3
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kN_c2_0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_nw_c4
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_nw_c3
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_nw_c5
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_nw_c4
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_nw_p0
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_nw_c5
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_nw_p1
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_nw_p0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_ne_c3
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kN_c2_1
+      to: //pub/universe/lego:stud
+      toInstance: c1r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_ne_c4
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_ne_c3
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_ne_c5
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_ne_c4
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_ne_p0
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_ne_c5
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_ne_p1
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_ne_p0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: kW_c0_0
+    location: [[-12.0, 0.0, 20.0], [0, 1, 0], 90]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kW_c1_0
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kW_c0_0
+      to: //pub/universe/lego:stud
+      toInstance: c3r0
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: kW_c1_1
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c1r0
+      name: kW_c0_0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: kW_c2_0
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c3r0
+      name: kW_c1_0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: kE_c0_0
+    location: [[28.0, 0.0, 20.0], [0, 1, 0], 90]
+  - part: //pub/universe/lego/ldraw/Brick:3004
+    name: kE_c1_0
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: kE_c0_0
+      to: //pub/universe/lego:stud
+      toInstance: c3r0
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: kE_c1_1
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c1r0
+      name: kE_c0_0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3010
+    name: kE_c2_0
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c3r0
+      name: kE_c1_0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_mW2
+    location: [[-12.0, 28.8, 16.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Brick:3005
+    name: keep_mE2
+    location: [[28.0, 28.8, 16.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Cone:6233
+    name: keep_spire
+    location: [[8.0, 38.4, 20.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_f0
+    location: [[8.0, 48.0, 20.0], [0, 1, 0], 0]
+  - part: //pub/universe/lego/ldraw/Cone:4589
+    name: keep_f1
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: c0r0
+      name: keep_f0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0

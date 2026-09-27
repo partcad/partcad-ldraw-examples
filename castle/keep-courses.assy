@@ -13,15 +13,15 @@ links:
       withInstance: c0r0
       name: kS_c0_0
       to: //pub/universe/lego:stud
-      toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+      toInstance: c1r0
+  - part: //pub/universe/lego/ldraw/Brick:3004
     name: kS_c1_1
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
       name: kS_c0_0
       to: //pub/universe/lego:stud
-      toInstance: c2r0
+      toInstance: c3r0
   - part: //pub/universe/lego/ldraw/Brick:3004
     name: kS_c0_1
     connect:
@@ -29,7 +29,7 @@ links:
       withInstance: c0r0
       name: kS_c1_1
       to: //pub/universe/lego:anti-stud
-      toInstance: c2r0
+      toInstance: c1r0
   - part: //pub/universe/lego/ldraw/Brick:3010
     name: kN_c0_0
     location: [[0.0, 0.0, 40.0], [0, 1, 0], 0]
@@ -40,15 +40,15 @@ links:
       withInstance: c0r0
       name: kN_c0_0
       to: //pub/universe/lego:stud
-      toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+      toInstance: c1r0
+  - part: //pub/universe/lego/ldraw/Brick:3004
     name: kN_c1_1
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
       name: kN_c0_0
       to: //pub/universe/lego:stud
-      toInstance: c2r0
+      toInstance: c3r0
   - part: //pub/universe/lego/ldraw/Brick:3004
     name: kN_c0_1
     connect:
@@ -56,7 +56,7 @@ links:
       withInstance: c0r0
       name: kN_c1_1
       to: //pub/universe/lego:anti-stud
-      toInstance: c2r0
+      toInstance: c1r0
   - part: //pub/universe/lego/ldraw/Brick:3010
     name: kW_c0_0
     location: [[-12.0, 0.0, 20.0], [0, 1, 0], 90]
@@ -67,12 +67,12 @@ links:
       withInstance: c0r0
       name: kW_c0_0
       to: //pub/universe/lego:stud
-      toInstance: c2r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+      toInstance: c3r0
+  - part: //pub/universe/lego/ldraw/Brick:3010
     name: kW_c1_1
     connect:
       with: //pub/universe/lego:anti-stud
-      withInstance: c0r0
+      withInstance: c1r0
       name: kW_c0_0
       to: //pub/universe/lego:stud
       toInstance: c0r0
@@ -86,12 +86,12 @@ links:
       withInstance: c0r0
       name: kE_c0_0
       to: //pub/universe/lego:stud
-      toInstance: c2r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+      toInstance: c3r0
+  - part: //pub/universe/lego/ldraw/Brick:3010
     name: kE_c1_1
     connect:
       with: //pub/universe/lego:anti-stud
-      withInstance: c0r0
+      withInstance: c1r0
       name: kE_c0_0
       to: //pub/universe/lego:stud
       toInstance: c0r0

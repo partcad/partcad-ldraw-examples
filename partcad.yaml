@@ -64,33 +64,21 @@ assemblies:
     type: assy
     map:
       kE_c0_0-anti-c0r0: [kE_c0_0, //pub/universe/lego:anti-stud, c0r0]
-      kE_c1_0-stud-c0r0: [kE_c1_0, //pub/universe/lego:stud, c0r0]
-      kE_c1_1-stud-c0r0: [kE_c1_1, //pub/universe/lego:stud, c0r0]
+      kE_c1_1-stud-c1r0: [kE_c1_1, //pub/universe/lego:stud, c1r0]
+      kE_c1_1-stud-c3r0: [kE_c1_1, //pub/universe/lego:stud, c3r0]
       kN_c0_0-anti-c0r0: [kN_c0_0, //pub/universe/lego:anti-stud, c0r0]
     desc: "Two courses of the keep's masonry, the second breaking joint against the first"
-  castle/keep-courses-lancets:
+  castle/keep-lancet:
     type: assy
     map:
       kE_c0_0-anti-c0r0: [kE_c0_0, //pub/universe/lego:anti-stud, c0r0]
-      kE_c1_0-stud-c0r0: [kE_c1_0, //pub/universe/lego:stud, c0r0]
-    desc: "Two courses of the keep, both cut by a lancet"
-  castle/keep-courses-lancet-head:
+      kE_c3_1-stud-c1r0: [kE_c3_1, //pub/universe/lego:stud, c1r0]
+    desc: "Four courses of the keep, the lancets in them and the course that closes them"
+  castle/keep-top:
     type: assy
     map:
       kE_c0_0-anti-c0r0: [kE_c0_0, //pub/universe/lego:anti-stud, c0r0]
-      kE_c1_1-stud-c0r0: [kE_c1_1, //pub/universe/lego:stud, c0r0]
-    desc: "The two courses a lancet ends in"
-  castle/keep-course-last:
-    type: assy
-    map:
-      kE_c0_0-anti-c0r0: [kE_c0_0, //pub/universe/lego:anti-stud, c0r0]
-      kN_c0_0-stud-c2r0: [kN_c0_0, //pub/universe/lego:stud, c2r0]
-    desc: "The keep's last course, carrying the parapet"
-  castle/keep-head:
-    type: assy
-    map:
-      keep_mN2-anti-c0r0: [keep_mN2, //pub/universe/lego:anti-stud, c0r0]
-    desc: "What finishes the keep - merlons, a bartizan at each corner, and the spire"
+    desc: "What the keep ends with - its last three courses, the merlons, a bartizan at each corner, and the spire"
   castle:
     type: assy
     path: castle.assy
