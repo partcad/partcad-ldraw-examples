@@ -157,10 +157,14 @@ baseplate, and the library has one big enough — `Baseplate 32 x 32` (3811), wi
 1024 studs, against a castle that covers 30 × 30. So the castle sits on one, and
 every piece that reaches the ground is joined to it.
 
-**Every one of the 48 pieces is joined.** The baseplate is the only thing in
-`castle.assy` placed by coordinates, and it is placed where its own studs fall on
-the castle's grid: a 32-stud plate has its studs at half-stud offsets from its
-middle, so its centre has to sit on one too, or nothing on it would line up.
+**Every one of the 48 pieces is joined**, and the baseplate — the one thing
+nothing holds up, because everything is on it — says no coordinates either.
+Where it goes decides nothing: every other node is placed relative to it.
+
+Its coordinates are kept beside it as a comment. They are worth having only when
+somebody is reading the numbers by hand, when it helps that the grid runs on
+whole studs from a known corner; uncomment for that and comment it out again
+afterwards.
 
 Two subtleties are worth knowing, because both bit. A piece is joined through a
 port of a brick inside it, and that brick may be laid across the piece's own grid

@@ -978,11 +978,21 @@ def write(path, name, header):
         out.append(f"  - {'part' if u == BASEPLATE else 'assembly'}: {u}")
         out.append(f"    name: {nm}")
         if joint is None:
-            # Unlike a piece, whose frame is its own business, the castle's
-            # pieces are placed against one grid: leaving the first one's
-            # coordinates out would move it and nothing else.
+            # The one thing nothing holds up, because everything is on it. Where
+            # it goes decides nothing about the product - every other node is
+            # placed relative to this one - so it says nothing, and the castle
+            # is built around wherever PartCAD puts it.
+            #
+            # The coordinates it *would* have are kept as a comment. They are
+            # worth having only when somebody is reading the numbers by hand:
+            # with them, the grid runs on whole studs from a known corner and a
+            # part's position can be checked by eye against the plan. Uncomment
+            # for that and comment it out again afterwards.
             where = _shifted_by(pos, origins.get(u, (0, 0, 0)), ang)
-            out.append(f"    location: [[{where[0]}, {where[1]}, {where[2]}], [0, 1, 0], {ang}]")
+            out.append(
+                f"    # location: [[{where[0]}, {where[1]}, {where[2]}], [0, 1, 0], {ang}]"
+                "   # uncomment to read coordinates off the stud grid"
+            )
             continue
         # A mapped interface instance keeps the interface it came from - the
         # map names the instance, not the kind - so the connection names the

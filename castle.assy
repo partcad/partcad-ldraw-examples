@@ -13,7 +13,7 @@ location: [[0, 0, 0], [1, 0, 0], 90]
 links:
   - part: //pub/universe/lego/ldraw/Baseplate:3811
     name: baseplate
-    location: [[100.0, 0.0, 100.0], [0, 1, 0], 0]
+    # location: [[100.0, 0.0, 100.0], [0, 1, 0], 0]   # uncomment to read coordinates off the stud grid
   - assembly: castle/wall-gate
     name: wallS
     connect:
