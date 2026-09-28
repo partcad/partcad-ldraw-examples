@@ -205,23 +205,162 @@ the bays leave room for them, the loop runs over a table of placements instead.
 Between them the thirteen files are **321 nodes of YAML for a 732-part model**,
 and every one of those 732 parts is still a step of its own.
 
+## f1
+
+A Formula 1 car in LEGO Technic that drives, steers and rides on springs, with
+its Power Functions electrics and the IR remote control beside it.
+
+<table><tr>
+<td valign=top><a href="./images/f1-iso.png"><img src="./images/f1-iso.png" alt="The car from the front right, above" width="420"></a></td>
+<td valign=top><a href="./images/f1-right.png"><img src="./images/f1-right.png" alt="The car from its right side" width="420"></a></td>
+</tr><tr>
+<td valign=top><a href="./images/f1-front.png"><img src="./images/f1-front.png" alt="The car nose-on" width="420"></a></td>
+<td valign=top><a href="./images/f1-top.png"><img src="./images/f1-top.png" alt="The car from above" width="420"></a></td>
+</tr></table>
+
+| | what does it | how |
+| --- | --- | --- |
+| drive | `Electric:58121` XL motor | a 12-tooth double bevel (`Technic:32270`) on its output turns the crown of a differential (`Technic:62821`) between two half axles |
+| steering | `Electric:99498` servo | stands behind the front axle, output down; an arm on its output pushes a track rod pinned into both knuckles |
+| power | `Electric:58119` battery box | across the car between the side frames, pinned into both by the four holes in each of its ends |
+| control | `Electric:58123` IR receiver | the airbox, over the motor |
+| | `Electric:58122` IR remote control | beside the car |
+| front suspension | double wishbones | two `Technic Beam 5` a side; a cross block (`Technic:6536`) on the end of each holds an upright kingpin, and a knuckle (`Technic:32557`) turns on it, carrying the stub axle in a round hole; a shock absorber from the upper wishbone to a crossbeam |
+| rear suspension | a swinging subframe | the motor, the differential and both half axles are one subframe, pivoting on an axle across the chassis ahead of the motor and held up by a shock absorber under each of two towers |
+
+211 parts, 31 distinct:
+
+```shell
+pc inspect -a f1                # the car and its remote
+pc inspect -a f1/car            # the car alone
+pc render -a -t png --viewport-origin 10000,-10000,10000 --viewport-up 0,0,1 f1
+```
+
+The pictures above are rendered from 10 m away along each axis
+(`--viewport-origin 0,-10000,0` for the front, `10000,0,0` for the right side,
+`0,0,10000` with `--viewport-up 0,1,0` from above) rather than with `--view`. A
+named view is a camera point 100 mm off the origin aimed at the object's centre,
+which for a car 44 cm long is close enough to see it from an angle: `--view
+right` of this car is not a side view.
+
+It is not small - 44 cm from the back of the rear tyres to the tip of
+the nose, 19.5 cm across the rear wheels - and that is what fitting a battery box,
+an XL motor, a servo and a receiver takes, with suspension at both ends.
+
+### The pieces it is built from
+
+`f1` is the car and the remote beside it; `f1/car` is the car, and the car is
+eleven pieces under `f1/`. Only the sidepod occurs twice - the car is symmetric
+but the two front corners are mirror images, and a mirror image is not the same
+assembly turned round - so the split is by what the car is made of rather than
+by repetition: each piece is a thing that can be built and looked at on its own.
+
+| piece | parts | used | |
+| --- | --- | --- | --- |
+| `f1/chassis` | 71 | 1 | two side frames of `Technic Beam 15`, the posts and shock towers at the back, the nose rails and the bulkheads the wishbones pivot on |
+| `f1/drivetrain` | 34 | 1 | the rear subframe: motor, pinion, differential, half axles, rear wheels and shocks |
+| `f1/front-right`, `f1/front-left` | 15 | 1 each | wishbones, kingpin, knuckle, front wheel and shock |
+| `f1/front-wing`, `f1/rear-wing` | 16 | 1 each | two slats on edge between two endplates, on two pylons |
+| `f1/nose` | 12 | 1 | a cross axle between the nose rails, a crossbeam, and a pair of long fairings as the cone |
+| `f1/battery` | 9 | 1 | the battery box and the eight pins that hold it |
+| `f1/steering` | 9 | 1 | servo, arm and track rod |
+| `f1/airbox` | 3 | 1 | the IR receiver and its pins |
+| `f1/sidepod` | 3 | 2 | a smooth panel pinned to the upper side rail |
+
+With the five items that sit in the top files themselves - the pins joining the
+tops of the front shocks to their crossbeam and the knuckles to the track rod,
+which belong to neither piece they join, and the remote - that is
+71 + 34 + 2 x 15 + 2 x 16 + 12 + 9 + 9 + 3 + 2 x 3 + 5 = 211.
+
+### Joined, all of it
+
+**Every part of the car is joined through its ports.** Nothing in `f1/car` is
+placed by coordinates: each part names the port of its own and the port of an
+earlier part that it is put onto, the way the castle's bricks name the stud they
+sit on. The chassis's first beam is the car's origin, and the car's own
+`location:` is that beam's pose turned into PartCAD's Z-up world - which is what
+puts the ground at z = 0, the nose towards -Y and the car's right towards +X.
+(It is also what went wrong first: turning the car into Z-up and nothing else
+leaves it lying the way that beam lies.)
+
+The remote control is the one item placed by coordinates, in `f1` beside the
+car, because nothing joins a handset to the car it drives. PartCAD's
+connectivity check would rightly refuse it among parts that connect, which is
+why the car is an assembly of its own.
+
+Which parts need a turn or a push along their axis is what the interfaces allow
+and nothing else: a pin turns in a round hole (`turnZ`), an axle slides through
+one (`moveZ`), and a stud turns on an anti-stud. An axle hole takes no turn, so a
+part on an axle takes whatever roll the axle has - fine for a bush or a wheel,
+and not for a cross block, whose pin hole has to be where the design put it. For
+those the axle itself is turned, in the round hole it went into.
+
+Two contacts are true of the geometry without being a joint, because no
+interface says them: the pinion's mesh with the differential's crown (the crown
+has no gear ports, and the pinion's describe a spur mesh, not a bevel one), and
+the left half axle's end inside the differential, which is joined to the right
+one. The bevel gears inside it, which the two ends would turn, are not
+modelled.
+
+### How it was made, and checked
+
+`tools/gen_f1.py` writes every file of the car and the `f1` block of
+`partcad.yaml`; nothing under `f1/` is edited by hand. It designs each part at
+the pose it should have, then looks for a port of the new part and a port of the
+part it goes onto that are at the same point, facing each other, and have
+interfaces that mate; that pair becomes the `connect:`. The pose PartCAD will
+compute from it - the target port turned around, offset by the joint's
+parameters, the part's own port undone - is computed there with the same rule,
+and has to come out exactly where the part was designed to be. A part with no
+such pair is an error, and the design changes until it has one. The ports come
+from `//pub/universe/lego`'s own index, so a joint the package does not serve
+cannot be written.
+
+The result was then checked the way the `gen-assembly` skill asks: PartCAD
+instantiated `f1`, the tree was walked down to its 211 parts composing every
+transform, and each part's world placement was compared with the generator's as a
+multiset. All 211 agree, rotations included.
+
+It needed two things from `//pub/universe/lego/ldraw` that it did not have. One
+is the axle hole of a cross block: LDraw draws the bush of a cross block as a
+primitive with the hole inside it, which the package's geometry walk never
+opens, so `Technic:6536`, "Cross Block 1 x 2 (Axle/Pin)", came with its pin hole
+and not its axle hole - and every kingpin, nose block and wing mount here is
+one. The package reads that primitive now, and 47 parts gained an axle hole. The
+other is that one end of an axle may carry several parts: a half axle here
+carries two beams, two bushes and a wheel, each joined to its end at its own
+`moveZ`, and PartCAD's connectivity test reported them as crowding one port
+until `technic-axle` said `multiConnect: true`.
+
+Every piece passes `pc test -f connect`, `connectivity`, `validity`,
+`degenerate`, `solidity`, `shell` and `manufacturability` on its own as well as
+inside the car.
+
+### What it leaves out
+
+* **The cables.** In the real thing the motor's and the servo's leads go to the
+  receiver, and the receiver's to the battery box, routed wherever there is
+  room. Nothing about a port says where that is, and none is placed.
+* **Travel.** It is a static pose: the wheels straight ahead, the suspension
+  settled. The shocks are LDraw's 10L damped shock *compressed* (`76320-f2`),
+  whose eyes are six studs apart, so that each one lands on the stud grid.
+
 ## A note on interference
 
-Every part here is placed by `location:` rather than joined by `connect:`, and a
-LEGO stud is *meant* to occupy the part above it — that interference is what
-makes bricks grip. So `partcad.test.interference` has something true to report
-about almost every pair in the model, and nowhere to read that it is intended:
-an overlap which is meant to be there is stated on the joint that causes it, and
-coordinates are not a joint.
+A LEGO stud is *meant* to occupy the part above it, and a Technic pin the hole
+it is in — that interference is what makes the parts grip. So
+`partcad.test.interference` has something true to report about almost every
+joint in both models, and nowhere to read that it is intended: an overlap which
+is meant to be there is stated on the joint that causes it, and these joints do
+not say so.
 
 Nothing here turns the check off. The package is `manufacturable: false` —
-nobody is ordering a castle — and that is what makes interference report what it
-finds rather than fail on it. Giving it a threshold high enough to swallow a
+nobody is ordering a castle, or this car — and that is what makes interference
+report what it finds rather than fail on it. Giving it a threshold high enough to swallow a
 stud would be worse than either: that floor is a rounding tolerance, and making
 it carry this would be a number pretending to be one.
 
-What would make the check meaningful is the stud / anti-stud mating in
-`//pub/universe/lego/ldraw` declaring `snapIn: true` — a stud in an anti-stud is
-an interference fit wherever it occurs — and this assembly being generated with
-`connect:` so each brick is joined to the one it sits on. Both are worth doing
-and neither is done yet.
+What would make the check meaningful is the matings in
+`//pub/universe/lego/ldraw` declaring `snapIn: true` — a stud in an anti-stud, and a pin or an axle in a hole,
+are interference fits wherever they occur. Both models are joined through those
+interfaces, so that declaration is all that is missing, and it is not made yet.
