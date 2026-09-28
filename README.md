@@ -106,8 +106,7 @@ it, and that is what keeps the number of coordinates down. A unit's bottom
 course does not have to go first: put one brick of it down, add the brick above
 that bridges it to its neighbour, and the neighbour then snaps up into that
 bridge. So the order is grown rather than given — take whatever can be joined to
-what is already down, and only when nothing can, put another part down by
-coordinates. Most pieces need exactly one.
+what is already down.
 
 Each piece's **first brick says nothing at all** — no coordinates and no joint.
 It is the piece's own origin, and where that goes is for whatever places the
@@ -133,6 +132,53 @@ was a fault in the model rather than a limit of the format:
   below at both ends — and a spire built the way the towers' are, since a 3 x 3
   cone cannot be centred on a 6 x 6 keep and was sitting half a stud off the
   grid.
+
+### The pieces join each other too, and the whole thing stands on a plate
+
+A piece is placed by coordinates for the same reason a brick was: nothing says
+what holds it. So each piece externalizes the ports it is joined by, with `map:`:
+
+```yaml
+assemblies:
+  castle/spire:
+    type: assy
+    map:
+      spire_s0-anti-c0r0: [spire_s0, //pub/universe/lego:anti-stud, c0r0]
+```
+
+A name of the piece's choosing, against the node inside it, the interface that
+node implements, and the instance. The interface is not renamed — it is a
+contract — but the instance name is the piece's to pick.
+
+The walls, towers and buttresses were the hard case: they all stand on the
+ground side by side, and a stud joins what is above to what is below, so edge to
+edge there is nothing to join them by. LEGO's own answer is a baseplate, and the
+library has one big enough — `Baseplate 32 x 32` (3811), 1024 studs against a
+castle covering 30 × 30. Every piece that reaches the ground is joined to it.
+
+So the baseplate says nothing at all: where it goes decides nothing, since every
+other node is placed relative to it, and where the castle as a whole sits is the
+container's to say.
+
+### The one `location:` left, and why it stays
+
+```yaml
+name: castle
+location: [[0, 0, 0], [1, 0, 0], 90]   # set the offset to [100.0, -100.0, 0.0] to read coordinates off the stud grid
+```
+
+One `location:` in the whole model, on the container, and it is a **turn rather
+than a place**. LDraw draws its parts Y-up and PartCAD's world is Z-up: without
+it the castle lies on its side, its baseplate standing up like a wall, and
+`front`, `top`, `right` and `iso` all mean something else. No joint can derive
+that — it is a fact about the parts library, not about the model.
+
+The offset beside the turn is a knob rather than a fact, and it is not free.
+Left at zero the castle sits at the origin, which is where the default views
+expect to find it. Set to the figure in the comment it stands where the grid
+runs on whole studs from a known corner — worth having while reading the numbers
+by hand, and it costs the rendered views their framing, because they look from a
+fixed point rather than from one relative to the object.
 
 ### Jinja2, and why every step is still written down
 

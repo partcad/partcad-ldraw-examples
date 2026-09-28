@@ -1114,7 +1114,28 @@ def _shifted_by(pos, origin, angle):
 
 
 def write(path, name, header):
-    out = [*header, f"name: {name}", "location: [[0, 0, 0], [1, 0, 0], 90]", "links:"]
+    # The castle's one 'location:', and it is the container's rather than any
+    # part's. The turn is not a coordinate anybody chose: LDraw draws its parts
+    # Y-up and PartCAD's world is Z-up, so without it the castle lies on its
+    # side and front/top/right/iso all mean something else.
+    #
+    # The translation beside it is the other thing that used to be said, on the
+    # baseplate: it puts the grid on whole studs from a known corner, which is
+    # worth having when somebody is reading the numbers by hand. Nothing in the
+    # model depends on it - every node is placed relative to the one below it -
+    # so it can be zeroed without changing the castle, only where it sits.
+    # Where the offset would put the castle, if somebody sets it: the place the
+    # baseplate used to be given, turned the way the container turns.
+    plate = _baseplate_at()
+    turned = [plate[0], -plate[2], plate[1]]
+    out = [
+        *header,
+        f"name: {name}",
+        "location: [[0, 0, 0], [1, 0, 0], 90]"
+        f"   # set the offset to [{turned[0]}, {turned[1]}, {turned[2]}]"
+        " to read coordinates off the stud grid",
+        "links:",
+    ]
     counts = collections.Counter(u for u, _, _, _ in placements)
     # A piece's own origin is its first brick, not the corner of its footprint,
     # so where the piece goes is where that brick goes. 'origins' says how far
@@ -1125,20 +1146,9 @@ def write(path, name, header):
         out.append(f"    name: {nm}")
         if joint is None:
             # The one thing nothing holds up, because everything is on it. Where
-            # it goes decides nothing about the product - every other node is
-            # placed relative to this one - so it says nothing, and the castle
-            # is built around wherever PartCAD puts it.
-            #
-            # The coordinates it *would* have are kept as a comment. They are
-            # worth having only when somebody is reading the numbers by hand:
-            # with them, the grid runs on whole studs from a known corner and a
-            # part's position can be checked by eye against the plan. Uncomment
-            # for that and comment it out again afterwards.
-            where = _shifted_by(pos, origins.get(u, (0, 0, 0)), ang)
-            out.append(
-                f"    # location: [[{where[0]}, {where[1]}, {where[2]}], [0, 1, 0], {ang}]"
-                "   # uncomment to read coordinates off the stud grid"
-            )
+            # it goes decides nothing - every other node is placed relative to
+            # this one - and where the castle as a whole sits is the container's
+            # to say, which it does. So this says nothing at all.
             continue
         # A mapped interface instance keeps the interface it came from - the
         # map names the instance, not the kind - so the connection names the
@@ -1205,6 +1215,15 @@ write("castle.assy", "castle", [
     "# //pub/universe/lego, placed on LEGO's own grid: 8 mm stud pitch,",
     "# 9.6 mm brick height.",
     "#",
-    "# The container rotation takes the parts' native Y-up frame into PartCAD's",
-    "# Z-up world, so front/top/right/iso mean what they say.",
+    "# The castle's one 'location:' is the container's, and it is a turn rather",
+    "# than a place: LDraw draws its parts Y-up and PartCAD's world is Z-up, so",
+    "# without it the castle lies on its side and front/top/right/iso all mean",
+    "# something else. Nothing else in the model says where anything goes -",
+    "# every node names the part and the stud it joins.",
+    "#",
+    "# The offset beside that turn is a knob rather than a fact. Left at zero",
+    "# the castle sits at the origin, which is where the default views expect",
+    "# to find it; set to the figure in the comment it stands where the grid",
+    "# runs on whole studs from a known corner, which is worth having while",
+    "# reading the numbers by hand and costs the rendered views their framing.",
 ])
