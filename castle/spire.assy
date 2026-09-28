@@ -8,7 +8,12 @@ links:
     name: spire_s0
   - part: //pub/universe/lego/ldraw/Cone:3942b
     name: spire_s1
-    location: [[0.0, 19.2, 0.0], [0, 1, 0], 0]
+    connect:
+      with: //pub/universe/lego:anti-stud
+      withInstance: centre
+      name: spire_s0
+      to: //pub/universe/lego:stud
+      toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: spire_s2
     connect:

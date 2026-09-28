@@ -90,8 +90,10 @@ instead — which brick they sit on, and which stud of it:
 ```
 
 `//pub/universe/lego` declares the pair — a `stud` on top of a part and an
-`anti-stud` underneath — and PartCAD works the coordinates out. **254 of the 287
-part nodes** are joined that way, in the order they are put together.
+`anti-stud` underneath — and PartCAD works the coordinates out. **Every one of
+the 287 part nodes** is joined that way, in the order they are put together —
+there is not a single `location:` left on a part or a piece anywhere in the
+model.
 
 Which two ports meet is decided by where they *are*, not by the stud grid the
 part's name implies, because for several of these parts the grid is not the
@@ -111,63 +113,26 @@ Each piece's **first brick says nothing at all** — no coordinates and no joint
 It is the piece's own origin, and where that goes is for whatever places the
 piece to decide, so saying it here would be saying it twice.
 
-The remaining 23 keep coordinates, and all of them are in the keep. Where a
-piece's parts touch, they are joined; a part is left on coordinates only where
-the joint would have to be a *turned* one — a brick meeting another that lies
-the other way, which is what bonding the keep's corners creates. Such a joint is
-expressible (`anti-stud` carries a `turnZ` parameter) but where it lands depends
-on the port it is named against as well as on the angle, and neither could be
-worked out reliably here: every rule tried put some brick a stud from where it
-belongs. Coordinates that are merely silent beat a joint that lies.
+Getting to none of them took four things beyond the joints themselves, and each
+was a fault in the model rather than a limit of the format:
 
-Every part is where the model says it should be: each piece was instantiated
-and every part compared against its intended place, and none of the 287 differs.
-
-### The pieces join each other too
-
-A piece is placed by coordinates for the same reason a brick was: nothing says
-what holds it up. What holds it is a stud — but a stud inside a piece is the
-piece's own business until the piece says otherwise, so each one externalizes
-the ones it is joined by, with `map:`:
-
-```yaml
-assemblies:
-  castle/spire:
-    type: assy
-    map:
-      spire_s0-anti-c0r0: [spire_s0, //pub/universe/lego:anti-stud, c0r0]
-```
-
-A name of the piece's choosing, against the node inside it, the interface that
-node implements, and the instance. The interface is not renamed — it is a
-contract — but the instance name is the piece's to pick. Twenty-one such entries
-across twelve pieces join **all 48 placements**: every piece that reaches the
-ground onto the baseplate, every spire onto the tower it caps, and the whole
-keep, course-pair on course-pair, up to the head.
-
-The walls, the towers and the buttresses were the hard case: they all stand on
-the ground, side by side, and a stud joins what is above to what is below, so
-edge to edge there is nothing to join them by. LEGO's own answer to that is a
-baseplate, and the library has one big enough — `Baseplate 32 x 32` (3811), with
-1024 studs, against a castle that covers 30 × 30. So the castle sits on one, and
-every piece that reaches the ground is joined to it.
-
-**Every one of the 48 pieces is joined**, and the baseplate — the one thing
-nothing holds up, because everything is on it — says no coordinates either.
-Where it goes decides nothing: every other node is placed relative to it.
-
-Its coordinates are kept beside it as a comment. They are worth having only when
-somebody is reading the numbers by hand, when it helps that the grid runs on
-whole studs from a known corner; uncomment for that and comment it out again
-afterwards.
-
-Two subtleties are worth knowing, because both bit. A piece is joined through a
-port of a brick inside it, and that brick may be laid across the piece's own grid
-— the keep's last course is. Mating through such a brick turns the whole piece by
-the difference, a quarter turn nobody asked for; pieces meet over several studs,
-so there is nearly always a pair that lies square, and that is the pair to take.
-Where there is not — the west and east walls run north against a plate whose
-studs all face one way — the joint carries the difference as a `turnZ`.
+* **The keep's corners did not bond.** Every course laid its four sides the same
+  way, so no brick ever spanned a corner and the keep was four stacks that
+  merely touched. The corners alternate now.
+* **A course over an opening has to reach past it.** A lancet capped by two
+  bricks meeting over the hole ties nothing; the capping course is laid
+  whichever way puts one brick across the opening with a bearing either side,
+  which is not the same way for a four-stud stretch as for a six-stud one. The
+  gateway's lintel got the same treatment and now bears a stud into the wall on
+  each side.
+* **No stretch ends with a single stud.** Three cells laid greedily come out a
+  two and a one, and that trailing one sits on the corner with nothing reaching
+  across to it.
+* **The keep's spire stood on its own open shaft.** It has a floor now — the
+  last course laid solid, six bricks the full width, each crossing the ring
+  below at both ends — and a spire built the way the towers' are, since a 3 x 3
+  cone cannot be centred on a 6 x 6 keep and was sitting half a stud off the
+  grid.
 
 ### Jinja2, and why every step is still written down
 

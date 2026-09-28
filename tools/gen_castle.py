@@ -42,6 +42,8 @@ ROUND_2X2 = f"{LEGO}/Brick:3941"        # Brick 2 x 2 Round
 CONE_2X2X2 = f"{LEGO}/Cone:3942b"       # 2 courses tall
 CONE_3X3X2 = f"{LEGO}/Cone:6233"        # 2 courses tall
 CONE_1X1 = f"{LEGO}/Cone:4589"          # 1 course tall
+BRICK_1X6 = f"{LEGO}/Brick:3009"
+CONE_4X4X2 = f"{LEGO}/Cone:3943b"       # 2 courses tall, a 2 x 2 of studs on top
 
 SIZE = 26         # curtain wall footprint, studs
 WALL_TOP = 7      # solid wall courses 0..6; crenellations on course 7
@@ -136,6 +138,47 @@ def place(part, name, col, row, course, w, d, h=1, turned=False):
 LANCET_COURSES = (2, 3, 4)
 
 
+def _run_sizes(length, offset, skip=()):
+    """The brick lengths 'run' would lay, without laying them."""
+    sizes, at = [], 0
+    while at < length:
+        if at in skip:
+            sizes.append((at, 0))
+            at += 1
+            continue
+        remaining = length - at
+        size = min(offset, remaining) if (offset and at == 0) else remaining
+        size = 4 if size >= 4 else (2 if size >= 2 else 1)
+        for step in range(1, size + 1):
+            if at + step in skip:
+                size = step
+                break
+        size = 4 if size >= 4 else (2 if size >= 2 else 1)
+        ahead = next((k for k in range(1, remaining + 1) if at + k in skip), remaining)
+        if size < 4 and ahead - size == 1:
+            size = 1
+        sizes.append((at, size))
+        at += size
+    return sizes
+
+
+def _offset_that_spans(length, hole):
+    """The offset whose bricks carry a wall across the hole below it.
+
+    A course laid over an opening only holds the two sides together if one of
+    its bricks reaches past the hole on both sides. Which offset does that
+    depends on how long the stretch is and where the hole sits in it, so it is
+    worked out rather than assumed: a four-stud stretch with the hole one in
+    wants an unbroken joint, a six-stud one with the hole three in wants a
+    broken one.
+    """
+    for offset in (0, 2):
+        for at, size in _run_sizes(length, offset):
+            if size and at < hole < at + size - 1 + 1 and at <= hole - 1 and hole + 1 <= at + size - 1:
+                return offset
+    return 0
+
+
 def run(course, col, row, length, horizontal, tag, offset, skip=()):
     """Tile a straight wall run out of 1x4 / 1x2 / 1x1 bricks, starting with a
     short piece so that consecutive courses break joint. `skip` names offsets
@@ -156,6 +199,14 @@ def run(course, col, row, length, horizontal, tag, offset, skip=()):
                 size = s
                 break
         size = 4 if size >= 4 else (2 if size >= 2 else 1)
+        # Never finish a stretch with a single stud left over. Three cells laid
+        # greedily come out as a two and a one, and that trailing one is a brick
+        # sitting on the corner with nothing reaching across to it - which is
+        # how the corner of a wall ends up held on by nothing. Lay the odd one
+        # first instead, so the pair spans the end.
+        ahead = next((k for k in range(1, remaining + 1) if at + k in skip), remaining)
+        if size < 4 and ahead - size == 1:
+            size = 1
         if horizontal:
             place(part_for[size], f"{tag}_c{course}_{n}", col + at, row, course, size, 1)
         else:
@@ -174,6 +225,12 @@ def wall(col, row, length, horizontal, tag, gap=None, lancets=()):
             run(course, col, row, length, horizontal, tag, offset, skip)
             continue
         a, b = gap
+        # The course that closes the gateway reaches a stud further either
+        # side, and the wall stands back to let it: a lintel that stops where
+        # the opening stops rests on nothing and ties nothing, which is how the
+        # two halves of this wall came to be two separate walls.
+        if course == WALL_TOP - 1:
+            a, b = a - 1, b + 1
         if a > 0:
             run(course, col, row, a, horizontal, f"{tag}L", offset,
                 tuple(x for x in skip if x < a))
@@ -259,6 +316,19 @@ def keep(col, row, size, tag):
     place(CONE_1X1, f"{tag}_f1", col + (size - 1) / 2.0, row + (size - 1) / 2.0, KEEP_TOP + 3, 1, 1)
 
 
+def keep_roof(col, row, size, tag, course):
+    """The keep's last course, laid solid instead of as a ring.
+
+    A ring has nothing across its middle, so the spire that goes on top of it
+    was standing on the open shaft - it looked right and was held up by nothing.
+    Laid as six bricks the full width of the keep, the course is a floor: each
+    one crosses the ring below at both ends, so it is carried, and what goes on
+    top of it has something to grip.
+    """
+    for i in range(size):
+        place(BRICK_1X6, f"{tag}_roof{i}", col, row + i, course, size, 1)
+
+
 def keep_head(col, row, size, tag, base=0):
     """What finishes the keep: merlons between the corner turrets, a bartizan
     at each corner, and the spire over the middle. It stands on the keep's last
@@ -272,10 +342,17 @@ def keep_head(col, row, size, tag, base=0):
         place(BRICK_1X1, f"{tag}_mE{i}", col + size - 1, row + i, top, 1, 1)
     for dx, dz, nm in ((0, 0, "sw"), (size - 1, 0, "se"), (0, size - 1, "nw"), (size - 1, size - 1, "ne")):
         bartizan(col + dx, row + dz, f"{tag}_{nm}", top, top + 3)
-    mid = col + (size - 3) / 2.0, row + (size - 3) / 2.0
-    place(CONE_3X3X2, f"{tag}_spire", mid[0], mid[1], top, 3, 3, h=2)
-    place(CONE_1X1, f"{tag}_f0", col + (size - 1) / 2.0, row + (size - 1) / 2.0, top + 2, 1, 1)
-    place(CONE_1X1, f"{tag}_f1", col + (size - 1) / 2.0, row + (size - 1) / 2.0, top + 3, 1, 1)
+    # The spire, built the way the towers' are: a wide cone flaring off the
+    # roof, a narrower one on the square of studs it ends in, then two little
+    # ones drawing it to a point. A 4 x 4 cone rather than a 3 x 3 because a
+    # 3 x 3 cannot be centred on a 6 x 6 keep - it would sit half a stud off the
+    # grid, which is to say on nothing.
+    mid = col + (size - 4) / 2.0, row + (size - 4) / 2.0
+    place(CONE_4X4X2, f"{tag}_spire", mid[0], mid[1], top, 4, 4, h=2)
+    two = col + (size - 2) / 2.0, row + (size - 2) / 2.0
+    place(CONE_2X2X2, f"{tag}_spire2", two[0], two[1], top + 2, 2, 2, h=2)
+    place(CONE_1X1, f"{tag}_f0", col + (size - 1) / 2.0, row + (size - 1) / 2.0, top + 4, 1, 1)
+    place(CONE_1X1, f"{tag}_f1", col + (size - 1) / 2.0, row + (size - 1) / 2.0, top + 5, 1, 1)
 
 
 def gateway_local():
@@ -288,7 +365,7 @@ def gateway_local():
     place(BRICK_1X2, "gate_b1", b - 1, 0, 4, 2, 1)
     place(BRICK_1X4, "gate_c0", a, 0, 5, 4, 1)
     place(BRICK_1X1, "gate_c1", b, 0, 5, 1, 1)
-    run(6, a, 0, b - a + 1, True, "gate_d", 0)
+    run(6, a - 1, 0, b - a + 3, True, "gate_d", 0)
 
 
 def gateway():
@@ -387,14 +464,17 @@ def build_castle():
     with unit("castle/keep-lancet"):
         for i in range(4):
             course = LANCET_BASE + i
-            offset = 2 if course % 2 else 0
             for side, (c, r, ln, horiz) in _keep_course(course).items():
-                skip = ()
+                at = (2 - c) if horiz else (3 - r)
+                hole = at if 0 <= at < ln else None
                 if i < 3:
-                    at = (2 - c) if horiz else (3 - r)
-                    if 0 <= at < ln:
-                        skip = (at,)
-                run(i, c, r, ln, horiz, f"k{side}", offset, skip)
+                    # The lancet itself.
+                    run(i, c, r, ln, horiz, f"k{side}", 2 if course % 2 else 0, (hole,) if hole is not None else ())
+                    continue
+                # The course that closes it, laid whichever way carries the
+                # wall across the opening below.
+                offset = _offset_that_spans(ln, hole) if hole is not None else (2 if course % 2 else 0)
+                run(i, c, r, ln, horiz, f"k{side}", offset, ())
     # The keep is an odd number of courses tall, so one course is always left
     # over. It does not get a piece of its own: a single course is six bricks
     # laid side by side, and nothing in it holds anything else - an assembly
@@ -403,6 +483,9 @@ def build_castle():
     with unit("castle/keep-top"):
         for i in range(3):
             course = KEEP_TOP - 3 + i
+            if course == KEEP_TOP - 1:
+                keep_roof(0, 0, KEEP_SIZE, "keep", i)
+                continue
             offset = 2 if course % 2 else 0
             for side, (c, r, ln, horiz) in _keep_course(course).items():
                 run(i, c, r, ln, horiz, f"k{side}", offset, ())
@@ -491,6 +574,10 @@ PORTS = {
         "stud": {'c0r0': [0.0, 0.0, 0.0]},
         "anti": {'c0r0': [0.0, -9.6, 0.0]},
     },
+    'Brick:3009': {
+        "stud": {'c0r0': [-20.0, 0.0, 0.0], 'c1r0': [-12.0, 0.0, 0.0], 'c2r0': [-4.0, 0.0, 0.0], 'c3r0': [4.0, 0.0, 0.0], 'c4r0': [12.0, 0.0, 0.0], 'c5r0': [20.0, 0.0, 0.0]},
+        "anti": {'c0r0': [-20.0, -9.6, 0.0], 'c1r0': [-12.0, -9.6, 0.0], 'c2r0': [-4.0, -9.6, 0.0], 'c3r0': [4.0, -9.6, 0.0], 'c4r0': [12.0, -9.6, 0.0], 'c5r0': [20.0, -9.6, 0.0]},
+    },
     'Brick:3010': {
         "stud": {'c0r0': [-12.0, 0.0, 0.0], 'c1r0': [-4.0, 0.0, 0.0], 'c2r0': [4.0, 0.0, 0.0], 'c3r0': [12.0, 0.0, 0.0]},
         "anti": {'c0r0': [-12.0, -9.6, 0.0], 'c1r0': [-4.0, -9.6, 0.0], 'c2r0': [4.0, -9.6, 0.0], 'c3r0': [12.0, -9.6, 0.0]},
@@ -501,7 +588,11 @@ PORTS = {
     },
     'Cone:3942b': {
         "stud": {'c0r0': [0.0, 0.0, 0.0]},
-        "anti": {'c0r0': [-4.0, -19.2, -4.0], 'c0r1': [-4.0, -19.2, 4.0], 'c1r0': [4.0, -19.2, -4.0], 'c1r1': [4.0, -19.2, 4.0]},
+        "anti": {'c0r0': [-4.0, -19.2, -4.0], 'c0r1': [-4.0, -19.2, 4.0], 'c1r0': [4.0, -19.2, -4.0], 'c1r1': [4.0, -19.2, 4.0], 'centre': [0.0, -19.2, 0.0]},
+    },
+    'Cone:3943b': {
+        "stud": {'c0r0': [-4.0, 0.0, -4.0], 'c0r1': [-4.0, 0.0, 4.0], 'c1r0': [4.0, 0.0, -4.0], 'c1r1': [4.0, 0.0, 4.0]},
+        "anti": {'c0r1': [-12.0, -19.2, -4.0], 'c0r2': [-12.0, -19.2, 4.0], 'c1r0': [-4.0, -19.2, -12.0], 'c1r1': [-4.0, -19.2, -4.0], 'c1r2': [-4.0, -19.2, 4.0], 'c1r3': [-4.0, -19.2, 12.0], 'c2r0': [4.0, -19.2, -12.0], 'c2r1': [4.0, -19.2, -4.0], 'c2r2': [4.0, -19.2, 4.0], 'c2r3': [4.0, -19.2, 12.0], 'c3r1': [12.0, -19.2, -4.0], 'c3r2': [12.0, -19.2, 4.0], 'centre': [0.0, -19.2, 0.0]},
     },
     'Cone:4589': {
         "stud": {'c0r0': [0.0, 0.0, 0.0]},
@@ -605,14 +696,15 @@ def _joint_to(item, placed):
             # preferred, because a turn pivots about the port it is named
             # against and the two are not interchangeable.
             met = _meeting_square(mine, theirs)
-            # Only a pair that lies square. A turned joint is expressible -
-            # 'anti-stud' carries 'turnZ' - but where it lands depends on which
-            # port it is named against as well as on the angle, and neither the
-            # sign nor the pivot can be worked out from the geometry here:
-            # every rule tried put some brick a stud from where it belongs.
-            # Coordinates that are merely silent beat a joint that lies.
-            if met and not met[2]:
-                return (kind, met[0], other, met[1], 0)
+            if met:
+                # Which way the turn runs depends on which half of the pair the
+                # joint names, because each interface's Z points into its own
+                # part: joined downward through an anti-stud it is the angle of
+                # what is below less this part's, and joined upward through a
+                # stud it is the other way about. Settled by trying every
+                # hypothesis against a part placed by coordinates, not derived.
+                turn = met[2] if kind == "anti" else (-met[2]) % 360
+                return (kind, met[0], other, met[1], turn)
     return None
 
 
