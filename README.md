@@ -376,3 +376,19 @@ What would make the check meaningful is the matings in
 `//pub/universe/lego/ldraw` declaring `snapIn: true` — a stud in an anti-stud, and a pin or an axle in a hole,
 are interference fits wherever they occur. Both models are joined through those
 interfaces, so that declaration is all that is missing, and it is not made yet.
+
+For the car, what it finds is 18 overlaps. All but two are inside a single
+piece: a pin in the hole of a part that LDraw's mesh closes over (a panel, a
+nose cone, a spacer beam), or an axle in a cross block whose axle hole the
+solidified mesh does not quite open. The two that cross a boundary are the
+motor unit's spacer pins in the drivetrain's inner beam, at 0.7 mm^3 each.
+Eight parts - the battery box, the receiver, the servo, the motor, its pinion
+and wheels - come out of the package as meshes
+that do not close into a solid of positive volume, and are reported as not
+checked rather than checked wrongly.
+
+Each piece can be checked on its own, and they are independent of each other:
+the thirteen blocks take 137 s together on one machine, the slowest 136 s, and
+the whole car 292 s. (Before PartCAD's interference boolean fused boundaries a
+micron apart, near-coincident faces of meshed parts made single pairs take
+minutes, and the car did not finish in an hour.)
