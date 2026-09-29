@@ -41,14 +41,33 @@ hole cannot take a turn and nothing about them depends on it. A part whose roll
 does matter (a cross block on an axle) is made to land right by turning the
 axle, which went into a round hole and can take the turn.
 
-The car is cut into pieces by what it is made of: a chassis, the drivetrain, the
-two front corners, the steering, the battery, the airbox, the nose, the two
-wings, and the sidepod, which is the one piece used twice. A piece is placed by
-its first part; everything else in it hangs off that. Whatever joins two pieces
-and belongs to neither - the pins between the knuckles and the track rod, the
-tops of the front shocks - sits in f1/car.assy itself. The remote control is
-not part of the car: f1.assy is the car and the remote beside it, placed by
-coordinates because nothing joins a handset to the car it drives.
+The car is cut into pieces the way it would be built on a bench, several pairs
+of hands at once, each piece a block that is finished before it is fitted:
+
+  * the tub - the two side frames, the battery box they are pinned onto, the
+    pivot the drivetrain swings on and the airbox over the motor, each of those
+    four a piece of its own;
+  * the front end - the front frame, both front corners, the steering, the nose
+    and the front wing, all but the frame pieces of their own, and the frame
+    the one the others are hung on;
+  * the drivetrain - the motor unit, a piece, and the differential, half axles,
+    wheels and shocks around it;
+  * the rear wing, and the sidepod, which is the one piece used twice.
+
+A piece is placed by its first part and everything else in it hangs off that.
+Where two pieces meet, the joint is written in the lowest piece that holds both,
+through the ports each of them exports: a piece's 'interfaces:' block maps
+every port a joint outside it uses, through as many levels of pieces as the
+port is deep, so a part is never reached into from outside the piece that owns
+it. Whatever joins two pieces and belongs to neither - the pins between the
+knuckles and the track rod, the tops of the front shocks - sits in the piece
+that holds both. The remote control is not part of the car: f1.assy is the car
+and the remote beside it, placed by coordinates because nothing joins a handset
+to the car it drives.
+
+That split is also what the interference test is run on: each piece is tested
+on its own, in parallel with the others, and what is left for the car is the
+pairs that straddle two pieces.
 
 The car's origin is its chassis's first beam, so f1/car.assy is placed at that
 beam's own pose turned +90 degrees about X: that takes this Y-up frame into
@@ -58,8 +77,8 @@ PartCAD's Z-up world with the nose towards -Y, so 'front' shows the nose and
 Usage, from the repository root, with a checkout of partcad-ldraw beside this
 one (or LDRAW_INDEX pointing at its parts-index.zip):
 
-    ./tools/gen_f1.py            # writes f1.assy, f1/*.assy and the f1 block of partcad.yaml
-    ./tools/gen_f1.py --check    # only re-derives every joint and reports
+    python3 tools/gen_f1.py          # writes f1.assy, f1/*.assy and the f1 block of partcad.yaml
+    python3 tools/gen_f1.py --check  # only re-derives every joint and reports
 """
 
 import json
@@ -389,121 +408,46 @@ YL, YU, YK = 16.0, 32.0, 24.0  # lower / upper wishbone, knuckle
 XI, XO, XK = 16.0, 48.0, 56.0  # wishbone inner pivot, outer end, kingpin
 ZN = 304.0  # the nose
 
-C = "chassis"
+# Where the pieces sit. A module is a path: 'tub/battery' is the battery,
+# pre-assembled on its own and then fitted into the tub, which is itself built
+# before it goes into the car. The empty path is the car.
+TUB, FRONT, DRIVE = "tub", "front-end", "drivetrain"
+SIDE_L, SIDE_R = TUB + "/side-frame-left", TUB + "/side-frame-right"
+BATTERY, AIRBOX = TUB + "/battery", TUB + "/airbox"
+FRAME, STEERING = FRONT + "/front-frame", FRONT + "/steering"
+NOSE, FRONT_WING = FRONT + "/nose", FRONT + "/front-wing"
+MOTOR = DRIVE + "/motor-unit"
+REAR_WING = "rear-wing"
 
 
-def build_chassis():
-    """Two side frames of beams on edge, a post and a shock tower at the back of each."""
-    lo = S.first(C, "rail-lo-l", BEAM[15], frame((-48, YF1, ZB), z=Z, y=X))
-    pv = S.put(C, "pivot", AXLE[12], frame((0, YF1, ZP), x=X, y=Y), lo, round_part=True)
-    for s in (-1, 1):
-        if s > 0:
-            lo = beam(C, "rail-lo-r", 15, (48, YF1, ZB), Z, X, pv)
-        post = beam(
-            C,
-            "post-" + side(s),
-            7,
-            (s * 40, 64, 88),
-            Y,
-            X,
-            pin(C, "pin-post-lo-" + side(s), (s * 44, YF1, 88), neg((s, 0, 0)), lo),
-        )
-        beam(
-            C,
-            "rail-up-" + side(s),
-            15,
-            (s * 48, YF2, ZB),
-            Z,
-            X,
-            pin(C, "pin-post-up-" + side(s), (s * 44, YF2, 88), (s, 0, 0), post),
-        )
-        beam(
-            C,
-            "tower-" + side(s),
-            13,
-            (s * 48, 88, 40),
-            Z,
-            X,
-            pin(C, "pin-post-tw-" + side(s), (s * 44, 88, 88), (s, 0, 0), post),
-        )
-    # the drivetrain's pivot is spaced out to its beams by bushes
-    for nm, x in (("pivot-bush-l", -40), ("pivot-bush-r1", 32), ("pivot-bush-r2", 40)):
-        bush(C, nm, (x, YF1, ZP), X, pv)
-    # the airbox beam, carried by the two posts through a cross block each
-    for s in (-1, 1):
-        ax = axle(C, "airbox-axle-" + side(s), 2, (s * 36, 80, 88), X, S.get(C, "post-" + side(s)))
-        blk = block(C, "airbox-block-" + side(s), (s * 32, 80, 88), (s, 0, 0), neg(Y), ax)
-        if s < 0:
-            beam(C, "airbox-beam", 9, (0, 72, 80), X, Z, pin(C, "pin-airbox-l", (-32, 72, 84), neg(Z), blk))
-        else:
-            pin(C, "pin-airbox-r", (32, 72, 84), neg(Z), blk)
-    # forward: a nose rail on each side, stepping in to the bulkhead the
-    # wishbones pivot on through a cross block on an axle, and the servo's cradle
-    for s in (-1, 1):
-        up = S.get(C, "rail-up-" + side(s))
-        nu = beam(
-            C,
-            "nose-up-" + side(s),
-            13,
-            (s * 40, YF2, 224),
-            Z,
-            X,
-            pin(C, "pin-nose-1-" + side(s), (s * 44, YF2, 176), neg((s, 0, 0)), up),
-        )
-        pin(C, "pin-nose-2-" + side(s), (s * 44, YF2, 184), neg((s, 0, 0)), up)
-        link = beam(
-            C,
-            "nose-link-" + side(s),
-            5,
-            (s * 32, 40, 240),
-            Y,
-            X,
-            pin(C, "pin-link-up-" + side(s), (s * 36, YF2, 240), neg((s, 0, 0)), nu),
-        )
-        nl = beam(
-            C,
-            "nose-lo-" + side(s),
-            5,
-            (s * 40, 32, 248),
-            Z,
-            X,
-            pin(C, "pin-link-lo-" + side(s), (s * 36, 32, 240), (s, 0, 0), link),
-        )
-        ax = axle(C, "bulk-axle-" + side(s), 4, (s * 28, YF2, 264), X, nu)
-        cb = block(C, "bulk-block-" + side(s), (s * 16, YF2, 264), (s, 0, 0), neg(Y), ax)
-        beam(
-            C, "bulk-" + side(s), 9, (s * XI, 48, ZW - 8), Y, Z, pin(C, "pin-bulk-" + side(s), (s * XI, 48, 268), Z, cb)
-        )
-        bush(C, "bulk-bush-%s-1" % side(s), (s * 24, YF2, 264), X, ax)
-        bush(C, "bulk-bush-%s-2" % side(s), (s * 32, YF2, 264), X, ax)
-        ax2 = axle(C, "servo-axle-" + side(s), 4, (s * 28, 32, 256), X, nl)
-        S.put(C, "servo-rail-" + side(s), BEAM[3], frame((s * 16, 32, 256), z=Z, y=X), ax2)
-        bush(C, "servo-bush-%s-1" % side(s), (s * 24, 32, 256), X, ax2)
-        bush(C, "servo-bush-%s-2" % side(s), (s * 32, 32, 256), X, ax2)
-        beam(
-            C,
-            "nose-ext-" + side(s),
-            9,
-            (s * 48, YF2, 288),
-            Z,
-            X,
-            pin(C, "pin-ext-1-" + side(s), (s * 44, YF2, 256), (s, 0, 0), nu),
-        )
-        pin(C, "pin-ext-2-" + side(s), (s * 44, YF2, 272), (s, 0, 0), nu)
-    # the crossbeam the front shocks hang from
-    sb = beam(
-        C, "shock-beam", 11, (0, 80, ZW), X, Z, pin(C, "pin-shock-beam-r", (XI, 80, ZW - 4), Z, S.get(C, "bulk-r"))
-    )
-    pin(C, "pin-shock-beam-l", (-XI, 80, ZW - 4), Z, sb)
-    # at the back, an axle through both towers carries the rear wing
-    ra = axle(C, "wing-axle", 12, (0, 88, -8), X, S.get(C, "tower-l"))
-    for s in (-1, 1):
-        block(C, "wing-block-" + side(s), (s * 24, 88, -8), X, Y, ra)
+def corner_of(s):
+    return FRONT + "/front-" + ("right" if s > 0 else "left")
+
+
+def side_frame(s):
+    return SIDE_R if s > 0 else SIDE_L
+
+
+def build_side_frame(s, onto):
+    """A side frame: the two rails, the post at the back and the shock tower over it.
+
+    The left one is where the car starts, and says nothing; the right one goes
+    onto the battery box's pins, which is how it is put on in the hand.
+    """
+    m = side_frame(s)
+    if onto is None:
+        lo = S.first(m, "rail-lo", BEAM[15], frame((s * 48, YF1, ZB), z=Z, y=X))
+    else:
+        lo = beam(m, "rail-lo", 15, (s * 48, YF1, ZB), Z, X, onto)
+    post = beam(m, "post", 7, (s * 40, 64, 88), Y, X, pin(m, "pin-post-lo", (s * 44, YF1, 88), neg((s, 0, 0)), lo))
+    beam(m, "rail-up", 15, (s * 48, YF2, ZB), Z, X, pin(m, "pin-post-up", (s * 44, YF2, 88), (s, 0, 0), post))
+    beam(m, "tower", 13, (s * 48, 88, 40), Z, X, pin(m, "pin-post-tower", (s * 44, 88, 88), (s, 0, 0), post))
 
 
 def build_battery():
-    m = "battery"
-    p = pin(m, "pin-l-lo-front", (-44, YF1, ZB - 16), X, S.get(C, "rail-lo-l"))
+    """The battery box and the eight pins in its end holes; four of them go into each side frame."""
+    m = BATTERY
+    p = pin(m, "pin-l-lo-front", (-44, YF1, ZB - 16), X, S.get(SIDE_L, "rail-lo"))
     box = S.put(m, "battery-box", "58119", frame((0, 48, ZB), x=X, y=neg(Z)), p)
     for s in (-1, 1):
         for y, lvl in ((YF1, "lo"), (YF2, "up")):
@@ -513,56 +457,107 @@ def build_battery():
                     pin(m, nm, (s * 44, y, z), (s, 0, 0), box)
 
 
-def build_airbox():
-    m = "airbox"
-    p = pin(m, "pin-1", (-8, 72, 76), neg(Z), S.get(C, "airbox-beam"))
-    rx = S.put(m, "ir-receiver", "58123", frame((0, 76, 60), z=neg(Z), y=Y), p)
-    pin(m, "pin-2", (8, 72, 76), Z, rx)
-
-
-def build_drivetrain():
-    m = "drivetrain"
-    pv = S.get(C, "pivot")
-    inl = beam(m, "inner-l", 11, (-32, YF1, 40), Z, X, pv)
-    # the motor, 8 mm left of centre so that its pinion meets the crown
-    motor = S.put(
-        m, "xl-motor", "58121", frame((-8, YF1, 28), x=X, y=Y), pin(m, "pin-motor-l1", (-28, YF1, 32), X, inl)
+def build_tub():
+    build_side_frame(-1, None)
+    build_battery()
+    build_side_frame(1, S.get(BATTERY, "pin-r-lo-front"))
+    # the pivot the drivetrain swings on runs right across, through both frames
+    pv = S.put(TUB, "pivot", AXLE[12], frame((0, YF1, ZP), x=X, y=Y), S.get(SIDE_L, "rail-lo"), round_part=True)
+    for nm, x in (("pivot-bush-l", -40), ("pivot-bush-r1", 32), ("pivot-bush-r2", 40)):
+        bush(TUB, nm, (x, YF1, ZP), X, pv)
+    # the airbox: a crossbeam carried by the two posts through a cross block
+    # each, and the IR receiver pinned to it
+    m = AIRBOX
+    ax = axle(m, "axle-l", 2, (-36, 80, 88), X, S.get(SIDE_L, "post"))
+    blk = block(m, "block-l", (-32, 80, 88), neg(X), neg(Y), ax)
+    cb = beam(m, "beam", 9, (0, 72, 80), X, Z, pin(m, "pin-beam-l", (-32, 72, 84), neg(Z), blk))
+    blk = block(m, "block-r", (32, 80, 88), X, neg(Y), pin(m, "pin-beam-r", (32, 72, 84), Z, cb))
+    axle(m, "axle-r", 2, (36, 80, 88), X, blk)
+    rx = S.put(
+        m, "ir-receiver", "58123", frame((0, 76, 60), z=neg(Z), y=Y), pin(m, "pin-rx-1", (-8, 72, 76), neg(Z), cb)
     )
-    pin(m, "pin-motor-l2", (-28, YF1, 72), X, motor)
-    sp = beam(m, "spacer", 7, (16, YF1, 56), Z, X, pin(m, "pin-motor-r1", (12, YF1, 32), X, motor))
-    pin(m, "pin-motor-r2", (12, YF1, 72), X, motor)
-    inr = beam(m, "inner-r", 11, (24, YF1, 40), Z, X, pin(m, "pin-spacer-1", (20, YF1, 40), X, sp))
-    pin(m, "pin-spacer-2", (20, YF1, 64), X, sp)
-    beam(m, "motor-bracket", 5, (-8, YF1, 24), Y, Z, pin(m, "pin-bracket-1", (-8, 48, 28), neg(Z), motor))
-    pin(m, "pin-bracket-2", (-8, 32, 28), neg(Z), motor)
-    shaft = axle(m, "pinion-shaft", 3, (-8, YF1, 24), Z, motor)
-    S.put(m, "pinion", "32270", frame((-8, YF1, 16), z=Z, y=Y), shaft, round_part=True)
-    right = axle(m, "half-axle-r", 9, (40, YF1, 0), X, inr)
-    left = axle(m, "half-axle-l", 9, (-40, YF1, 0), X, inl)
-    # the crown faces the pinion from the right
-    S.put(m, "differential", "62821", frame((4, YF1, 0), z=neg(X), y=Y), right)
-    for s, a, inner in ((-1, left, inl), (1, right, inr)):
-        outer = beam(m, "outer-" + side(s), 9, (s * 48, YF1, 32), Z, X, a)
-        for z in (8, 56):
-            if s < 0:
-                axle(m, "tie-%s-%d" % (side(s), z), 3, (-40, YF1, z), X, inner)
-            else:
-                axle(m, "tie-%s-%d" % (side(s), z), 4, (36, YF1, z), X, inner)
-        bush(m, "bush-%s-1" % side(s), (s * 56, YF1, 0), X, a)
-        bush(m, "bush-%s-2" % side(s), (s * 64, YF1, 0), X, a)
-        S.put(m, "wheel-" + side(s), "49294c01", frame((s * 80, YF1, 0), z=(s, 0, 0), y=Y), a, round_part=True)
-        S.put(
+    pin(m, "pin-rx-2", (8, 72, 76), Z, rx)
+
+
+def build_front_frame():
+    """The front of the car's structure, built on its own and pinned to both upper rails.
+
+    From the left upper rail forward to the left bulkhead, across the car on the
+    shock crossbeam, and back from the right bulkhead to the right rail: one
+    rigid frame, so that it can be built and handled before it goes on the tub.
+    """
+    m = FRAME
+    order = []
+    nu = beam(
+        m, "nose-up-l", 13, (-40, YF2, 224), Z, X, pin(m, "pin-nose-1-l", (-44, YF2, 176), X, S.get(SIDE_L, "rail-up"))
+    )
+    order.append((-1, nu))
+    for s, nose_up in ((-1, nu), (1, None)):
+        if s > 0:
+            # the right side is reached across the shock crossbeam
+            bulk_r = beam(
+                m,
+                "bulk-r",
+                9,
+                (XI, 48, ZW - 8),
+                Y,
+                Z,
+                pin(m, "pin-shock-beam-r", (XI, 80, ZW - 4), neg(Z), S.get(m, "shock-beam")),
+            )
+            cb = block(
+                m, "bulk-block-r", (16, YF2, 264), X, neg(Y), pin(m, "pin-bulk-r", (XI, 48, 268), neg(Z), bulk_r)
+            )
+            ax = axle(m, "bulk-axle-r", 4, (28, YF2, 264), X, cb)
+            nose_up = beam(m, "nose-up-r", 13, (40, YF2, 224), Z, X, ax)
+        pin(m, "pin-nose-%s-%s" % (2, side(s)), (s * 44, YF2, 184), (s, 0, 0), nose_up)
+        if s > 0:
+            pin(m, "pin-nose-1-r", (44, YF2, 176), X, nose_up)
+        link = beam(
             m,
-            "shock-" + side(s),
-            SHOCK,
-            frame((s * 40, 88, 24), z=X, y=Y),
-            pin(m, "pin-shock-" + side(s), (s * 44, YF1, 24), neg((s, 0, 0)), outer),
+            "nose-link-" + side(s),
+            5,
+            (s * 32, 40, 240),
+            Y,
+            X,
+            pin(m, "pin-link-up-" + side(s), (s * 36, YF2, 240), neg((s, 0, 0)), nose_up),
         )
+        nl = beam(
+            m,
+            "nose-lo-" + side(s),
+            5,
+            (s * 40, 32, 248),
+            Z,
+            X,
+            pin(m, "pin-link-lo-" + side(s), (s * 36, 32, 240), (s, 0, 0), link),
+        )
+        if s < 0:
+            ax = axle(m, "bulk-axle-l", 4, (-28, YF2, 264), X, nose_up)
+            cb = block(m, "bulk-block-l", (-16, YF2, 264), neg(X), neg(Y), ax)
+            bulk_l = beam(m, "bulk-l", 9, (-XI, 48, ZW - 8), Y, Z, pin(m, "pin-bulk-l", (-XI, 48, 268), Z, cb))
+        bush(m, "bulk-bush-%s-1" % side(s), (s * 24, YF2, 264), X, ax)
+        bush(m, "bulk-bush-%s-2" % side(s), (s * 32, YF2, 264), X, ax)
+        ax2 = axle(m, "servo-axle-" + side(s), 4, (s * 28, 32, 256), X, nl)
+        S.put(m, "servo-rail-" + side(s), BEAM[3], frame((s * 16, 32, 256), z=Z, y=X), ax2)
+        bush(m, "servo-bush-%s-1" % side(s), (s * 24, 32, 256), X, ax2)
+        bush(m, "servo-bush-%s-2" % side(s), (s * 32, 32, 256), X, ax2)
+        beam(
+            m,
+            "nose-ext-" + side(s),
+            9,
+            (s * 48, YF2, 288),
+            Z,
+            X,
+            pin(m, "pin-ext-1-" + side(s), (s * 44, YF2, 256), (s, 0, 0), nose_up),
+        )
+        pin(m, "pin-ext-2-" + side(s), (s * 44, YF2, 272), (s, 0, 0), nose_up)
+        if s < 0:
+            # the crossbeam the front shocks hang from, across to the right
+            beam(m, "shock-beam", 11, (0, 80, ZW), X, Z, pin(m, "pin-shock-beam-l", (-XI, 80, ZW - 4), Z, bulk_l))
 
 
 def build_corner(s):
-    m = "front-" + ("right" if s > 0 else "left")
-    bulk = S.get(C, "bulk-" + side(s))
+    m = corner_of(s)
+    bulk = S.get(FRAME, "bulk-" + side(s))
     lower = beam(
         m,
         "wishbone-lower",
@@ -605,13 +600,13 @@ def build_corner(s):
 
 
 def build_steering():
-    m = "steering"
+    m = STEERING
     servo = S.put(
         m,
         "servo",
         "99498",
         frame((0, 28, 264), z=Y, y=neg(Z)),
-        pin(m, "pin-servo-1", (12, 32, 248), neg(X), S.get(C, "servo-rail-r")),
+        pin(m, "pin-servo-1", (12, 32, 248), neg(X), S.get(FRAME, "servo-rail-r")),
     )
     pin(m, "pin-servo-2", (12, 32, 264), X, servo)
     pin(m, "pin-servo-3", (-12, 32, 248), neg(X), servo)
@@ -623,8 +618,8 @@ def build_steering():
 
 
 def build_nose():
-    m = "nose"
-    fa = S.put(m, "axle", AXLE[12], frame((0, YF2, ZN), x=X, y=Y), S.get(C, "nose-ext-l"), round_part=True)
+    m = NOSE
+    fa = S.put(m, "axle", AXLE[12], frame((0, YF2, ZN), x=X, y=Y), S.get(FRAME, "nose-ext-l"), round_part=True)
     blocks = [block(m, "block-" + side(s), (s * 16, YF2, ZN), X, neg(Y), fa) for s in (-1, 1)]
     nb = beam(m, "beam", 9, (0, 48, ZN + 8), X, Z, pin(m, "pin-beam-l", (-16, 48, ZN + 4), Z, blocks[0]))
     pin(m, "pin-beam-r", (16, 48, ZN + 4), neg(Z), nb)
@@ -641,8 +636,8 @@ def build_nose():
 
 
 def build_front_wing():
-    m = "front-wing"
-    nb = S.get("nose", "beam")
+    m = FRONT_WING
+    nb = S.get(NOSE, "beam")
     pl = beam(m, "pylon-l", 5, (-24, 32, ZN + 16), Y, Z, pin(m, "pin-pylon-l", (-24, 48, ZN + 12), Z, nb))
     lo = beam(m, "slat-lo", 15, (0, 16, ZN + 24), X, Z, pin(m, "pin-slat-lo-l", (-24, 16, ZN + 20), Z, pl))
     beam(m, "slat-hi", 15, (0, 24, ZN + 24), X, Z, pin(m, "pin-slat-hi-l", (-24, 24, ZN + 20), Z, pl))
@@ -662,11 +657,70 @@ def build_front_wing():
         pin(m, "pin-endplate-%s-hi" % side(s), (s * 56, 24, ZN + 28), neg(Z), ep)
 
 
-def build_rear_wing():
-    m = "rear-wing"
-    pl = beam(
-        m, "pylon-l", 7, (-24, 120, -16), Y, Z, pin(m, "pin-pylon-l", (-24, 96, -12), neg(Z), S.get(C, "wing-block-l"))
+def build_front_end():
+    build_front_frame()
+    build_steering()
+    build_corner(1)
+    build_corner(-1)
+    # what joins two of its pieces and belongs to neither: the tops of the
+    # front shocks, and the knuckles' pins into the track rod
+    for s in (-1, 1):
+        pin(FRONT, "pin-shock-top-" + side(s), (s * 24, 80, ZW + 4), Z, S.get(FRAME, "shock-beam"), pid=PIN)
+    for s in (-1, 1):
+        pin(FRONT, "pin-track-rod-" + side(s), (s * XK, 28, 296), neg(Y), S.get(STEERING, "track-rod"), pid=PIN)
+    build_nose()
+    build_front_wing()
+
+
+def build_drivetrain():
+    """The rear subframe: a motor unit built on its own, then the beams, axles and wheels around it."""
+    m = DRIVE
+    inl = beam(m, "inner-l", 11, (-32, YF1, 40), Z, X, S.get(TUB, "pivot"))
+    u = MOTOR
+    # the motor, 8 mm left of centre so that its pinion meets the crown
+    motor = S.put(
+        u, "xl-motor", "58121", frame((-8, YF1, 28), x=X, y=Y), pin(u, "pin-motor-l1", (-28, YF1, 32), X, inl)
     )
+    pin(u, "pin-motor-l2", (-28, YF1, 72), X, motor)
+    sp = beam(u, "spacer", 7, (16, YF1, 56), Z, X, pin(u, "pin-motor-r1", (12, YF1, 32), X, motor))
+    pin(u, "pin-motor-r2", (12, YF1, 72), X, motor)
+    beam(u, "bracket", 5, (-8, YF1, 24), Y, Z, pin(u, "pin-bracket-1", (-8, 48, 28), neg(Z), motor))
+    pin(u, "pin-bracket-2", (-8, 32, 28), neg(Z), motor)
+    shaft = axle(u, "pinion-shaft", 3, (-8, YF1, 24), Z, motor)
+    S.put(u, "pinion", "32270", frame((-8, YF1, 16), z=Z, y=Y), shaft, round_part=True)
+    spin = pin(u, "pin-spacer-1", (20, YF1, 40), X, sp)
+    pin(u, "pin-spacer-2", (20, YF1, 64), X, sp)
+    inr = beam(m, "inner-r", 11, (24, YF1, 40), Z, X, spin)
+    right = axle(m, "half-axle-r", 9, (40, YF1, 0), X, inr)
+    left = axle(m, "half-axle-l", 9, (-40, YF1, 0), X, inl)
+    # the crown faces the pinion from the right
+    S.put(m, "differential", "62821", frame((4, YF1, 0), z=neg(X), y=Y), right)
+    for s, a, inner in ((-1, left, inl), (1, right, inr)):
+        outer = beam(m, "outer-" + side(s), 9, (s * 48, YF1, 32), Z, X, a)
+        for z in (8, 56):
+            if s < 0:
+                axle(m, "tie-%s-%d" % (side(s), z), 3, (-40, YF1, z), X, inner)
+            else:
+                axle(m, "tie-%s-%d" % (side(s), z), 4, (36, YF1, z), X, inner)
+        bush(m, "bush-%s-1" % side(s), (s * 56, YF1, 0), X, a)
+        bush(m, "bush-%s-2" % side(s), (s * 64, YF1, 0), X, a)
+        S.put(m, "wheel-" + side(s), "49294c01", frame((s * 80, YF1, 0), z=(s, 0, 0), y=Y), a, round_part=True)
+        sk = S.put(
+            m,
+            "shock-" + side(s),
+            SHOCK,
+            frame((s * 40, 88, 24), z=X, y=Y),
+            pin(m, "pin-shock-foot-" + side(s), (s * 44, YF1, 24), neg((s, 0, 0)), outer),
+        )
+        # and its head into the tower above it
+        pin(m, "pin-shock-head-" + side(s), (s * 44, 88, 24), (s, 0, 0), sk)
+
+
+def build_rear_wing():
+    m = REAR_WING
+    ra = axle(m, "axle", 12, (0, 88, -8), X, S.get(SIDE_L, "tower"))
+    blocks = [block(m, "block-" + side(s), (s * 24, 88, -8), X, Y, ra) for s in (-1, 1)]
+    pl = beam(m, "pylon-l", 7, (-24, 120, -16), Y, Z, pin(m, "pin-pylon-l", (-24, 96, -12), neg(Z), blocks[0]))
     lo = beam(m, "slat-lo", 15, (0, 136, -24), X, Z, pin(m, "pin-slat-lo-l", (-24, 136, -20), neg(Z), pl))
     beam(m, "slat-hi", 15, (0, 144, -24), X, Z, pin(m, "pin-slat-hi-l", (-24, 144, -20), neg(Z), pl))
     pr = beam(m, "pylon-r", 7, (24, 120, -16), Y, Z, pin(m, "pin-slat-lo-r", (24, 136, -20), Z, lo))
@@ -692,74 +746,86 @@ def build_sidepod(s):
         "panel",
         "62531",
         frame((s * 64, 40, ZB), x=(s, 0, 0), y=Y),
-        pin(m, "pin-front", (s * 52, YF2, ZB - s * 32), neg((s, 0, 0)), S.get(C, "rail-up-" + side(s))),
+        pin(m, "pin-front", (s * 52, YF2, ZB - s * 32), neg((s, 0, 0)), S.get(side_frame(s), "rail-up")),
     )
     pin(m, "pin-back", (s * 52, YF2, ZB + s * 32), neg((s, 0, 0)), pod)
 
 
 REMOTE_AT = (150.0, 18.4, 180.8)  # the handset, on the ground beside the car
 
-TOP = "f1/car"  # the car: every part in it is joined
-SET = "f1"  # the set: the car, and the remote control beside it
+CAR = ""  # the car's own level: f1/car.assy
+SET = "set"  # the car and the remote control beside it: f1.assy
+PRODUCT = "f1"
 
 
 def build():
     global S
     S = Scene(Index(INDEX))
-    build_chassis()
-    build_battery()
-    build_airbox()
+    build_tub()
+    build_front_end()
     build_drivetrain()
-    build_corner(1)
-    build_corner(-1)
-    build_steering()
-    # what joins two pieces and belongs to neither: the tops of the front
-    # shocks, and the knuckles' pins into the track rod
-    for s in (-1, 1):
-        pin(TOP, "pin-front-shock-" + side(s), (s * 24, 80, ZW + 4), Z, S.get(C, "shock-beam"), pid=PIN)
-    for s in (-1, 1):
-        pin(TOP, "pin-track-rod-" + side(s), (s * XK, 28, 296), neg(Y), S.get("steering", "track-rod"), pid=PIN)
-    build_nose()
-    build_front_wing()
     build_rear_wing()
     build_sidepod(-1)
     build_sidepod(1)
-    S.placed(
-        SET,
-        "ir-remote",
-        "58122",
-        frame(REMOTE_AT, x=X, y=Y),
-        note="a handset is not joined to the car it drives",
-    )
+    S.placed(SET, "ir-remote", "58122", frame(REMOTE_AT, x=X, y=Y), note="a handset is not joined to the car it drives")
     return S
 
 
 # ===========================================================================
 # Writing it out
 
-PIECES = {  # piece -> what it is, for partcad.yaml
-    "chassis": "The chassis: two side frames, the posts and shock towers at the back, the nose rails and the"
-    " bulkheads the front wishbones pivot on",
-    "battery": "The Power Functions battery box, across the car and pinned into both side frames",
-    "airbox": "The Power Functions IR receiver, sitting where an F1 car has its airbox",
-    "drivetrain": "The rear subframe: the XL motor, a 12-tooth pinion, the differential, the half axles and"
-    " wheels, and the two shocks it hangs from",
+PIECES = {  # piece -> (what it is, for partcad.yaml and the file's header)
+    "tub": "The tub: both side frames, the battery box between them, the pivot the drivetrain swings on, and the"
+    " airbox",
+    "side-frame-left": "The left side frame: the two rails, the post at the back and the shock tower over it",
+    "side-frame-right": "The right side frame: the two rails, the post at the back and the shock tower over it",
+    "battery": "The Power Functions battery box, with the pins in its end holes that the side frames go onto",
+    "airbox": "The Power Functions IR receiver on a crossbeam, and the cross blocks the rear posts carry it by",
+    "front-end": "Everything ahead of the battery: the front frame, both front corners, the steering, the nose and"
+    " the front wing",
+    "front-frame": "The front frame: the nose rails, the bulkheads the wishbones pivot on, the shock crossbeam and the"
+    " servo's cradle",
     "front-right": "The right front corner: double wishbones, a kingpin, the knuckle, the wheel and a shock",
     "front-left": "The left front corner: double wishbones, a kingpin, the knuckle, the wheel and a shock",
     "steering": "The servo, its arm and the track rod",
     "nose": "The nose: a cross axle between the nose rails, a crossbeam, and the nose cone",
     "front-wing": "The front wing: two slats on edge between two endplates, hung from the nose on two pylons",
-    "rear-wing": "The rear wing: two slats on edge between two endplates, on two pylons",
+    "drivetrain": "The rear subframe: the motor unit, the differential, the half axles and wheels, and the two"
+    " shocks it hangs from",
+    "motor-unit": "The XL motor with its pinion, the bracket across its face and the spacer beam beside it",
+    "rear-wing": "The rear wing: an axle through the shock towers, two slats on edge between two endplates, on two"
+    " pylons",
     "sidepod": "A sidepod: one smooth panel pinned to the upper side rail",
 }
 
 
+def parent_of(module):
+    return module.rsplit("/", 1)[0] if "/" in module else CAR
+
+
+def leaf(module):
+    return module.rsplit("/", 1)[-1]
+
+
 def piece_of(module):
-    return module.split("@")[0]
+    return leaf(module).split("@")[0]
 
 
 def instance_of(module):
-    return module.replace("@", "-")
+    return leaf(module).replace("@", "-")
+
+
+def object_of(module):
+    return "%s/%s" % (PRODUCT, piece_of(module)) if module else "%s/car" % PRODUCT
+
+
+def chain(module):
+    """The modules from the car down to 'module', the car excluded."""
+    out = []
+    while module:
+        out.insert(0, module)
+        module = parent_of(module)
+    return out
 
 
 def num(v):
@@ -767,63 +833,104 @@ def num(v):
     return str(int(v)) if v == int(v) else repr(v)
 
 
-def plan(S):
-    """Group the nodes into pieces, check every piece's boundary, work out the maps."""
-    modules = {}
-    for n in S.order:
-        modules.setdefault(n.module, []).append(n)
-    # every joint stays inside its piece, except a piece's first node's and the
-    # top level's, which is what a piece and a loose connector are placed by
-    for mod, nodes in modules.items():
-        for n in nodes[1:]:
-            if mod not in (TOP, SET) and isinstance(n.joint, dict) and n.joint["target"].module != mod:
-                raise ValueError("%s/%s is joined across its piece to %s" % (mod, n.name, n.joint["target"].module))
-    # a piece used twice must be the same piece twice
-    by_piece = {}
-    for mod in modules:
-        if mod not in (TOP, SET):
-            by_piece.setdefault(piece_of(mod), []).append(mod)
-    for piece, mods in by_piece.items():
-        ref = modules[mods[0]]
-        for other in mods[1:]:
-            nodes = modules[other]
-            assert [n.name for n in nodes] == [n.name for n in ref], piece
-            r0, o0 = inv(ref[0].M), inv(nodes[0].M)
-            for a, b in zip(ref, nodes):
-                assert same(mul(r0, a.M), mul(o0, b.M)), (piece, a.name)
-                if isinstance(a.joint, dict) and a is not ref[0]:
-                    ja, jb = a.joint, b.joint
-                    assert (ja["winst"], ja["tinst"], ja["turn"], ja["move"], ja["target"].name) == (
-                        jb["winst"],
-                        jb["tinst"],
-                        jb["turn"],
-                        jb["move"],
-                        jb["target"].name,
-                    ), (piece, a.name)
-    # the ports each piece has to externalize
-    maps = {}
-    for n in S.order:
-        j = n.joint
-        if not isinstance(j, dict):
-            continue
-        if n.module == TOP or n is modules[n.module][0]:
-            if j["target"].module != TOP:
-                maps.setdefault(piece_of(j["target"].module), {})[mapname(j["target"], j["tiface"], j["tinst"])] = (
-                    j["target"].name,
-                    j["tiface"],
-                    j["tinst"],
-                )
-            if n.module != TOP:
-                maps.setdefault(piece_of(n.module), {})[mapname(n, j["wiface"], j["winst"])] = (
-                    n.name,
-                    j["wiface"],
-                    j["winst"],
-                )
-    return modules, by_piece, maps
-
-
 def mapname(node, iface, inst):
     return "%s-%s-%s" % (node.name, SHORT[iface], inst)
+
+
+class Plan:
+    """Which module every joint is written in, and what each piece has to externalize.
+
+    A joint is written in the lowest module holding both of its parts. On the
+    side of the part being placed, every module between there and the part has
+    to be placed by that very joint - the part is the first thing in each of
+    them - and on both sides a port inside a module is reached through what
+    that module maps, one level at a time.
+    """
+
+    def __init__(self, S):
+        self.S = S
+        self.nodes = [n for n in S.order if n.module != SET]
+        self.index = {id(n): i for i, n in enumerate(self.nodes)}
+        self.modules = {CAR: []}
+        for n in self.nodes:
+            for m in chain(n.module):
+                self.modules.setdefault(m, [])
+        for n in self.nodes:
+            self.modules[n.module].append(n)
+        self.maps = {}  # piece -> {name: (element, iface, inst)}
+        self.joints = []  # (module, element name, joint, with-inst, to-element name, to-inst)
+        for n in self.nodes:
+            if isinstance(n.joint, dict):
+                self._place(n)
+        self._check_reuse()
+
+    def first(self, module):
+        """The first node anywhere under 'module': what the module is placed by."""
+        return min(
+            (n for n in self.nodes if n.module == module or n.module.startswith(module + "/")),
+            key=lambda n: self.index[id(n)],
+        )
+
+    def elements(self, module):
+        """What 'module' holds directly - its own nodes and its child modules - in build order."""
+        items = [(self.index[id(n)], "node", n) for n in self.modules[module]]
+        for child in self.modules:
+            if child and parent_of(child) == module:
+                items.append((self.index[id(self.first(child))], "module", child))
+        return [(kind, x) for _, kind, x in sorted(items, key=lambda i: i[0])]
+
+    def _exported(self, module, node, iface, inst):
+        """The name 'module' externalizes a port of 'node' by, mapping it on the way up."""
+        below = chain(node.module)
+        assert module in below, (module, node.module)
+        inner = below[below.index(module) + 1 :]
+        if not inner:
+            name = mapname(node, iface, inst)
+            self.maps.setdefault(piece_of(module), {})[name] = (node.name, iface, inst)
+            return name
+        child = inner[0]
+        name_inside = self._exported(child, node, iface, inst)
+        name = "%s-%s" % (instance_of(child), name_inside)
+        self.maps.setdefault(piece_of(module), {})[name] = (instance_of(child), iface, name_inside)
+        return name
+
+    def _side(self, where, node, iface, inst):
+        """(element name, instance name) that 'where' refers to a port of 'node' by."""
+        if node.module == where:
+            return node.name, inst
+        below = chain(node.module)
+        child = below[below.index(where) + 1] if where else below[0]
+        return instance_of(child), self._exported(child, node, iface, inst)
+
+    def _place(self, n):
+        j = n.joint
+        t = j["target"]
+        a, b = chain(n.module), chain(t.module)
+        common = [x for x, y in zip(a, b) if x == y]
+        where = common[-1] if common else CAR
+        # every module between 'where' and the part is placed by this joint
+        for m in a[len(common) :]:
+            if self.first(m) is not n:
+                raise ValueError("%s/%s is joined out of %s, which it is not the first part of" % (n.module, n.name, m))
+        src, with_inst = self._side(where, n, j["wiface"], j["winst"])
+        dst, to_inst = self._side(where, t, j["tiface"], j["tinst"])
+        self.joints.append((where, src, j, with_inst, dst, to_inst))
+
+    def _check_reuse(self):
+        """A piece used twice must be the same piece twice."""
+        by_piece = {}
+        for m in self.modules:
+            if m:
+                by_piece.setdefault(piece_of(m), []).append(m)
+        for piece, mods in by_piece.items():
+            ref = [n for n in self.nodes if n.module == mods[0]]
+            for other in mods[1:]:
+                got = [n for n in self.nodes if n.module == other]
+                assert [n.name for n in got] == [n.name for n in ref], piece
+                r0, o0 = inv(ref[0].M), inv(got[0].M)
+                for x, y in zip(ref, got):
+                    assert same(mul(r0, x.M), mul(o0, y.M)), (piece, x.name)
+        self.by_piece = by_piece
 
 
 def connect_yaml(out, j, with_inst, to_name, to_inst, indent="    "):
@@ -845,79 +952,63 @@ def connect_yaml(out, j, with_inst, to_name, to_inst, indent="    "):
         out += [indent + "    %s: %s" % (k, num(v)) for k, v in tp.items()]
 
 
-def write_piece(S, piece, nodes):
-    out = [
-        "# %s - a piece of the F1 car, generated by tools/gen_f1.py." % piece,
+def write_module(plan, module, header, location=None):
+    out = list(header)
+    if location is not None:
+        out.append("location: %s" % location)
+    out.append("links:")
+    joints = {(src, where): (j, w, dst, t) for where, src, j, w, dst, t in plan.joints}
+    for kind, x in plan.elements(module):
+        if kind == "node":
+            out.append("  - part: %s" % plan.S.ix.ref(x.pid))
+            out.append("    name: %s" % x.name)
+            key = (x.name, module)
+        else:
+            out.append("  - assembly: %s" % object_of(x))
+            out.append("    name: %s" % instance_of(x))
+            key = (instance_of(x), module)
+        if key in joints:
+            j, w, dst, t = joints[key]
+            connect_yaml(out, j, w, dst, t)
+    return "\n".join(out) + "\n"
+
+
+def piece_header(module):
+    piece = piece_of(module)
+    return [
+        "# %s - a piece of the F1 car, generated by tools/gen_f1.py." % object_of(module),
         "#",
         "# " + PIECES[piece] + ".",
         "#",
-        "# The first part is the piece's own origin, and says nothing: where the",
-        "# piece goes is for f1.assy to decide. Every other part is joined through",
-        "# its ports to a part before it.",
-        "links:",
+        "# Built on its own and then fitted where it goes: its first item is its",
+        "# origin and says nothing, and everything else in it is joined through its",
+        "# ports to something before it. What the piece is joined by from outside",
+        "# is what 'map:' externalizes in partcad.yaml.",
     ]
-    for n in nodes:
-        out.append("  - part: %s" % S.ix.ref(n.pid))
-        out.append("    name: %s" % n.name)
-        if n is nodes[0]:
-            continue
-        j = n.joint
-        connect_yaml(out, j, j["winst"], j["target"].name, j["tinst"])
-    return "\n".join(out) + "\n"
 
 
-def write_top(S, modules):
-    out = [
-        "# The Formula 1 car: Power Functions XL motor through a differential, a",
-        "# servo on the steering, the battery box and the IR receiver. Generated by",
-        "# tools/gen_f1.py.",
-        "#",
-        "# The car is its pieces, each joined to the one it hangs from through a",
-        "# port the piece externalizes ('map:' in partcad.yaml), and the few pins that",
-        "# join two pieces and belong to neither. The container's placement is the",
-        "# chassis's first beam's own pose, turned from the parts' Y-up frame into",
-        "# PartCAD's Z-up world: nose towards -Y, the ground at z = 0.",
-        "name: car",
-    ]
-    # The car's origin is the chassis's first part, which lies along the car
-    # rather than upright, so the container carries that part's own pose as
-    # well as the turn into Z-up: without it the whole car is turned the way
-    # that one beam is.
-    t, a, ang = to_axis_angle(mul(world(), S.order[0].M))
-    out.append("location: [[%s], [%s], %s]" % (", ".join(num(v) for v in t), ", ".join(num(v) for v in a), num(ang)))
-    out.append("links:")
-    seen = set()
-    for n in S.order:
-        if n.module == SET:
-            continue
-        if n.module != TOP:
-            if n.module in seen:
-                continue
-            seen.add(n.module)
-            first = modules[n.module][0]
-            out.append("  - assembly: %s/%s" % (SET, piece_of(n.module)))
-            out.append("    name: %s" % instance_of(n.module))
-            if first.joint is None:
-                continue
-            j = first.joint
-            target = j["target"]
-            to_name = target.name if target.module == TOP else instance_of(target.module)
-            to_inst = j["tinst"] if target.module == TOP else mapname(target, j["tiface"], j["tinst"])
-            connect_yaml(out, j, mapname(first, j["wiface"], j["winst"]), to_name, to_inst)
-            continue
-        out.append("  - part: %s" % S.ix.ref(n.pid))
-        out.append("    name: %s" % n.name)
-        j = n.joint
-        target = j["target"]
-        to_name = instance_of(target.module) if target.module != TOP else target.name
-        to_inst = mapname(target, j["tiface"], j["tinst"]) if target.module != TOP else j["tinst"]
-        connect_yaml(out, j, j["winst"], to_name, to_inst)
-    return "\n".join(out) + "\n"
+CAR_HEADER = [
+    "# The Formula 1 car: Power Functions XL motor through a differential, a",
+    "# servo on the steering, the battery box and the IR receiver. Generated by",
+    "# tools/gen_f1.py.",
+    "#",
+    "# Four sub-systems, each built from pre-assembled blocks and fitted to the",
+    "# tub through the ports those blocks externalize ('map:' in partcad.yaml),",
+    "# plus the two sidepods. The container's placement is the tub's first beam's",
+    "# own pose, turned from the parts' Y-up frame into PartCAD's Z-up world:",
+    "# nose towards -Y, the ground at z = 0.",
+    "name: car",
+]
 
 
 def world():
     """The build frame turned into PartCAD's Z-up world: the ground at z = 0."""
     return loc((0, 0, 0), (1, 0, 0), 90)
+
+
+def packed(m):
+    t, a, ang = to_axis_angle(m)
+    return "[[%s], [%s], %s]" % (", ".join(num(v) for v in t), ", ".join(num(v) for v in a), num(ang))
 
 
 def write_set(S):
@@ -930,20 +1021,16 @@ def write_set(S):
         "# the ground beside it, placed by coordinates in PartCAD's Z-up world.",
         "name: f1",
         "links:",
-        "  - assembly: %s" % TOP,
+        "  - assembly: %s/car" % PRODUCT,
         "    name: car",
     ]
-    up = world()
     for n in S.order:
         if n.module != SET:
             continue
         out.append("  - part: %s" % S.ix.ref(n.pid))
         out.append("    name: %s" % n.name)
         out.append("    # %s%s, so it is placed rather than joined." % (n.note[0].upper(), n.note[1:]))
-        t, a, ang = to_axis_angle(mul(up, n.M))
-        out.append(
-            "    location: [[%s], [%s], %s]" % (", ".join(num(v) for v in t), ", ".join(num(v) for v in a), num(ang))
-        )
+        out.append("    location: %s" % packed(mul(world(), n.M)))
     return "\n".join(out) + "\n"
 
 
@@ -965,21 +1052,21 @@ BEGIN = "  # --- f1: generated by tools/gen_f1.py; edit the generator, not this 
 END = "  # --- end of f1 ---"
 
 
-def write_yaml_block(maps, by_piece):
+def write_yaml_block(plan):
     out = [BEGIN]
     for piece in PIECES:
-        out.append("  %s/%s:" % (SET, piece))
+        out.append("  %s/%s:" % (PRODUCT, piece))
         out.append("    type: assy")
-        if piece in maps:
+        if piece in plan.maps:
             out.append("    map:")
-            for name, (node, iface, inst) in sorted(maps[piece].items()):
-                out.append("      %s: [%s, %s:%s, %s]" % (name, node, LEGO, iface, inst))
+            for name, (element, iface, inst) in sorted(plan.maps[piece].items()):
+                out.append("      %s: [%s, %s:%s, %s]" % (name, element, LEGO, iface, inst))
         out.append('    desc: "%s"' % PIECES[piece])
     out += [
-        "  %s:" % TOP,
+        "  %s/car:" % PRODUCT,
         "    type: assy",
         '    desc: "The car: every one of its parts joined through its ports, none placed by coordinates"',
-        "  %s:" % SET,
+        "  %s:" % PRODUCT,
         "    type: assy",
         "    path: f1.assy",
         "    desc: A Formula 1 car in LEGO Technic - Power Functions motors, suspension, and the IR remote control.",
@@ -990,32 +1077,39 @@ def write_yaml_block(maps, by_piece):
 
 def main():
     S = build()
-    modules, by_piece, maps = plan(S)
+    plan = Plan(S)
     parts = len(S.order)
     joined = sum(1 for n in S.order if isinstance(n.joint, dict))
     placed = [n for n in S.order if n.joint == "location"]
     print(
-        "%d parts: %d joined through ports, %d the car's origin, %d placed by coordinates (%s)"
-        % (parts, joined, parts - joined - len(placed), len(placed), ", ".join(n.name for n in placed)),
+        "%d parts: %d joined through ports, %d the car's origin, %d placed by coordinates (%s); %d pieces"
+        % (
+            parts,
+            joined,
+            parts - joined - len(placed),
+            len(placed),
+            ", ".join(n.name for n in placed),
+            len(plan.by_piece),
+        ),
         file=sys.stderr,
     )
     if "--check" in sys.argv:
         return 0
-    os.makedirs(os.path.join(ROOT, SET), exist_ok=True)
-    for piece, mods in by_piece.items():
-        with open(os.path.join(ROOT, SET, piece + ".assy"), "w") as f:
-            f.write(write_piece(S, piece, modules[mods[0]]))
-    with open(os.path.join(ROOT, TOP + ".assy"), "w") as f:
-        f.write(write_top(S, modules))
-    with open(os.path.join(ROOT, SET + ".assy"), "w") as f:
+    folder = os.path.join(ROOT, PRODUCT)
+    for name in os.listdir(folder):
+        if name.endswith(".assy"):
+            os.remove(os.path.join(folder, name))  # a piece that is gone must not linger
+    for piece, mods in plan.by_piece.items():
+        with open(os.path.join(folder, piece + ".assy"), "w") as f:
+            f.write(write_module(plan, mods[0], piece_header(mods[0])))
+    with open(os.path.join(folder, "car.assy"), "w") as f:
+        f.write(write_module(plan, CAR, CAR_HEADER, location=packed(mul(world(), S.order[0].M))))
+    with open(os.path.join(ROOT, PRODUCT + ".assy"), "w") as f:
         f.write(write_set(S))
     path = os.path.join(ROOT, "partcad.yaml")
     text = open(path).read()
-    block = write_yaml_block(maps, by_piece)
-    if BEGIN in text:
-        text = re.sub(re.escape(BEGIN) + ".*?" + re.escape(END), lambda _: block, text, flags=re.S)
-    else:
-        text = text.rstrip("\n") + "\n" + block + "\n"
+    block_text = write_yaml_block(plan)
+    text = re.sub(re.escape(BEGIN) + ".*?" + re.escape(END), lambda _: block_text, text, flags=re.S)
     with open(path, "w") as f:
         f.write(text)
     return 0

@@ -228,7 +228,7 @@ its Power Functions electrics and the IR remote control beside it.
 | front suspension | double wishbones | two `Technic Beam 5` a side; a cross block (`Technic:6536`) on the end of each holds an upright kingpin, and a knuckle (`Technic:32557`) turns on it, carrying the stub axle in a round hole; a shock absorber from the upper wishbone to a crossbeam |
 | rear suspension | a swinging subframe | the motor, the differential and both half axles are one subframe, pivoting on an axle across the chassis ahead of the motor and held up by a shock absorber under each of two towers |
 
-211 parts, 31 distinct:
+213 parts, 31 distinct:
 
 ```shell
 pc inspect -a f1                # the car and its remote
@@ -249,35 +249,47 @@ an XL motor, a servo and a receiver takes, with suspension at both ends.
 
 ### The pieces it is built from
 
-`f1` is the car and the remote beside it; `f1/car` is the car, and the car is
-eleven pieces under `f1/`. Only the sidepod occurs twice - the car is symmetric
-but the two front corners are mirror images, and a mirror image is not the same
-assembly turned round - so the split is by what the car is made of rather than
-by repetition: each piece is a thing that can be built and looked at on its own.
+`f1` is the car and the remote beside it; `f1/car` is the car. The car is split
+the way it would be built on a bench by several people at once: into
+sub-systems, each made of blocks that are finished and handled on their own
+before they are fitted, so that nobody waits for anybody until the last step.
 
-| piece | parts | used | |
+| stage 1 - the blocks, all at once | parts | stage 2 - the sub-systems | stage 3 |
 | --- | --- | --- | --- |
-| `f1/chassis` | 71 | 1 | two side frames of `Technic Beam 15`, the posts and shock towers at the back, the nose rails and the bulkheads the wishbones pivot on |
-| `f1/drivetrain` | 34 | 1 | the rear subframe: motor, pinion, differential, half axles, rear wheels and shocks |
-| `f1/front-right`, `f1/front-left` | 15 | 1 each | wishbones, kingpin, knuckle, front wheel and shock |
-| `f1/front-wing`, `f1/rear-wing` | 16 | 1 each | two slats on edge between two endplates, on two pylons |
-| `f1/nose` | 12 | 1 | a cross axle between the nose rails, a crossbeam, and a pair of long fairings as the cone |
-| `f1/battery` | 9 | 1 | the battery box and the eight pins that hold it |
-| `f1/steering` | 9 | 1 | servo, arm and track rod |
-| `f1/airbox` | 3 | 1 | the IR receiver and its pins |
-| `f1/sidepod` | 3 | 2 | a smooth panel pinned to the upper side rail |
+| `f1/side-frame-left`, `f1/side-frame-right` | 7 each | `f1/tub`: the right frame goes onto the battery box's pins, the box onto the left frame; then the pivot axle and its three bushes (4), and the airbox on the rear posts | `f1/car` |
+| `f1/battery` - the box and the eight pins in its end holes | 9 | | |
+| `f1/airbox` - the IR receiver on a crossbeam, and the cross blocks the posts carry it by | 10 | | |
+| `f1/front-frame` - nose rails, bulkheads, shock crossbeam, servo cradle | 43 | `f1/front-end`: everything hangs on the frame; the four pins that join a piece to another piece of it (the tops of the front shocks, the knuckles to the track rod) are its own (4) | |
+| `f1/front-right`, `f1/front-left` - wishbones, kingpin, knuckle, wheel, shock | 15 each | | |
+| `f1/steering` - servo, arm, track rod | 9 | | |
+| `f1/nose` - a cross axle, a crossbeam, the cone | 12 | | |
+| `f1/front-wing` - two slats between two endplates, on two pylons | 16 | | |
+| `f1/motor-unit` - XL motor, pinion, the bracket across its face, the spacer beam | 13 | `f1/drivetrain`: the subframe's inner beams around the motor unit, the differential, the half axles and wheels, the shocks (23) | |
+| `f1/rear-wing` - an axle through the towers, slats, endplates, pylons | 19 | | |
+| `f1/sidepod` - one panel and its pins | 3, used twice | | |
 
-With the five items that sit in the top files themselves - the pins joining the
-tops of the front shocks to their crossbeam and the knuckles to the track rod,
-which belong to neither piece they join, and the remote - that is
-71 + 34 + 2 x 15 + 2 x 16 + 12 + 9 + 9 + 3 + 2 x 3 + 5 = 211.
+That is 37 in the tub, 114 in the front end, 36 in the drivetrain, 19 in the
+rear wing and 2 x 3 in the sidepods: 212 for the car, and the remote makes 213.
+
+Only the sidepod occurs twice. The car is symmetric, but the two front corners
+and the two side frames are mirror images, and a mirror image is not the same
+assembly turned round.
+
+Pieces are joined to each other through **mapped ports**, never by reaching into
+another piece's parts. Each piece's `map:` in `partcad.yaml` externalizes the
+ports a joint outside it uses, and a port that is several levels deep is mapped
+at every level on the way up: the front end's `front-frame-pin-nose-1-l-pin-left`
+is the front frame's `pin-nose-1-l-pin-left`, which is that pin's `left` end.
+A joint between two pieces is written in the lowest piece that holds both, so
+the front corners are joined to the front frame in `f1/front-end`, and only the
+four sub-systems and the sidepods meet in `f1/car`.
 
 ### Joined, all of it
 
 **Every part of the car is joined through its ports.** Nothing in `f1/car` is
 placed by coordinates: each part names the port of its own and the port of an
 earlier part that it is put onto, the way the castle's bricks name the stud they
-sit on. The chassis's first beam is the car's origin, and the car's own
+sit on. The left side frame's lower rail is the car's origin, and the car's own
 `location:` is that beam's pose turned into PartCAD's Z-up world - which is what
 puts the ground at z = 0, the nose towards -Y and the car's right towards +X.
 (It is also what went wrong first: turning the car into Z-up and nothing else
@@ -317,9 +329,9 @@ from `//pub/universe/lego`'s own index, so a joint the package does not serve
 cannot be written.
 
 The result was then checked the way the `gen-assembly` skill asks: PartCAD
-instantiated `f1`, the tree was walked down to its 211 parts composing every
+instantiated `f1`, the tree was walked down to its 213 parts composing every
 transform, and each part's world placement was compared with the generator's as a
-multiset. All 211 agree, rotations included.
+multiset. All 213 agree, rotations included, through every level of the pieces.
 
 It needed two things from `//pub/universe/lego/ldraw` that it did not have. One
 is the axle hole of a cross block: LDraw draws the bush of a cross block as a
