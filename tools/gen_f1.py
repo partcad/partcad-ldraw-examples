@@ -69,10 +69,13 @@ That split is also what the interference test is run on: each piece is tested
 on its own, in parallel with the others, and what is left for the car is the
 pairs that straddle two pieces.
 
-The car's origin is its chassis's first beam, so f1/car.assy is placed at that
-beam's own pose turned +90 degrees about X: that takes this Y-up frame into
-PartCAD's Z-up world with the nose towards -Y, so 'front' shows the nose and
-'right' the car's right side, and the ground at z = 0.
+The car's origin is its first beam, the left side frame's lower rail, so
+f1/car.assy is placed at that beam's own pose turned +90 degrees about X: that
+takes this Y-up frame into PartCAD's Z-up world with the nose towards -Y, so
+'front' shows the nose and 'right' the car's right side, and the ground at
+z = 0. partcad-ldraw stands each part up with that same turn, which is why the
+design frame is the parts' LDraw frame and not the frame they are served in:
+see UPRIGHT.
 
 Usage, from the repository root, with a checkout of partcad-ldraw beside this
 one (or LDRAW_INDEX pointing at its parts-index.zip):
@@ -214,11 +217,28 @@ class Index:
     def ports(self, pid):
         for iface, instances in sorted((self.entry[pid][3] or {}).items()):
             for inst, (t, a, ang) in sorted(instances.items()):
-                yield iface.split(":")[1], inst, loc(t, a, ang)
+                yield iface.split(":")[1], inst, lying(loc(t, a, ang))
 
     def port(self, pid, iface, inst):
         t, a, ang = self.entry[pid][3]["%s:%s" % (LEGO, iface)][inst]
-        return loc(t, a, ang)
+        return lying(loc(t, a, ang))
+
+
+# partcad-ldraw serves every part stood up in Z: its mesh and its ports are
+# LDraw's, turned this quarter about X on the way out. The car is designed in
+# the frame before that turn, where a part is one negation away from the .dat
+# it is read off, so a port read from the index is turned back into it - and a
+# pose written out for PartCAD is given the turn back (see 'placement').
+#
+# Nothing in between needs to know. A joint's 'turnZ' and 'moveZ' are measured
+# between two ports, and turning both parts and both ports by the same amount
+# leaves every one of them as it was.
+UPRIGHT = loc((0, 0, 0), (1, 0, 0), 90)
+
+
+def lying(port):
+    """A port as served, in the frame of the part before it was stood up."""
+    return mul(inv(UPRIGHT), port)
 
 
 class Node:
@@ -1006,6 +1026,11 @@ def world():
     return loc((0, 0, 0), (1, 0, 0), 90)
 
 
+def placement(M):
+    """Where PartCAD puts a part designed at M: in its Z-up world, and served upright."""
+    return packed(mul(mul(world(), M), inv(UPRIGHT)))
+
+
 def packed(m):
     t, a, ang = to_axis_angle(m)
     return "[[%s], [%s], %s]" % (", ".join(num(v) for v in t), ", ".join(num(v) for v in a), num(ang))
@@ -1030,7 +1055,7 @@ def write_set(S):
         out.append("  - part: %s" % S.ix.ref(n.pid))
         out.append("    name: %s" % n.name)
         out.append("    # %s%s, so it is placed rather than joined." % (n.note[0].upper(), n.note[1:]))
-        out.append("    location: %s" % packed(mul(world(), n.M)))
+        out.append("    location: %s" % placement(n.M))
     return "\n".join(out) + "\n"
 
 
@@ -1103,7 +1128,7 @@ def main():
         with open(os.path.join(folder, piece + ".assy"), "w") as f:
             f.write(write_module(plan, mods[0], piece_header(mods[0])))
     with open(os.path.join(folder, "car.assy"), "w") as f:
-        f.write(write_module(plan, CAR, CAR_HEADER, location=packed(mul(world(), S.order[0].M))))
+        f.write(write_module(plan, CAR, CAR_HEADER, location=placement(S.order[0].M)))
     with open(os.path.join(ROOT, PRODUCT + ".assy"), "w") as f:
         f.write(write_set(S))
     path = os.path.join(ROOT, "partcad.yaml")

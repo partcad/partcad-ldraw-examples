@@ -8,7 +8,7 @@
 # own pose, turned from the parts' Y-up frame into PartCAD's Z-up world:
 # nose towards -Y, the ground at z = 0.
 name: car
-location: [[-48, -136, 40], [1, 1, -1], 120]
+location: [[-48, -136, 40], [0, 1, 0], 90]
 links:
   - assembly: f1/tub
     name: tub

@@ -45,7 +45,7 @@ links:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h1-bottom
       withParams:
-        turnZ: -180
+        turnZ: 180
       name: pin-post-up
       to: //pub/universe/lego:technic-pin
       toInstance: right
@@ -65,7 +65,7 @@ links:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h12-bottom
       withParams:
-        turnZ: -180
+        turnZ: 180
       name: pin-post-tower
       to: //pub/universe/lego:technic-pin
       toInstance: right

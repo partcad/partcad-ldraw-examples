@@ -15,7 +15,7 @@ links:
       with: //pub/universe/lego:technic-pin
       withInstance: pin-servo-1-pin-left
       withParams:
-        turnZ: -180
+        turnZ: 180
       name: front-frame
       to: //pub/universe/lego:technic-pin-hole
       toInstance: servo-rail-r-hole-h0-bottom

@@ -25,7 +25,7 @@ links:
       with: //pub/universe/lego:technic-pin
       withInstance: left
       withParams:
-        turnZ: 180
+        turnZ: -180
       name: servo
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h11

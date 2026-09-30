@@ -11,4 +11,4 @@ links:
   - part: //pub/universe/lego/ldraw/Electric:58122
     name: ir-remote
     # A handset is not joined to the car it drives, so it is placed rather than joined.
-    location: [[150, -180.8, 18.4], [1, 0, 0], 90]
+    location: [[150, -180.8, 18.4], [0, 0, 1], 0]

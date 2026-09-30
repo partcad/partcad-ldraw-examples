@@ -35,7 +35,7 @@ links:
       with: //pub/universe/lego:technic-pin
       withInstance: left
       withParams:
-        turnZ: -180
+        turnZ: 180
       name: nose-up-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h8-top
@@ -143,7 +143,7 @@ links:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h1-top
       withParams:
-        turnZ: -180
+        turnZ: 180
       name: servo-axle-l
       to: //pub/universe/lego:technic-axle
       toInstance: right
@@ -297,7 +297,7 @@ links:
       with: //pub/universe/lego:technic-pin
       withInstance: left
       withParams:
-        turnZ: -180
+        turnZ: 180
       name: nose-up-r
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h8-bottom
@@ -360,7 +360,7 @@ links:
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h3-top
       toParams:
-        turnZ: 180
+        turnZ: -180
   - part: //pub/universe/lego/ldraw/Technic:32523
     name: servo-rail-r
     connect:

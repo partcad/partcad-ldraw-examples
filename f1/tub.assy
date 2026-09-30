@@ -15,7 +15,7 @@ links:
       with: //pub/universe/lego:technic-pin
       withInstance: pin-l-lo-front-pin-left
       withParams:
-        turnZ: -180
+        turnZ: 180
       name: side-frame-left
       to: //pub/universe/lego:technic-pin-hole
       toInstance: rail-lo-hole-h5-top
@@ -80,4 +80,4 @@ links:
       to: //pub/universe/lego:technic-pin-hole
       toInstance: post-hole-h5-bottom
       toParams:
-        turnZ: 180
+        turnZ: -180

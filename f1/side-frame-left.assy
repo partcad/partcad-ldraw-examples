@@ -15,7 +15,7 @@ links:
       with: //pub/universe/lego:technic-pin
       withInstance: left
       withParams:
-        turnZ: -180
+        turnZ: 180
       name: rail-lo
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h1-top
