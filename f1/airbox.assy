@@ -89,3 +89,5 @@ links:
       name: ir-receiver
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h0
+      # its other end snaps into these as well (see snap_in_elsewhere)
+      interferes: [beam]

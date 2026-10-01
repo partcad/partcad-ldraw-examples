@@ -197,6 +197,8 @@ links:
       name: nose-up-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h12-bottom
+      # its other end snaps into these as well (see snap_in_elsewhere)
+      interferes: [nose-ext-l]
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-shock-beam-l
     connect:
@@ -421,3 +423,5 @@ links:
       name: nose-up-r
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h12-top
+      # its other end snaps into these as well (see snap_in_elsewhere)
+      interferes: [nose-ext-r]

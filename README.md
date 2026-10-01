@@ -372,23 +372,33 @@ report what it finds rather than fail on it. Giving it a threshold high enough t
 stud would be worse than either: that floor is a rounding tolerance, and making
 it carry this would be a number pretending to be one.
 
-What would make the check meaningful is the matings in
-`//pub/universe/lego/ldraw` declaring `snapIn: true` — a stud in an anti-stud, and a pin or an axle in a hole,
-are interference fits wherever they occur. Both models are joined through those
-interfaces, so that declaration is all that is missing, and it is not made yet.
+What makes the check meaningful is the matings in `//pub/universe/lego`
+declaring `snapIn: true`, and for a Technic pin in a round hole they do: its
+slotted end is squeezed past the lip and springs open behind it. A stud in an
+anti-stud is the same kind of fit and does not say so yet, which is why the
+castle still reports every stud. An axle snaps past nothing, so an axle that
+overlaps the part it goes through is still reported.
 
-For the car, what it finds is 18 overlaps. All but two are inside a single
-piece: a pin in the hole of a part that LDraw's mesh closes over (a panel, a
-nose cone, a spacer beam), or an axle in a cross block whose axle hole the
-solidified mesh does not quite open. The two that cross a boundary are the
-motor unit's spacer pins in the drivetrain's inner beam, at 0.7 mm^3 each.
-Eight parts - the battery box, the receiver, the servo, the motor, its pinion
-and wheels - come out of the package as meshes
-that do not close into a solid of positive volume, and are reported as not
-checked rather than checked wrongly.
+A pin joins two parts, and its connection names one of them; its other end
+goes into the second part all the same. `tools/gen_f1.py` finds those ends - a
+pin end and a round hole facing each other at one point, the test it joins
+parts by - and names the second part in that pin's `interferes:`. That covers
+15 pins. 25 more have their second part in a different piece (the battery's
+pins in the side frames, the steering's pins in the front frame), and a
+connection can name only items of its own assembly; `gen_f1.py --check` lists
+them.
 
-Each piece can be checked on its own, and they are independent of each other:
-the thirteen blocks take 137 s together on one machine, the slowest 136 s, and
-the whole car 292 s. (Before PartCAD's interference boolean fused boundaries a
-micron apart, near-coincident faces of meshed parts made single pairs take
-minutes, and the car did not finish in an hour.)
+PartCAD does not measure a pair whose joint says it overlaps, since the answer
+would be thrown away, and a seated pin is the slowest boolean an assembly has.
+The airbox's check takes 4 s and the right side frame's 7 s, where they took
+minutes.
+
+What it does measure is only as good as the solids it is given. 16 of the 31
+parts this car is made of - the friction pin, the cross block, the panels, the
+gears, the wheels, the shocks and every Power Functions part - come out of
+`//pub/universe/lego/ldraw` as shells that are not closed, because LDraw draws
+surfaces that overlap or stop short of each other rather than solids. A boolean
+against such a shell returns a number that means nothing: the 12.457 mm^3 the
+check reports between an axle and its cross block is one, where the hole as
+LDraw draws it is wider than the axle at every corner. Closing those shells is work for
+`//pub/universe/lego/ldraw`, not for this model.

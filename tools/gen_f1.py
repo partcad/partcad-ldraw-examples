@@ -244,6 +244,7 @@ def lying(port):
 class Node:
     def __init__(self, module, name, pid, M, joint=None, note=None):
         self.module, self.name, self.pid, self.M, self.joint, self.note = module, name, pid, M, joint, note
+        self.interferes = []  # parts this one also snaps into, beyond the one it is joined to
 
 
 def _offset(A, M, Ps):
@@ -778,6 +779,54 @@ SET = "set"  # the car and the remote control beside it: f1.assy
 PRODUCT = "f1"
 
 
+def snap_in_elsewhere(S):
+    """Name, on each pin's own joint, the further part its other end snaps into.
+
+    A pin joins two parts and a connection names one of them. The other end
+    goes into a hole of the second part all the same - the receiver's second
+    pin holds it to the beam - and partcad-ldraw says a pin in a round hole is
+    'snapIn', so that end overlaps the second part exactly as much as the
+    joined one overlaps the first. Nothing about the connection implies it,
+    which is what 'interferes:' is for.
+
+    Found the way 'Scene.put' finds a joint: a pin end and a round hole's mouth
+    at the same point and facing each other. Only within one piece, since a
+    connection's names are the names of its own assembly; a pin whose free end
+    lands in another piece is returned, to be reported rather than written.
+    """
+    holes = []
+    for m in S.order:
+        for iface, _, P in S.ix.ports(m.pid):
+            if iface == "technic-pin-hole":
+                W = mul(m.M, P)
+                holes.append((m, [W[i][3] for i in range(3)], [W[i][2] for i in range(3)]))
+    joined = {
+        (n.name, n.module, n.joint["target"].name, n.joint["target"].module)
+        for n in S.order
+        if isinstance(n.joint, dict)
+    }
+    elsewhere = []
+    for n in S.order:
+        if not isinstance(n.joint, dict):
+            continue
+        for iface, inst, P in S.ix.ports(n.pid):
+            if iface != "technic-pin" or (n.joint["wiface"] == iface and n.joint["winst"] == inst):
+                continue
+            W = mul(n.M, P)
+            wp, wz = [W[i][3] for i in range(3)], [W[i][2] for i in range(3)]
+            for m, hp, hz in holes:
+                if m is n or m is n.joint["target"] or not close(wp, hp, 1e-3) or not close(wz, neg(hz), 1e-4):
+                    continue
+                if (m.name, m.module, n.name, n.module) in joined:
+                    continue  # the second part is joined to this pin, and says so itself
+                if m.module == n.module:
+                    if m.name not in n.interferes:
+                        n.interferes.append(m.name)
+                else:
+                    elsewhere.append((n, m))
+    return elsewhere
+
+
 def build():
     global S
     S = Scene(Index(INDEX))
@@ -788,6 +837,7 @@ def build():
     build_sidepod(-1)
     build_sidepod(1)
     S.placed(SET, "ir-remote", "58122", frame(REMOTE_AT, x=X, y=Y), note="a handset is not joined to the car it drives")
+    S.snapped_elsewhere = snap_in_elsewhere(S)
     return S
 
 
@@ -953,7 +1003,7 @@ class Plan:
         self.by_piece = by_piece
 
 
-def connect_yaml(out, j, with_inst, to_name, to_inst, indent="    "):
+def connect_yaml(out, j, with_inst, to_name, to_inst, indent="    ", interferes=()):
     out.append(indent + "connect:")
     out.append(indent + "  with: %s:%s" % (LEGO, j["wiface"]))
     out.append(indent + "  withInstance: %s" % with_inst)
@@ -970,6 +1020,9 @@ def connect_yaml(out, j, with_inst, to_name, to_inst, indent="    "):
     if tp:
         out.append(indent + "  toParams:")
         out += [indent + "    %s: %s" % (k, num(v)) for k, v in tp.items()]
+    if interferes:
+        out.append(indent + "  # its other end snaps into these as well (see snap_in_elsewhere)")
+        out.append(indent + "  interferes: [%s]" % ", ".join(interferes))
 
 
 def write_module(plan, module, header, location=None):
@@ -989,7 +1042,7 @@ def write_module(plan, module, header, location=None):
             key = (instance_of(x), module)
         if key in joints:
             j, w, dst, t = joints[key]
-            connect_yaml(out, j, w, dst, t)
+            connect_yaml(out, j, w, dst, t, interferes=x.interferes if kind == "node" else ())
     return "\n".join(out) + "\n"
 
 
@@ -1118,6 +1171,20 @@ def main():
         ),
         file=sys.stderr,
     )
+    written = {(src, where) for where, src, _, _, _, _ in plan.joints}
+    unwritten = [(n, m) for n, m in S.snapped_elsewhere]
+    for n in S.order:
+        if n.interferes and (n.name, n.module) not in written:
+            unwritten += [(n, S.get(n.module, m)) for m in n.interferes]
+    print(
+        "%d pins snap into a second part as well, named in 'interferes:'" % sum(len(n.interferes) for n in S.order),
+        file=sys.stderr,
+    )
+    for n, m in unwritten:
+        print(
+            "  not expressible: %s/%s also snaps into %s/%s" % (n.module or "car", n.name, m.module or "car", m.name),
+            file=sys.stderr,
+        )
     if "--check" in sys.argv:
         return 0
     folder = os.path.join(ROOT, PRODUCT)

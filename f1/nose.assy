@@ -55,6 +55,8 @@ links:
       name: beam
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h6-bottom
+      # its other end snaps into these as well (see snap_in_elsewhere)
+      interferes: [block-r]
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-cone-r-1
     connect:
@@ -83,6 +85,8 @@ links:
       name: cone-r
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h4
+      # its other end snaps into these as well (see snap_in_elsewhere)
+      interferes: [beam]
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-cone-l-1
     connect:
@@ -111,3 +115,5 @@ links:
       name: cone-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h8
+      # its other end snaps into these as well (see snap_in_elsewhere)
+      interferes: [beam]

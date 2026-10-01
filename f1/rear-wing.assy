@@ -113,6 +113,8 @@ links:
       name: pylon-r
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h6-bottom
+      # its other end snaps into these as well (see snap_in_elsewhere)
+      interferes: [slat-hi]
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-pylon-r
     connect:
@@ -123,6 +125,8 @@ links:
       name: pylon-r
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h0-top
+      # its other end snaps into these as well (see snap_in_elsewhere)
+      interferes: [block-r]
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-endplate-l-lo
     connect:
@@ -151,6 +155,8 @@ links:
       name: endplate-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h4-top
+      # its other end snaps into these as well (see snap_in_elsewhere)
+      interferes: [slat-hi]
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-endplate-r-lo
     connect:
@@ -179,3 +185,5 @@ links:
       name: endplate-r
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h4-top
+      # its other end snaps into these as well (see snap_in_elsewhere)
+      interferes: [slat-hi]

@@ -59,6 +59,8 @@ links:
       name: xl-motor
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h9
+      # its other end snaps into these as well (see snap_in_elsewhere)
+      interferes: [spacer]
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-bracket-1
     connect:
@@ -89,6 +91,8 @@ links:
       name: xl-motor
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h5
+      # its other end snaps into these as well (see snap_in_elsewhere)
+      interferes: [bracket]
   - part: //pub/universe/lego/ldraw/Technic:4519
     name: pinion-shaft
     connect:
