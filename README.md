@@ -382,23 +382,29 @@ overlaps the part it goes through is still reported.
 A pin joins two parts, and its connection names one of them; its other end
 goes into the second part all the same. `tools/gen_f1.py` finds those ends - a
 pin end and a round hole facing each other at one point, the test it joins
-parts by - and names the second part in that pin's `interferes:`. That covers
-15 pins. 25 more have their second part in a different piece (the battery's
-pins in the side frames, the steering's pins in the front frame), and a
-connection can name only items of its own assembly; `gen_f1.py --check` lists
-them.
+parts by - and says so in `interferes:`. Within one piece, 15 pins name the
+second part on their own joint. 25 more have their second part in a different
+piece - the battery's pins in the side frames, the steering's in the front
+frame, the sidepods' in the tub - and those are said where the two pieces meet,
+on the link of one naming the link of the other: the battery's link in
+`f1/tub` says `interferes: [side-frame-left, side-frame-right]`. That excuses
+any overlap between the two pieces, which is as precise as it can be said
+until PartCAD can tell an overlap at the joined port from one elsewhere.
 
-PartCAD does not measure a pair whose joint says it overlaps, since the answer
-would be thrown away, and a seated pin is the slowest boolean an assembly has.
-The airbox's check takes 4 s and the right side frame's 7 s, where they took
-minutes.
+PartCAD checks the car the way it is built. Each piece answers for its own
+inside with its own verdict, cached against the piece, and an assembly looks
+only at what crosses between the pieces it holds - comparing the box around
+each piece first, so two pieces that are apart cost one comparison however many
+parts are in them. A pair whose joint says it overlaps is not measured at all.
 
-What it does measure is only as good as the solids it is given. 16 of the 31
-parts this car is made of - the friction pin, the cross block, the panels, the
-gears, the wheels, the shocks and every Power Functions part - come out of
-`//pub/universe/lego/ldraw` as shells that are not closed, because LDraw draws
-surfaces that overlap or stop short of each other rather than solids. A boolean
-against such a shell returns a number that means nothing: the 12.457 mm^3 the
-check reports between an axle and its cross block is one, where the hole as
-LDraw draws it is wider than the axle at every corner. Closing those shells is work for
-`//pub/universe/lego/ldraw`, not for this model.
+What it measures is only as good as the solids it is given, and a part that is
+not a solid is not measured but reported: a boolean against an open shell
+returns a number that means nothing - the 12.457 mm^3 once reported between an
+axle and its cross block was one, where the hole as LDraw draws it is wider
+than the axle at every corner. `//pub/universe/lego/ldraw` now serves a part
+as a solid or not at all. It repairs what LDraw draws as overlapping or short
+surfaces, and the friction pin, the cross block, the gears, the wheels and the
+shocks come out solid; but eight of this car's parts - the knuckle, three
+panels, the servo, the XL motor, the battery box and the IR remote - have faces
+LDraw does not draw, and are refused rather than guessed at. Until they are mended there, the car does not
+build against it.

@@ -19,6 +19,8 @@ links:
       name: side-frame-left
       to: //pub/universe/lego:technic-pin-hole
       toInstance: rail-lo-hole-h5-top
+      # its other end snaps into these as well (see snap_in_elsewhere)
+      interferes: [side-frame-left, side-frame-right]
   - assembly: f1/side-frame-right
     name: side-frame-right
     connect:

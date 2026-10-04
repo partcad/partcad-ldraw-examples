@@ -22,6 +22,8 @@ links:
       name: tub
       to: //pub/universe/lego:technic-pin-hole
       toInstance: side-frame-left-rail-up-hole-h12-top
+      # its other end snaps into these as well (see snap_in_elsewhere)
+      interferes: [tub]
   - assembly: f1/drivetrain
     name: drivetrain
     connect:
@@ -33,6 +35,8 @@ links:
       name: tub
       to: //pub/universe/lego:technic-axle
       toInstance: pivot-axle-left
+      # its other end snaps into these as well (see snap_in_elsewhere)
+      interferes: [tub]
   - assembly: f1/rear-wing
     name: rear-wing
     connect:
@@ -55,6 +59,8 @@ links:
       name: tub
       to: //pub/universe/lego:technic-pin-hole
       toInstance: side-frame-left-rail-up-hole-h11-bottom
+      # its other end snaps into these as well (see snap_in_elsewhere)
+      interferes: [tub]
   - assembly: f1/sidepod
     name: sidepod-r
     connect:
@@ -65,3 +71,5 @@ links:
       name: tub
       to: //pub/universe/lego:technic-pin-hole
       toInstance: side-frame-right-rail-up-hole-h3-top
+      # its other end snaps into these as well (see snap_in_elsewhere)
+      interferes: [tub]

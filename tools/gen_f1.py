@@ -933,6 +933,7 @@ class Plan:
             if isinstance(n.joint, dict):
                 self._place(n)
         self._check_reuse()
+        self.interferes, self.unstated = self._interferes()
 
     def first(self, module):
         """The first node anywhere under 'module': what the module is placed by."""
@@ -948,6 +949,43 @@ class Plan:
             if child and parent_of(child) == module:
                 items.append((self.index[id(self.first(child))], "module", child))
         return [(kind, x) for _, kind, x in sorted(items, key=lambda i: i[0])]
+
+    def link_of(self, where, node):
+        """The link of module 'where' that holds 'node': the node itself, or the piece it is in."""
+        if node.module == where:
+            return node.name
+        below = chain(node.module)
+        return instance_of(below[below.index(where) + 1] if where else below[0])
+
+    def _interferes(self):
+        """{(module, link): further links its joint drives a pin into}, and what cannot be said.
+
+        A pin joins two parts and its connection names one; its other end goes
+        into the second part all the same (see snap_in_elsewhere). Within one
+        piece that is said on the pin's own joint. Across pieces it is said at
+        the lowest module holding both, on whichever of the two links has its
+        joint written there, naming the other link - so the pair excused is the
+        two pieces, as the joint that makes it is between the two pieces.
+        """
+        joined = {(where, src) for where, src, *_ in self.joints}
+        out, unstated = {}, []
+        pairs = list(self.S.snapped_elsewhere)
+        for n in self.nodes:
+            for name in n.interferes:
+                if (n.name, n.module) not in {(src, where) for where, src, *_ in self.joints}:
+                    pairs.append((n, self.S.get(n.module, name)))
+        for n, m in pairs:
+            a, b = chain(n.module), chain(m.module)
+            common = [x for x, y in zip(a, b) if x == y]
+            where = common[-1] if common else CAR
+            here, there = self.link_of(where, n), self.link_of(where, m)
+            if (where, here) in joined:
+                out.setdefault((where, here), []).append(there)
+            elif (where, there) in joined:
+                out.setdefault((where, there), []).append(here)
+            else:
+                unstated.append((n, m))
+        return {k: sorted(set(v)) for k, v in out.items()}, unstated
 
     def _exported(self, module, node, iface, inst):
         """The name 'module' externalizes a port of 'node' by, mapping it on the way up."""
@@ -1042,7 +1080,9 @@ def write_module(plan, module, header, location=None):
             key = (instance_of(x), module)
         if key in joints:
             j, w, dst, t = joints[key]
-            connect_yaml(out, j, w, dst, t, interferes=x.interferes if kind == "node" else ())
+            own = list(x.interferes) if kind == "node" else []
+            further = sorted(set(own + plan.interferes.get((key[1], key[0]), [])))
+            connect_yaml(out, j, w, dst, t, interferes=further)
     return "\n".join(out) + "\n"
 
 
@@ -1171,18 +1211,18 @@ def main():
         ),
         file=sys.stderr,
     )
-    written = {(src, where) for where, src, _, _, _, _ in plan.joints}
-    unwritten = [(n, m) for n, m in S.snapped_elsewhere]
-    for n in S.order:
-        if n.interferes and (n.name, n.module) not in written:
-            unwritten += [(n, S.get(n.module, m)) for m in n.interferes]
     print(
-        "%d pins snap into a second part as well, named in 'interferes:'" % sum(len(n.interferes) for n in S.order),
+        "%d pins snap into a second part as well: %d said on their own joint, %d said between pieces"
+        % (
+            sum(len(n.interferes) for n in S.order) + len(S.snapped_elsewhere),
+            sum(len(n.interferes) for n in S.order),
+            len(S.snapped_elsewhere),
+        ),
         file=sys.stderr,
     )
-    for n, m in unwritten:
+    for n, m in plan.unstated:
         print(
-            "  not expressible: %s/%s also snaps into %s/%s" % (n.module or "car", n.name, m.module or "car", m.name),
+            "  not stated: %s/%s also snaps into %s/%s" % (n.module or "car", n.name, m.module or "car", m.name),
             file=sys.stderr,
         )
     if "--check" in sys.argv:
