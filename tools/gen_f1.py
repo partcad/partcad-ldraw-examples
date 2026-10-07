@@ -641,9 +641,12 @@ def build_steering():
 def build_nose():
     m = NOSE
     fa = S.put(m, "axle", AXLE[12], frame((0, YF2, ZN), x=X, y=Y), S.get(FRAME, "nose-ext-l"), round_part=True)
-    blocks = [block(m, "block-" + side(s), (s * 16, YF2, ZN), X, neg(Y), fa) for s in (-1, 1)]
-    nb = beam(m, "beam", 9, (0, 48, ZN + 8), X, Z, pin(m, "pin-beam-l", (-16, 48, ZN + 4), Z, blocks[0]))
-    pin(m, "pin-beam-r", (16, 48, ZN + 4), neg(Z), nb)
+    # The blocks hold the crossbeam by its end holes: the fairings take the
+    # holes at +-8 and +-16 and the front wing's pylons those at +-24, and a
+    # beam hole is one pin deep, so a hole two pins share is a collision.
+    blocks = [block(m, "block-" + side(s), (s * 32, YF2, ZN), X, neg(Y), fa) for s in (-1, 1)]
+    nb = beam(m, "beam", 9, (0, 48, ZN + 8), X, Z, pin(m, "pin-beam-l", (-32, 48, ZN + 4), Z, blocks[0]))
+    pin(m, "pin-beam-r", (32, 48, ZN + 4), neg(Z), nb)
     # a pair of long fairings, upside down so that they slope to the tip
     for s, pid in ((1, "64681"), (-1, "64393")):
         cone = S.put(
