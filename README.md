@@ -307,12 +307,14 @@ part on an axle takes whatever roll the axle has - fine for a bush or a wheel,
 and not for a cross block, whose pin hole has to be where the design put it. For
 those the axle itself is turned, in the round hole it went into.
 
-Two contacts are true of the geometry without being a joint, because no
-interface says them: the pinion's mesh with the differential's crown (the crown
-has no gear ports, and the pinion's describe a spur mesh, not a bevel one), and
-the left half axle's end inside the differential, which is joined to the right
-one. The bevel gears inside it, which the two ends would turn, are not
-modelled.
+Three contacts in `f1/drivetrain` are true of the geometry without being a
+joint that excuses them, and `pc test` reports them: the pinion's mesh with the
+differential's crown (21.979 mm^3; the crown has no gear ports, and the pinion's
+describe a spur mesh, not a bevel one), the end of the pinion's shaft against
+the differential (4.220 mm^3), and the right half axle inside the differential
+that sits on it (11.115 mm^3) - an axle snaps past nothing, so the length of it
+inside the differential is reported. The bevel gears inside it, which the two
+half axles would turn, are not modelled.
 
 ### How it was made, and checked
 
@@ -375,9 +377,12 @@ it carry this would be a number pretending to be one.
 What makes the check meaningful is the matings in `//pub/universe/lego`
 declaring `snapIn: true`, and for a Technic pin in a round hole they do: its
 slotted end is squeezed past the lip and springs open behind it. A stud in an
-anti-stud is the same kind of fit and does not say so yet, which is why the
-castle still reports every stud. An axle snaps past nothing, so an axle that
-overlaps the part it goes through is still reported.
+anti-stud is the same kind of fit and does not say so yet. It does not need to
+for the castle: as LDraw draws them, a stud's side lies on the inner face of the
+wall of the brick above, so stacked bricks touch without overlapping, and with
+every brick served as a solid the castle reports no interference at all. An axle
+snaps past nothing, so an axle that overlaps the part it goes through is still
+reported.
 
 A pin joins two parts, and its connection names one of them; its other end
 goes into the second part all the same. `tools/gen_f1.py` finds those ends - a
@@ -404,7 +409,12 @@ axle and its cross block was one, where the hole as LDraw draws it is wider
 than the axle at every corner. `//pub/universe/lego/ldraw` now serves a part
 as a solid or not at all. It repairs what LDraw draws as overlapping or short
 surfaces, and the friction pin, the cross block, the gears, the wheels and the
-shocks come out solid; but eight of this car's parts - the knuckle, three
+shocks come out solid. Eight more of this car's parts - the knuckle, three
 panels, the servo, the XL motor, the battery box and the IR remote - have faces
-LDraw does not draw, and are refused rather than guessed at. Until they are mended there, the car does not
-build against it.
+LDraw does not draw or draws twice. The plugin's general repairs close the
+knuckle, the servo and one panel; the rest are closed by patches it keeps to
+LDraw's own files and applies as it reads them, each pinned to the file it was
+written against. One of them is authored rather than corrected: the IR remote's
+top half, which LDraw declares "Inside not modelled", is closed across its rim
+as a filled envelope. Every part of the car is now served as a solid, and the
+car, its pieces and the set pass `pc test`.
