@@ -205,23 +205,216 @@ the bays leave room for them, the loop runs over a table of placements instead.
 Between them the thirteen files are **321 nodes of YAML for a 732-part model**,
 and every one of those 732 parts is still a step of its own.
 
+## f1
+
+A Formula 1 car in LEGO Technic that drives, steers and rides on springs, with
+its Power Functions electrics and the IR remote control beside it.
+
+<table><tr>
+<td valign=top><a href="./images/f1-iso.png"><img src="./images/f1-iso.png" alt="The car from the front right, above" width="420"></a></td>
+<td valign=top><a href="./images/f1-right.png"><img src="./images/f1-right.png" alt="The car from its right side" width="420"></a></td>
+</tr><tr>
+<td valign=top><a href="./images/f1-front.png"><img src="./images/f1-front.png" alt="The car nose-on" width="420"></a></td>
+<td valign=top><a href="./images/f1-top.png"><img src="./images/f1-top.png" alt="The car from above" width="420"></a></td>
+</tr></table>
+
+| | what does it | how |
+| --- | --- | --- |
+| drive | `Electric:58121` XL motor | a 12-tooth double bevel (`Technic:32270`) on its output turns the crown of a differential (`Technic:62821`) between two half axles |
+| steering | `Electric:99498` servo | stands behind the front axle, output down; an arm on its output pushes a track rod pinned into both knuckles |
+| power | `Electric:58119` battery box | across the car between the side frames, pinned into both by the four holes in each of its ends |
+| control | `Electric:58123` IR receiver | the airbox, over the motor |
+| | `Electric:58122` IR remote control | beside the car |
+| front suspension | double wishbones | two `Technic Beam 5` a side; a cross block (`Technic:6536`) on the end of each holds an upright kingpin, and a knuckle (`Technic:32557`) turns on it, carrying the stub axle in a round hole; a shock absorber from the upper wishbone to a crossbeam |
+| rear suspension | a swinging subframe | the motor, the differential and both half axles are one subframe, pivoting on an axle across the chassis ahead of the motor and held up by a shock absorber under each of two towers |
+
+213 parts, 31 distinct:
+
+```shell
+pc inspect -a f1                # the car and its remote
+pc inspect -a f1/car            # the car alone
+pc render -a -t png --viewport-origin 10000,-10000,10000 --viewport-up 0,0,1 f1
+```
+
+The pictures above are rendered from 10 m away along each axis
+(`--viewport-origin 0,-10000,0` for the front, `10000,0,0` for the right side,
+`0,0,10000` with `--viewport-up 0,1,0` from above) rather than with `--view`. A
+named view is a camera point 100 mm off the origin aimed at the object's centre,
+which for a car 44 cm long is close enough to see it from an angle: `--view
+right` of this car is not a side view.
+
+It is not small - 44 cm from the back of the rear tyres to the tip of
+the nose, 19.5 cm across the rear wheels - and that is what fitting a battery box,
+an XL motor, a servo and a receiver takes, with suspension at both ends.
+
+### The pieces it is built from
+
+`f1` is the car and the remote beside it; `f1/car` is the car. The car is split
+the way it would be built on a bench by several people at once: into
+sub-systems, each made of blocks that are finished and handled on their own
+before they are fitted, so that nobody waits for anybody until the last step.
+
+| stage 1 - the blocks, all at once | parts | stage 2 - the sub-systems | stage 3 |
+| --- | --- | --- | --- |
+| `f1/side-frame-left`, `f1/side-frame-right` | 7 each | `f1/tub`: the right frame goes onto the battery box's pins, the box onto the left frame; then the pivot axle and its three bushes (4), and the airbox on the rear posts | `f1/car` |
+| `f1/battery` - the box and the eight pins in its end holes | 9 | | |
+| `f1/airbox` - the IR receiver on a crossbeam, and the cross blocks the posts carry it by | 10 | | |
+| `f1/front-frame` - nose rails, bulkheads, shock crossbeam, servo cradle | 43 | `f1/front-end`: everything hangs on the frame; the four pins that join a piece to another piece of it (the tops of the front shocks, the knuckles to the track rod) are its own (4) | |
+| `f1/front-right`, `f1/front-left` - wishbones, kingpin, knuckle, wheel, shock | 15 each | | |
+| `f1/steering` - servo, arm, track rod | 9 | | |
+| `f1/nose` - a cross axle, a crossbeam, the cone | 12 | | |
+| `f1/front-wing` - two slats between two endplates, on two pylons | 16 | | |
+| `f1/motor-unit` - XL motor, pinion, the bracket across its face, the spacer beam | 13 | `f1/drivetrain`: the subframe's inner beams around the motor unit, the differential, the half axles and wheels, the shocks (23) | |
+| `f1/rear-wing` - an axle through the towers, slats, endplates, pylons | 19 | | |
+| `f1/sidepod` - one panel and its pins | 3, used twice | | |
+
+That is 37 in the tub, 114 in the front end, 36 in the drivetrain, 19 in the
+rear wing and 2 x 3 in the sidepods: 212 for the car, and the remote makes 213.
+
+Only the sidepod occurs twice. The car is symmetric, but the two front corners
+and the two side frames are mirror images, and a mirror image is not the same
+assembly turned round.
+
+Pieces are joined to each other through **mapped ports**, never by reaching into
+another piece's parts. Each piece's `map:` in `partcad.yaml` externalizes the
+ports a joint outside it uses, and a port that is several levels deep is mapped
+at every level on the way up: the front end's `front-frame-pin-nose-1-l-pin-left`
+is the front frame's `pin-nose-1-l-pin-left`, which is that pin's `left` end.
+A joint between two pieces is written in the lowest piece that holds both, so
+the front corners are joined to the front frame in `f1/front-end`, and only the
+four sub-systems and the sidepods meet in `f1/car`.
+
+### Joined, all of it
+
+**Every part of the car is joined through its ports.** Nothing in `f1/car` is
+placed by coordinates: each part names the port of its own and the port of an
+earlier part that it is put onto, the way the castle's bricks name the stud they
+sit on. The left side frame's lower rail is the car's origin, and the car's own
+`location:` is that beam's pose turned into PartCAD's Z-up world - which is what
+puts the ground at z = 0, the nose towards -Y and the car's right towards +X.
+(It is also what went wrong first: turning the car into Z-up and nothing else
+leaves it lying the way that beam lies.)
+
+The remote control is the one item placed by coordinates, in `f1` beside the
+car, because nothing joins a handset to the car it drives. PartCAD's
+connectivity check would rightly refuse it among parts that connect, which is
+why the car is an assembly of its own.
+
+Which parts need a turn or a push along their axis is what the interfaces allow
+and nothing else: a pin turns in a round hole (`turnZ`), an axle slides through
+one (`moveZ`), and a stud turns on an anti-stud. An axle hole takes no turn, so a
+part on an axle takes whatever roll the axle has - fine for a bush or a wheel,
+and not for a cross block, whose pin hole has to be where the design put it. For
+those the axle itself is turned, in the round hole it went into.
+
+Three contacts in `f1/drivetrain` are true of the geometry without being a
+joint that excuses them, and `pc test` reports them: the pinion's mesh with the
+differential's crown (21.979 mm^3; the crown has no gear ports, and the pinion's
+describe a spur mesh, not a bevel one), the end of the pinion's shaft against
+the differential (4.220 mm^3), and the right half axle inside the differential
+that sits on it (11.115 mm^3) - an axle snaps past nothing, so the length of it
+inside the differential is reported. The bevel gears inside it, which the two
+half axles would turn, are not modelled.
+
+### How it was made, and checked
+
+`tools/gen_f1.py` writes every file of the car and the `f1` block of
+`partcad.yaml`; nothing under `f1/` is edited by hand. It designs each part at
+the pose it should have, then looks for a port of the new part and a port of the
+part it goes onto that are at the same point, facing each other, and have
+interfaces that mate; that pair becomes the `connect:`. The pose PartCAD will
+compute from it - the target port turned around, offset by the joint's
+parameters, the part's own port undone - is computed there with the same rule,
+and has to come out exactly where the part was designed to be. A part with no
+such pair is an error, and the design changes until it has one. The ports come
+from `//pub/universe/lego`'s own index, so a joint the package does not serve
+cannot be written.
+
+The result was then checked the way the `gen-assembly` skill asks: PartCAD
+instantiated `f1`, the tree was walked down to its 213 parts composing every
+transform, and each part's world placement was compared with the generator's as a
+multiset. All 213 agree, rotations included, through every level of the pieces.
+
+It needed two things from `//pub/universe/lego/ldraw` that it did not have. One
+is the axle hole of a cross block: LDraw draws the bush of a cross block as a
+primitive with the hole inside it, which the package's geometry walk never
+opens, so `Technic:6536`, "Cross Block 1 x 2 (Axle/Pin)", came with its pin hole
+and not its axle hole - and every kingpin, nose block and wing mount here is
+one. The package reads that primitive now, and 47 parts gained an axle hole. The
+other is that one end of an axle may carry several parts: a half axle here
+carries two beams, two bushes and a wheel, each joined to its end at its own
+`moveZ`, and PartCAD's connectivity test reported them as crowding one port
+until `technic-axle` said `multiConnect: true`.
+
+Every piece passes `pc test -f connect`, `connectivity`, `validity`,
+`degenerate`, `solidity`, `shell` and `manufacturability` on its own as well as
+inside the car.
+
+### What it leaves out
+
+* **The cables.** In the real thing the motor's and the servo's leads go to the
+  receiver, and the receiver's to the battery box, routed wherever there is
+  room. Nothing about a port says where that is, and none is placed.
+* **Travel.** It is a static pose: the wheels straight ahead, the suspension
+  settled. The shocks are LDraw's 10L damped shock *compressed* (`76320-f2`),
+  whose eyes are six studs apart, so that each one lands on the stud grid.
+
 ## A note on interference
 
-Every part here is placed by `location:` rather than joined by `connect:`, and a
-LEGO stud is *meant* to occupy the part above it — that interference is what
-makes bricks grip. So `partcad.test.interference` has something true to report
-about almost every pair in the model, and nowhere to read that it is intended:
-an overlap which is meant to be there is stated on the joint that causes it, and
-coordinates are not a joint.
+A LEGO stud is *meant* to occupy the part above it, and a Technic pin the hole
+it is in — that interference is what makes the parts grip. So
+`partcad.test.interference` has something true to report about almost every
+joint in both models, and nowhere to read that it is intended: an overlap which
+is meant to be there is stated on the joint that causes it, and these joints do
+not say so.
 
 Nothing here turns the check off. The package is `manufacturable: false` —
-nobody is ordering a castle — and that is what makes interference report what it
-finds rather than fail on it. Giving it a threshold high enough to swallow a
+nobody is ordering a castle, or this car — and that is what makes interference
+report what it finds rather than fail on it. Giving it a threshold high enough to swallow a
 stud would be worse than either: that floor is a rounding tolerance, and making
 it carry this would be a number pretending to be one.
 
-What would make the check meaningful is the stud / anti-stud mating in
-`//pub/universe/lego/ldraw` declaring `snapIn: true` — a stud in an anti-stud is
-an interference fit wherever it occurs — and this assembly being generated with
-`connect:` so each brick is joined to the one it sits on. Both are worth doing
-and neither is done yet.
+What makes the check meaningful is the matings in `//pub/universe/lego`
+declaring `snapIn: true`, and for a Technic pin in a round hole they do: its
+slotted end is squeezed past the lip and springs open behind it. A stud in an
+anti-stud is the same kind of fit and does not say so yet. It does not need to
+for the castle: as LDraw draws them, a stud's side lies on the inner face of the
+wall of the brick above, so stacked bricks touch without overlapping, and with
+every brick served as a solid the castle reports no interference at all. An axle
+snaps past nothing, so an axle that overlaps the part it goes through is still
+reported.
+
+A pin joins two parts, and its connection names one of them; its other end
+goes into the second part all the same. `tools/gen_f1.py` finds those ends - a
+pin end and a round hole facing each other at one point, the test it joins
+parts by - and says so in `interferes:`. Within one piece, 15 pins name the
+second part on their own joint. 25 more have their second part in a different
+piece - the battery's pins in the side frames, the steering's in the front
+frame, the sidepods' in the tub - and those are said where the two pieces meet,
+on the link of one naming the link of the other: the battery's link in
+`f1/tub` says `interferes: [side-frame-left, side-frame-right]`. That excuses
+any overlap between the two pieces, which is as precise as it can be said
+until PartCAD can tell an overlap at the joined port from one elsewhere.
+
+PartCAD checks the car the way it is built. Each piece answers for its own
+inside with its own verdict, cached against the piece, and an assembly looks
+only at what crosses between the pieces it holds - comparing the box around
+each piece first, so two pieces that are apart cost one comparison however many
+parts are in them. A pair whose joint says it overlaps is not measured at all.
+
+What it measures is only as good as the solids it is given, and a part that is
+not a solid is not measured but reported: a boolean against an open shell
+returns a number that means nothing - the 12.457 mm^3 once reported between an
+axle and its cross block was one, where the hole as LDraw draws it is wider
+than the axle at every corner. `//pub/universe/lego/ldraw` now serves a part
+as a solid or not at all. It repairs what LDraw draws as overlapping or short
+surfaces, and the friction pin, the cross block, the gears, the wheels and the
+shocks come out solid. Eight more of this car's parts - the knuckle, three
+panels, the servo, the XL motor, the battery box and the IR remote - have faces
+LDraw does not draw or draws twice. The plugin's general repairs close the
+knuckle, the servo and one panel; the rest are closed by patches it keeps to
+LDraw's own files and applies as it reads them, each pinned to the file it was
+written against. One of them is authored rather than corrected: the IR remote's
+top half, which LDraw declares "Inside not modelled", is closed across its rim
+as a filled envelope. Every part of the car is now served as a solid, and the
+car, its pieces and the set pass `pc test`.
