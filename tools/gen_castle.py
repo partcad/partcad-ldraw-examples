@@ -20,8 +20,11 @@ frame: X and Z are the stud grid, Y is up. A part's origin sits at the centre
 of its top face, so a part `h` courses tall whose bottom is at course `c` spans
 Y in [c*BRICK, (c+h)*BRICK] and is placed with its origin at (c+h)*BRICK.
 
-The whole thing is rotated +90 deg about X at the container level, taking that
-Y-up frame into PartCAD's Z-up world so front/top/right/iso mean what they say.
+That frame is not the one the parts arrive in: //pub/universe/lego/ldraw serves
+every part standing upright in PartCAD's Z-up world, which is this frame turned
++90 deg about X. Nothing here has to say so - every piece is joined through the
+studs the parts carry, and those are turned with them - so the castle comes out
+standing up, and front/top/right/iso mean what they say.
 """
 import collections
 import math
@@ -1115,23 +1118,23 @@ def _shifted_by(pos, origin, angle):
 
 def write(path, name, header):
     # The castle's one 'location:', and it is the container's rather than any
-    # part's. The turn is not a coordinate anybody chose: LDraw draws its parts
-    # Y-up and PartCAD's world is Z-up, so without it the castle lies on its
-    # side and front/top/right/iso all mean something else.
+    # part's. It used to be a quarter turn about X, taking LDraw's Y-up into
+    # PartCAD's Z-up; the parts library now serves its parts upright, and the
+    # turn left in place laid the castle on its side. What is left is a knob.
     #
-    # The translation beside it is the other thing that used to be said, on the
+    # The translation in it is the other thing that used to be said, on the
     # baseplate: it puts the grid on whole studs from a known corner, which is
     # worth having when somebody is reading the numbers by hand. Nothing in the
     # model depends on it - every node is placed relative to the one below it -
     # so it can be zeroed without changing the castle, only where it sits.
     # Where the offset would put the castle, if somebody sets it: the place the
-    # baseplate used to be given, turned the way the container turns.
+    # baseplate used to be given, turned the way the parts are.
     plate = _baseplate_at()
     turned = [plate[0], -plate[2], plate[1]]
     out = [
         *header,
         f"name: {name}",
-        "location: [[0, 0, 0], [1, 0, 0], 90]"
+        "location: [[0, 0, 0], [0, 0, 1], 0]"
         f"   # set the offset to [{turned[0]}, {turned[1]}, {turned[2]}]"
         " to read coordinates off the stud grid",
         "links:",
@@ -1215,13 +1218,12 @@ write("castle.assy", "castle", [
     "# //pub/universe/lego, placed on LEGO's own grid: 8 mm stud pitch,",
     "# 9.6 mm brick height.",
     "#",
-    "# The castle's one 'location:' is the container's, and it is a turn rather",
-    "# than a place: LDraw draws its parts Y-up and PartCAD's world is Z-up, so",
-    "# without it the castle lies on its side and front/top/right/iso all mean",
-    "# something else. Nothing else in the model says where anything goes -",
-    "# every node names the part and the stud it joins.",
+    "# The castle's one 'location:' is the container's, and as it stands it",
+    "# does nothing: the parts arrive upright in PartCAD's Z-up world, and",
+    "# nothing else in the model says where anything goes - every node names",
+    "# the part and the stud it joins.",
     "#",
-    "# The offset beside that turn is a knob rather than a fact. Left at zero",
+    "# The offset in it is a knob rather than a fact. Left at zero",
     "# the castle sits at the origin, which is where the default views expect",
     "# to find it; set to the figure in the comment it stands where the grid",
     "# runs on whole studs from a known corner, which is worth having while",
