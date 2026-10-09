@@ -1,0 +1,134 @@
+# Tests every assembly here and renders everything this package publishes, with
+# the latest PartCAD from PyPI on the latest Ubuntu, and fails when what it
+# rendered differs from what is checked in.
+#
+# README.md and every picture in it are generated: the text is the 'docs:'
+# section of partcad.yaml, and 'pc render -r' writes the file and the images
+# under images/. So a change to a model, to the parts library it is built from,
+# or to how PartCAD draws, shows up here as a diff somebody has to look at
+# rather than as a README that quietly stopped describing the model.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  # Nothing in this repository has to change for the result to: PartCAD, the
+  # index and the LDraw plugin all move on their own. Once a week finds out.
+  schedule:
+    - cron: "23 4 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-and-render:
+    runs-on: ubuntu-latest
+    # A cold run builds every LDraw part from its .dat file first: about 25
+    # minutes of the test, and the pictures after it.
+    timeout-minutes: 120
+    env:
+      # A cold build of one large assembly can take longer than the client's
+      # default wait for an answer; nothing here is interactive.
+      PC_DAEMON_IDLE_TIMEOUT: "0"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install the libraries the sandbox builds pycairo against
+        # pycairo has no Linux wheel: the venv sandbox compiles it, for PNG
+        # rendering, against the system's cairo.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libcairo2-dev pkg-config
+
+      - name: Add swap
+        # Three drawings of the whole car or the whole castle at once can want
+        # 15 GB, nearly all of the runner's 16. Paging is slower than having
+        # the memory, and much better than the kernel killing a drawing, which
+        # fails the render.
+        run: |
+          swap=/mnt/partcad-swap
+          mountpoint -q /mnt || swap=/partcad-swap
+          sudo fallocate -l 8G "$swap"
+          sudo chmod 600 "$swap"
+          sudo mkswap "$swap"
+          sudo swapon "$swap"
+          free -h
+
+      - name: Configure PartCAD
+        # Read by the daemon 'pc' starts, from this file, when it starts - not
+        # from the environment of the command that started it, which it does
+        # not inherit.
+        #
+        # 'pythonSandbox': the checked-in pictures are rendered in the same kind
+        # of sandbox this job uses, so that the job can reproduce them. A runner
+        # has Docker, and PartCAD would otherwise pick the 'docker' sandbox,
+        # whose image carries its own cairo: a picture rasterized there is a true
+        # picture of the same model and still not the same file.
+        #
+        # 'threadsMax': how many sandboxes run at once, which for 'pc render' is
+        # how many pictures are drawn at once. A drawing of the whole car or the
+        # whole castle takes 3 to 5.5 GB, and by default PartCAD runs one per
+        # CPU: four here, more than the runner's 16 GB. Three is the fewest it
+        # works with: with two, a render waits on itself and never finishes.
+        run: |
+          mkdir -p ~/.partcad
+          printf 'pythonSandbox: venv\nthreadsMax: 3\n' > ~/.partcad/config.yaml
+
+      - name: Install the latest PartCAD
+        id: partcad
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade partcad
+          pc --no-ansi version
+          echo "version=$(python -c 'import partcad; print(partcad.__version__)')" >> "$GITHUB_OUTPUT"
+
+      - name: Restore built shapes
+        # PartCAD keys every cached shape on its configuration and on the
+        # environment it was built in, here as on any machine - and the LDraw
+        # parts on the version of the code that builds them, which the parts
+        # library states in their configuration. This saves rebuilding the
+        # parts that have not changed since the last run, and nothing else.
+        uses: actions/cache@v4
+        with:
+          path: ~/.partcad/cache
+          key: partcad-cache-${{ runner.os }}-${{ steps.partcad.outputs.version }}-${{ github.sha }}
+          restore-keys: |
+            partcad-cache-${{ runner.os }}-${{ steps.partcad.outputs.version }}-
+
+      - name: Test
+        # '-r' walks this package. It imports what this package imports first,
+        # which is why 'pub' is the one branch of the index these models are
+        # built from rather than all of it (see deps/pub/partcad.yaml).
+        run: pc --no-ansi test -r
+
+      - name: Render
+        run: pc --no-ansi render -r
+
+      - name: Everything rendered is checked in
+        run: |
+          git add --all --intent-to-add
+          if ! git diff --quiet; then
+            echo "::error::'pc render -r' changed these files. Run it and commit what it writes:"
+            git diff --stat
+            exit 1
+          fi
+
+      - name: Upload what the render changed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rendered
+          path: |
+            README.md
+            images/
+          if-no-files-found: ignore
