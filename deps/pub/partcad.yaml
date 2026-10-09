@@ -1,0 +1,20 @@
+# '//pub' as this package sees it when it is the root - what 'pc' run in this
+# checkout, and its CI, resolve '//pub/universe/lego' against.
+#
+# Not the whole PartCAD index: only its 'universe' branch, taken from the index
+# itself, so where the LEGO parts come from is still the index's to say. The
+# rest is dozens of packages none of these models uses, and a recursive walk
+# ('pc test -r', 'pc render -r') imports every package it can reach before it
+# looks at what is in this one - so with the whole index, any package anywhere
+# in it that the installed PartCAD cannot load stopped every run here.
+#
+# When the index imports this package it does so as '//pub/examples/lego', and
+# this is not used at all: the dependency that names it is 'onlyInRoot'.
+desc: The branch of the PartCAD index the LEGO examples are built from.
+
+dependencies:
+  universe:
+    type: git
+    url: https://github.com/partcad/partcad-index.git
+    revision: main
+    relPath: universe

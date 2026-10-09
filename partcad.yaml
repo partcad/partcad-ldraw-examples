@@ -17,9 +17,15 @@ manufacturable: false
 
 dependencies:
   pub:
-    type: git
-    url: https://github.com/partcad/partcad-index.git
-    revision: main
+    # Loaded as '//pub' when this package is the root, and not at all when the
+    # index itself imports this package: without it the index would be
+    # imported a second time inside itself, as '//pub/examples/lego/pub', and
+    # a recursive walk from here ('pc test -r', 'pc render -r') would go
+    # through the whole of it instead of through this package. What it loads
+    # is the one branch of the index these models use; see its partcad.yaml.
+    onlyInRoot: true
+    type: local
+    path: deps/pub
 
 assemblies:
   castle/spire:
