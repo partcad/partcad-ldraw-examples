@@ -1,9 +1,10 @@
 # //pub/examples/lego
 
-Assemblies built from the [LDraw](https://library.ldraw.org) parts library, as
-served by `//pub/universe/lego/ldraw`. Nothing is vendored here: this package is
-the assemblies, and the geometry is meshed from LDraw's own `.dat` files on
-demand.
+Assemblies built from the LDraw LEGO parts library.
+
+The parts come from the [LDraw](https://library.ldraw.org) library, as served by
+`//pub/universe/lego/ldraw`. Nothing is vendored here: this package is the
+assemblies, and the geometry is meshed from LDraw's own `.dat` files on demand.
 
 ## castle
 
@@ -16,21 +17,23 @@ the bays, and a tall turreted keep.
 <td valign=top><a href="./images/castle-front.png"><img src="./images/castle-front.png" alt="The castle from the front" width="420"></a></td>
 </tr></table>
 
-732 parts, seven distinct LDraw parts between them:
+731 parts, nine distinct LDraw parts between them:
 
 | part | count | |
 | --- | --- | --- |
 | `Brick:3005` | 271 | 1 x 1 brick |
-| `Brick:3004` | 161 | 1 x 2 brick |
-| `Brick:3941` | 122 | 1 x 1 round brick |
-| `Brick:3010` | 115 | 1 x 4 brick |
+| `Brick:3004` | 153 | 1 x 2 brick |
+| `Brick:3941` | 122 | 2 x 2 round brick |
+| `Brick:3010` | 114 | 1 x 4 brick |
 | `Cone:4589` | 44 | 1 x 1 cone — the spires |
-| `Cone:3942b` | 18 | 2 x 2 cone |
-| `Cone:6233` | 1 | 3 x 3 roof cone — the keep |
+| `Cone:3942b` | 19 | 2 x 2 cone |
+| `Brick:3009` | 6 | 1 x 6 brick — the keep's floor |
+| `Baseplate:3811` | 1 | 32 x 32 baseplate — what it all stands on |
+| `Cone:3943b` | 1 | 4 x 4 cone — the keep's spire |
 
 Everything sits on LEGO's own grid: 8 mm stud pitch, 9.6 mm brick height. The
-container carries a single rotation that takes the parts' native Y-up frame into
-PartCAD's Z-up world, so `front`, `top`, `right` and `iso` mean what they say.
+parts arrive standing upright in PartCAD's Z-up world, so `front`, `top`, `right`
+and `iso` mean what they say.
 
 ```shell
 pc inspect -a castle
@@ -40,23 +43,23 @@ pc render -a -t png --view iso castle
 ### The pieces it is built from
 
 A castle this size repeats itself: four identical corner towers, nine identical
-spires, sixteen identical buttresses. So `castle` is not 732 parts in one file -
-it is twelve sub-assemblies under `castle/`, placed 48 times between them. Each
-one is written once and built once, and every further use of it is a cache hit
-rather than a rebuild; 273 parts are described instead of 732.
+spires, sixteen identical buttresses. So `castle` is not 731 parts in one file -
+it is ten sub-assemblies under `castle/`, placed 44 times between them, and the
+baseplate. Each one is written once and built once, and every further use of it
+is a cache hit rather than a rebuild; 288 parts are described instead of 731.
 
 | sub-assembly | parts | used | |
 | --- | --- | --- | --- |
 | `castle/buttress` | 9 | 16 | a pier stepping out from the wall, capped with a pinnacle |
 | `castle/spire` | 4 | 9 | two 2x2 cones flaring off a tower, then two 1x1 cones to a point |
 | `castle/wall` | 65 | 3 | a stretch of curtain wall between two corner towers |
-| `castle/wall-gate` | 70 | 1 | the same wall with the gateway's pointed arch corbelled through it |
+| `castle/wall-gate` | 71 | 1 | the same wall with the gateway's pointed arch corbelled through it |
 | `castle/tower-corner` | 15 | 4 | the body of a corner tower |
 | `castle/tower-mural` | 12 | 3 | the body of a tower standing along a wall |
 | `castle/tower-gate` | 13 | 2 | the body of one of the gatehouse pair |
 | `castle/keep-courses` | 14 | 3 | two courses of the keep, the second breaking joint against the first |
-| `castle/keep-lancet` | 38 | 2 | four courses: a lancet, and the course that closes it |
-| `castle/keep-top` | 47 | 1 | the keep's last three courses, its merlons, four bartizans and the spire |
+| `castle/keep-lancet` | 36 | 2 | four courses: a lancet, and the course that closes it |
+| `castle/keep-top` | 48 | 1 | the keep's last three courses, its merlons, four bartizans and the spire |
 
 Each is a PartCAD assembly in its own right, so any of them can be looked at,
 rendered or built alone:
@@ -91,7 +94,7 @@ instead — which brick they sit on, and which stud of it:
 
 `//pub/universe/lego` declares the pair — a `stud` on top of a part and an
 `anti-stud` underneath — and PartCAD works the coordinates out. **Every one of
-the 287 part nodes** is joined that way, in the order they are put together —
+the 288 part nodes** is joined that way, in the order they are put together —
 there is not a single `location:` left on a part or a piece anywhere in the
 model.
 
@@ -164,16 +167,17 @@ container's to say.
 
 ```yaml
 name: castle
-location: [[0, 0, 0], [1, 0, 0], 90]   # set the offset to [100.0, -100.0, 0.0] to read coordinates off the stud grid
+location: [[0, 0, 0], [0, 0, 1], 0]   # set the offset to [100.0, -100.0, 0.0] to read coordinates off the stud grid
 ```
 
-One `location:` in the whole model, on the container, and it is a **turn rather
-than a place**. LDraw draws its parts Y-up and PartCAD's world is Z-up: without
-it the castle lies on its side, its baseplate standing up like a wall, and
-`front`, `top`, `right` and `iso` all mean something else. No joint can derive
-that — it is a fact about the parts library, not about the model.
+One `location:` in the whole model, on the container, and as it stands it does
+nothing. It used to be a quarter turn about X: LDraw draws its parts Y-up and
+PartCAD's world is Z-up, and no joint can derive that — it is a fact about the
+parts library, not about the model. The parts library has since taken it on
+itself and serves every part standing upright, and the turn left behind laid the
+castle on its side, its baseplate standing up like a wall.
 
-The offset beside the turn is a knob rather than a fact, and it is not free.
+What is left is the offset, and that is a knob rather than a fact, and not free.
 Left at zero the castle sits at the origin, which is where the default views
 expect to find it. Set to the figure in the comment it stands where the grid
 runs on whole studs from a known corner — worth having while reading the numbers
@@ -188,8 +192,8 @@ written out a step to a page, so a step that is not in the file is a step
 nobody is told to take.
 
 The *text* need not repeat itself, though: every ASSY file is a Jinja2 template,
-rendered before it is parsed. A run of parts laid out regularly is written as
-the loop it is -
+rendered before it is parsed. A run of parts laid out regularly can be written
+as the loop it is -
 
 ```yaml
 {% for i in range(15) %}
@@ -199,11 +203,12 @@ the loop it is -
 {% endfor %}
 ```
 
-- and reaches the parser as the fifteen separate nodes it always was. Where
-there is no arithmetic to write, because the sixteen buttresses sit wherever
-the bays leave room for them, the loop runs over a table of placements instead.
-Between them the thirteen files are **321 nodes of YAML for a 732-part model**,
-and every one of those 732 parts is still a step of its own.
+- and reaches the parser as the fifteen separate nodes it always was. The
+castle used to be written that way, and is not any more: now that every brick is
+joined to the stud it sits on rather than placed, there is no arithmetic left to
+loop over - each joint names its own studs. Between them the eleven files are
+**332 nodes of YAML for a 731-part model**, and every one of those 731 parts is
+still a step of its own.
 
 ## f1
 
@@ -236,12 +241,14 @@ pc inspect -a f1/car            # the car alone
 pc render -a -t png --viewport-origin 10000,-10000,10000 --viewport-up 0,0,1 f1
 ```
 
-The pictures above are rendered from 10 m away along each axis
-(`--viewport-origin 0,-10000,0` for the front, `10000,0,0` for the right side,
-`0,0,10000` with `--viewport-up 0,1,0` from above) rather than with `--view`. A
-named view is a camera point 100 mm off the origin aimed at the object's centre,
-which for a car 44 cm long is close enough to see it from an angle: `--view
-right` of this car is not a side view.
+The pictures above are `f1-iso`, `f1-front`, `f1-right` and `f1-top` in
+`partcad.yaml`: aliases of `f1`, each with a camera of its own 10 m away along
+the direction it looks from (`[0, -10000, 0]` for the front, `[10000, 0, 0]` for
+the right side, `[0, 0, 10000]` with `[0, 1, 0]` up from above) rather than a
+`--view`. A named view is a camera point 100 mm off the origin aimed at the
+object's centre, which for a car 44 cm long is close enough to see it from an
+angle: `--view right` of this car is not a side view. The castle's two pictures
+are aliases of `castle` in the same way.
 
 It is not small - 44 cm from the back of the rear tyres to the tip of
 the nose, 19.5 cm across the rear wheels - and that is what fitting a battery box,
@@ -418,3 +425,245 @@ written against. One of them is authored rather than corrected: the IR remote's
 top half, which LDraw declares "Inside not modelled", is closed across its rim
 as a filled envelope. Every part of the car is now served as a solid, and the
 car, its pieces and the set pass `pc test`.
+
+## This README
+
+It is generated, and so is every picture in it: the text is the `docs:` section
+of `partcad.yaml`, and `pc render -r` writes `README.md` and the images under
+`images/` - the pictures above from the aliases beside the models, and one for
+each assembly in the list below. They are rendered with `reproducible: true`,
+so the same model gives the same file: drawn exactly, from the surfaces, by
+OpenCASCADE's hidden-line removal.
+
+All but the whole castle, the whole car, the six views of them and the car's
+front end, which are too big to be drawn that way. The exact algorithm sets
+memory aside for every pair of edges in the picture before it draws any of
+them, so what it needs grows with the square of the model: the car has
+423,000 edges and would need 45 GB, the castle 248,000 and 15 GB, the front
+end 199,000 and 10 GB. Those are drawn from a triangulation instead, which
+comes out the same again on the same kind of machine.
+
+[CI](.github/workflows/ci.yml) installs the latest PartCAD from PyPI on the
+latest Ubuntu, runs `pc test -r` and `pc render -r`, and fails if anything it
+rendered differs from what is checked in. So a change to a model, to the parts
+library or to how PartCAD draws shows up as a diff rather than as a README that
+quietly stopped describing the model. To change this text, edit `partcad.yaml`
+and run `pc render -r`; an edit to `README.md` itself is overwritten by the
+next render.
+
+
+## Assemblies
+
+### castle
+<table><tr>
+<td valign=top><a href="castle.assy"><img src="././images/castle.png" alt="castle" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>A gothic castle built from LDraw LEGO parts.</td>
+</tr></table>
+
+### castle-birdseye (alias to castle)
+<table><tr>
+<td valign=top><a href="castle.assy"><img src="././images/castle-birdseye.png" alt="castle-birdseye" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>A gothic castle built from LDraw LEGO parts.</td>
+</tr></table>
+
+### castle-front (alias to castle)
+<table><tr>
+<td valign=top><a href="castle.assy"><img src="././images/castle-front.png" alt="castle-front" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>A gothic castle built from LDraw LEGO parts.</td>
+</tr></table>
+
+### castle/buttress
+<table><tr>
+<td valign=top><a href="castle/buttress.assy"><img src="././images/castle/buttress.png" alt="castle/buttress" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>A pier stepping out from the wall, capped with a pinnacle</td>
+</tr></table>
+
+### castle/keep-courses
+<table><tr>
+<td valign=top><a href="castle/keep-courses.assy"><img src="././images/castle/keep-courses.png" alt="castle/keep-courses" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>Two courses of the keep's masonry, the second breaking joint against the first</td>
+</tr></table>
+
+### castle/keep-lancet
+<table><tr>
+<td valign=top><a href="castle/keep-lancet.assy"><img src="././images/castle/keep-lancet.png" alt="castle/keep-lancet" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>Four courses of the keep, the lancets in them and the course that closes them</td>
+</tr></table>
+
+### castle/keep-top
+<table><tr>
+<td valign=top><a href="castle/keep-top.assy"><img src="././images/castle/keep-top.png" alt="castle/keep-top" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>What the keep ends with - its last three courses, the merlons, a bartizan at each corner, and the spire</td>
+</tr></table>
+
+### castle/spire
+<table><tr>
+<td valign=top><a href="castle/spire.assy"><img src="././images/castle/spire.png" alt="castle/spire" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>A tower's needle roof - two 2x2 cones flaring off the tower, then two 1x1 cones drawing it to a point</td>
+</tr></table>
+
+### castle/tower-corner
+<table><tr>
+<td valign=top><a href="castle/tower-corner.assy"><img src="././images/castle/tower-corner.png" alt="castle/tower-corner" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The body of a corner tower, 15 courses of 2x2 round brick</td>
+</tr></table>
+
+### castle/tower-gate
+<table><tr>
+<td valign=top><a href="castle/tower-gate.assy"><img src="././images/castle/tower-gate.png" alt="castle/tower-gate" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The body of one of the gatehouse pair, 13 courses</td>
+</tr></table>
+
+### castle/tower-mural
+<table><tr>
+<td valign=top><a href="castle/tower-mural.assy"><img src="././images/castle/tower-mural.png" alt="castle/tower-mural" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The body of a tower standing along the wall, 12 courses</td>
+</tr></table>
+
+### castle/wall
+<table><tr>
+<td valign=top><a href="castle/wall.assy"><img src="././images/castle/wall.png" alt="castle/wall" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>A stretch of curtain wall between two corner towers, with its lancets and crenellations</td>
+</tr></table>
+
+### castle/wall-gate
+<table><tr>
+<td valign=top><a href="castle/wall-gate.assy"><img src="././images/castle/wall-gate.png" alt="castle/wall-gate" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The same wall with the gateway's pointed arch corbelled through it</td>
+</tr></table>
+
+### f1
+<table><tr>
+<td valign=top><a href="f1.assy"><img src="././images/f1.png" alt="f1" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>A Formula 1 car in LEGO Technic - Power Functions motors, suspension, and the IR remote control.</td>
+</tr></table>
+
+### f1-front (alias to f1)
+<table><tr>
+<td valign=top><a href="f1.assy"><img src="././images/f1-front.png" alt="f1-front" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>A Formula 1 car in LEGO Technic - Power Functions motors, suspension, and the IR remote control.</td>
+</tr></table>
+
+### f1-iso (alias to f1)
+<table><tr>
+<td valign=top><a href="f1.assy"><img src="././images/f1-iso.png" alt="f1-iso" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>A Formula 1 car in LEGO Technic - Power Functions motors, suspension, and the IR remote control.</td>
+</tr></table>
+
+### f1-right (alias to f1)
+<table><tr>
+<td valign=top><a href="f1.assy"><img src="././images/f1-right.png" alt="f1-right" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>A Formula 1 car in LEGO Technic - Power Functions motors, suspension, and the IR remote control.</td>
+</tr></table>
+
+### f1-top (alias to f1)
+<table><tr>
+<td valign=top><a href="f1.assy"><img src="././images/f1-top.png" alt="f1-top" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>A Formula 1 car in LEGO Technic - Power Functions motors, suspension, and the IR remote control.</td>
+</tr></table>
+
+### f1/airbox
+<table><tr>
+<td valign=top><a href="f1/airbox.assy"><img src="././images/f1/airbox.png" alt="f1/airbox" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The Power Functions IR receiver on a crossbeam, and the cross blocks the rear posts carry it by</td>
+</tr></table>
+
+### f1/battery
+<table><tr>
+<td valign=top><a href="f1/battery.assy"><img src="././images/f1/battery.png" alt="f1/battery" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The Power Functions battery box, with the pins in its end holes that the side frames go onto</td>
+</tr></table>
+
+### f1/car
+<table><tr>
+<td valign=top><a href="f1/car.assy"><img src="././images/f1/car.png" alt="f1/car" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The car: every one of its parts joined through its ports, none placed by coordinates</td>
+</tr></table>
+
+### f1/drivetrain
+<table><tr>
+<td valign=top><a href="f1/drivetrain.assy"><img src="././images/f1/drivetrain.png" alt="f1/drivetrain" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The rear subframe: the motor unit, the differential, the half axles and wheels, and the two shocks it hangs from</td>
+</tr></table>
+
+### f1/front-end
+<table><tr>
+<td valign=top><a href="f1/front-end.assy"><img src="././images/f1/front-end.png" alt="f1/front-end" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>Everything ahead of the battery: the front frame, both front corners, the steering, the nose and the front wing</td>
+</tr></table>
+
+### f1/front-frame
+<table><tr>
+<td valign=top><a href="f1/front-frame.assy"><img src="././images/f1/front-frame.png" alt="f1/front-frame" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The front frame: the nose rails, the bulkheads the wishbones pivot on, the shock crossbeam and the servo's cradle</td>
+</tr></table>
+
+### f1/front-left
+<table><tr>
+<td valign=top><a href="f1/front-left.assy"><img src="././images/f1/front-left.png" alt="f1/front-left" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The left front corner: double wishbones, a kingpin, the knuckle, the wheel and a shock</td>
+</tr></table>
+
+### f1/front-right
+<table><tr>
+<td valign=top><a href="f1/front-right.assy"><img src="././images/f1/front-right.png" alt="f1/front-right" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The right front corner: double wishbones, a kingpin, the knuckle, the wheel and a shock</td>
+</tr></table>
+
+### f1/front-wing
+<table><tr>
+<td valign=top><a href="f1/front-wing.assy"><img src="././images/f1/front-wing.png" alt="f1/front-wing" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The front wing: two slats on edge between two endplates, hung from the nose on two pylons</td>
+</tr></table>
+
+### f1/motor-unit
+<table><tr>
+<td valign=top><a href="f1/motor-unit.assy"><img src="././images/f1/motor-unit.png" alt="f1/motor-unit" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The XL motor with its pinion, the bracket across its face and the spacer beam beside it</td>
+</tr></table>
+
+### f1/nose
+<table><tr>
+<td valign=top><a href="f1/nose.assy"><img src="././images/f1/nose.png" alt="f1/nose" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The nose: a cross axle between the nose rails, a crossbeam, and the nose cone</td>
+</tr></table>
+
+### f1/rear-wing
+<table><tr>
+<td valign=top><a href="f1/rear-wing.assy"><img src="././images/f1/rear-wing.png" alt="f1/rear-wing" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The rear wing: an axle through the shock towers, two slats on edge between two endplates, on two pylons</td>
+</tr></table>
+
+### f1/side-frame-left
+<table><tr>
+<td valign=top><a href="f1/side-frame-left.assy"><img src="././images/f1/side-frame-left.png" alt="f1/side-frame-left" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The left side frame: the two rails, the post at the back and the shock tower over it</td>
+</tr></table>
+
+### f1/side-frame-right
+<table><tr>
+<td valign=top><a href="f1/side-frame-right.assy"><img src="././images/f1/side-frame-right.png" alt="f1/side-frame-right" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The right side frame: the two rails, the post at the back and the shock tower over it</td>
+</tr></table>
+
+### f1/sidepod
+<table><tr>
+<td valign=top><a href="f1/sidepod.assy"><img src="././images/f1/sidepod.png" alt="f1/sidepod" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>A sidepod: one smooth panel pinned to the upper side rail</td>
+</tr></table>
+
+### f1/steering
+<table><tr>
+<td valign=top><a href="f1/steering.assy"><img src="././images/f1/steering.png" alt="f1/steering" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The servo, its arm and the track rod</td>
+</tr></table>
+
+### f1/tub
+<table><tr>
+<td valign=top><a href="f1/tub.assy"><img src="././images/f1/tub.png" alt="f1/tub" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
+<td valign=top>The tub: both side frames, the battery box between them, the pivot the drivetrain swings on, and the airbox</td>
+</tr></table>
+
+<br/><br/>
+
+*Generated by [PartCAD](https://partcad.org/)*
