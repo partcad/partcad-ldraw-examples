@@ -38,6 +38,10 @@ jobs:
       PC_DAEMON_IDLE_TIMEOUT: "0"
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Nothing below pushes or fetches, and PartCAD runs the package's own
+          # scripts: they have no use for the token, so they are not handed it.
+          persist-credentials: false
 
       - uses: actions/setup-python@v5
         with:
