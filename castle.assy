@@ -6,19 +6,18 @@
 # //pub/universe/lego, placed on LEGO's own grid: 8 mm stud pitch,
 # 9.6 mm brick height.
 #
-# The castle's one 'location:' is the container's, and it is a turn rather
-# than a place: LDraw draws its parts Y-up and PartCAD's world is Z-up, so
-# without it the castle lies on its side and front/top/right/iso all mean
-# something else. Nothing else in the model says where anything goes -
-# every node names the part and the stud it joins.
+# The castle's one 'location:' is the container's, and as it stands it
+# does nothing: the parts arrive upright in PartCAD's Z-up world, and
+# nothing else in the model says where anything goes - every node names
+# the part and the stud it joins.
 #
-# The offset beside that turn is a knob rather than a fact. Left at zero
+# The offset in it is a knob rather than a fact. Left at zero
 # the castle sits at the origin, which is where the default views expect
 # to find it; set to the figure in the comment it stands where the grid
 # runs on whole studs from a known corner, which is worth having while
 # reading the numbers by hand and costs the rendered views their framing.
 name: castle
-location: [[0, 0, 0], [1, 0, 0], 90]   # set the offset to [100.0, -100.0, 0.0] to read coordinates off the stud grid
+location: [[0, 0, 0], [0, 0, 1], 0]   # set the offset to [100.0, -100.0, 0.0] to read coordinates off the stud grid
 links:
   - part: //pub/universe/lego/ldraw/Baseplate:3811
     name: baseplate
