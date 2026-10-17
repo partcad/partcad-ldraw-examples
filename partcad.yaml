@@ -89,14 +89,10 @@ assemblies:
     type: assy
     path: castle.assy
     desc: A gothic castle built from LDraw LEGO parts.
-    # Too big to draw exactly: see 'render:' at the end of this file. The prefix
-    # is the package's said again, because PartCAD's README generator takes this
-    # section in place of the package's rather than merging the two; see
-    # TRIANGULATED in tools/gen_f1.py.
+    # Too big to draw exactly: see 'render:' at the end of this file.
     render:
       png:
         reproducible: false
-        prefix: ./images
     # Every part is placed by coordinates rather than joined, and a LEGO stud is
     # meant to occupy the part above it - that interference is what makes bricks
     # grip. So the interference check has something true to say about almost
@@ -152,7 +148,6 @@ assemblies:
     render:
       png:
         reproducible: false
-        prefix: ./images
   f1/front-frame:
     type: assy
     map:
@@ -219,7 +214,6 @@ assemblies:
     render:
       png:
         reproducible: false
-        prefix: ./images
   f1:
     type: assy
     path: f1.assy
@@ -227,7 +221,6 @@ assemblies:
     render:
       png:
         reproducible: false
-        prefix: ./images
   # --- end of f1 ---
 
   # The pictures the README shows. Each is the model it names, looked at from

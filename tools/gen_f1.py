@@ -1182,13 +1182,8 @@ END = "  # --- end of f1 ---"
 # time. So these objects say 'reproducible: false' and are drawn the default way,
 # from a triangulation, which comes out the same again on the same kind of
 # machine.
-#
-# The prefix is the package's, said again: PartCAD's README generator takes an
-# object's 'png:' section in place of the package's rather than merging the two
-# (partcad.render.render_cfg_merge), so without it the README looks for the
-# picture in the wrong directory, does not find it, and leaves the assembly out.
 TRIANGULATED = ("front-end", "car", PRODUCT)
-DRAWN_FROM_A_TRIANGULATION = ["    render:", "      png:", "        reproducible: false", "        prefix: ./images"]
+DRAWN_FROM_A_TRIANGULATION = ["    render:", "      png:", "        reproducible: false"]
 
 
 def write_yaml_block(plan):
