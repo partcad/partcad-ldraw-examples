@@ -13,7 +13,7 @@ twin-towered gatehouse over a pointed arch, buttresses with pinnacles between
 the bays, and a tall turreted keep.
 
 <table><tr>
-<td valign=top><a href="./images/castle-birdseye.png"><img src="./images/castle-birdseye.png" alt="The castle from above" width="420"></a></td>
+<td valign=top><a href="./images/castle.png"><img src="./images/castle.png" alt="The castle from above" width="420"></a></td>
 <td valign=top><a href="./images/castle-front.png"><img src="./images/castle-front.png" alt="The castle from the front" width="420"></a></td>
 </tr></table>
 
@@ -216,7 +216,7 @@ A Formula 1 car in LEGO Technic that drives, steers and rides on springs, with
 its Power Functions electrics and the IR remote control beside it.
 
 <table><tr>
-<td valign=top><a href="./images/f1-iso.png"><img src="./images/f1-iso.png" alt="The car from the front right, above" width="420"></a></td>
+<td valign=top><a href="./images/f1.png"><img src="./images/f1.png" alt="The car from the front right, above" width="420"></a></td>
 <td valign=top><a href="./images/f1-right.png"><img src="./images/f1-right.png" alt="The car from its right side" width="420"></a></td>
 </tr><tr>
 <td valign=top><a href="./images/f1-front.png"><img src="./images/f1-front.png" alt="The car nose-on" width="420"></a></td>
@@ -241,12 +241,15 @@ pc inspect -a f1/car            # the car alone
 pc render -a -t png --view right f1
 ```
 
-The pictures above are `f1-iso`, `f1-front`, `f1-right` and `f1-top` in
-`partcad.yaml`: aliases of `f1`, each looking at it from a direction of its
-own (`[0, -100, 0]` for the front, `[100, 0, 0]` for the right side,
+The first picture above is `f1`'s own, drawn from where PartCAD looks at an
+assembly when nothing says otherwise: `iso`, `[100, -100, 100]`, above its
+front right corner. The other three are `f1-front`, `f1-right` and `f1-top`
+in `partcad.yaml`: aliases of `f1`, each looking at it from a direction of
+its own (`[0, -100, 0]` for the front, `[100, 0, 0]` for the right side,
 `[0, 0, 100]` with `[0, 1, 0]` up from above) - the same directions `--view`
 names, written down so that `pc render -r` draws them with everything else.
-The castle's two pictures are aliases of `castle` in the same way.
+The castle's two pictures are made the same way: `castle`'s own, and
+`castle-front`, an alias of it looking from in front.
 
 It is not small - 44 cm from the back of the rear tyres to the tip of
 the nose, 19.5 cm across the rear wheels - and that is what fitting a battery box,
@@ -428,12 +431,13 @@ car, its pieces and the set pass `pc test`.
 
 It is generated, and so is every picture in it: the text is the `docs:` section
 of `partcad.yaml`, and `pc render -r` writes `README.md` and the images under
-`images/` - the pictures above from the aliases beside the models, and one for
-each assembly in the list below. They are rendered with `reproducible: true`,
-so the same model gives the same file: drawn exactly, from the surfaces, by
-OpenCASCADE's hidden-line removal.
+`images/` - one for each assembly in the list below, the castle and the car
+among them, and one for each of the aliases that look at those two from
+elsewhere. They are rendered with `reproducible: true`, so the same model
+gives the same file: drawn exactly, from the surfaces, by OpenCASCADE's
+hidden-line removal.
 
-All but the whole castle, the whole car, the six views of them and the car's
+All but the whole castle, the whole car, the four views of them and the car's
 front end, which are too big to be drawn that way. The exact algorithm sets
 memory aside for every pair of edges in the picture before it draws any of
 them, so what it needs grows with the square of the model: the car has
@@ -455,12 +459,6 @@ next render.
 ### castle
 <table><tr>
 <td valign=top><a href="castle.assy"><img src="././images/castle.png" alt="castle" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
-<td valign=top>A gothic castle built from LDraw LEGO parts.</td>
-</tr></table>
-
-### castle-birdseye (alias to castle)
-<table><tr>
-<td valign=top><a href="castle.assy"><img src="././images/castle-birdseye.png" alt="castle-birdseye" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
 <td valign=top>A gothic castle built from LDraw LEGO parts.</td>
 </tr></table>
 
@@ -539,12 +537,6 @@ next render.
 ### f1-front (alias to f1)
 <table><tr>
 <td valign=top><a href="f1.assy"><img src="././images/f1-front.png" alt="f1-front" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
-<td valign=top>A Formula 1 car in LEGO Technic - Power Functions motors, suspension, and the IR remote control.</td>
-</tr></table>
-
-### f1-iso (alias to f1)
-<table><tr>
-<td valign=top><a href="f1.assy"><img src="././images/f1-iso.png" alt="f1-iso" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
 <td valign=top>A Formula 1 car in LEGO Technic - Power Functions motors, suspension, and the IR remote control.</td>
 </tr></table>
 
