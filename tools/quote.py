@@ -11,10 +11,15 @@ have. A store PartCAD could not get a quote from - one that needs credentials
 it was not given, or one that turned the request away - says why on the line
 below it, from what 'pc' wrote to its error stream.
 
+With -r, what LDraw draws as one part but LEGO makes as several - a wheel with
+its tyre on - is asked for as its parts ('pc supply quote -r'), which is how
+Pick a Brick sells it; without it, as the assembly it is, by its own SKU.
+
 Run it from the repository root, with 'pc' on the PATH:
 
     python tools/quote.py                     # every model at every store
     python tools/quote.py castle              # one model
+    python tools/quote.py -r f1               # the wheels as rims and tyres
     python tools/quote.py --store pick-a-brick f1
     python tools/quote.py //pub/examples/lego:castle   # from another package
     python tools/quote.py --extra-param '//pub/universe/lego/pick-a-brick:pick-a-brick.color=Medium Stone Grey' castle
@@ -26,19 +31,19 @@ import subprocess
 import sys
 
 MODELS = ["castle", "f1"]
-STORES = ["rebrickable", "pick-a-brick", "bricklink", "brickowl"]
+STORES = ["pick-a-brick", "bricklink", "brickowl"]
 
 
 def provider(store):
     return "//pub/universe/lego/%s:%s" % (store, store)
 
 
-def quote(model, store, extra_params):
+def quote(model, store, extra_params, recursive):
     command = ["pc", "--no-ansi", "-q"]
     for extra in extra_params:
         command += ["--extra-param", extra]
     target = model if ":" in model else ":" + model
-    command += ["supply", "quote", "--json", "--provider", provider(store), target]
+    command += ["supply", "quote", "--json"] + (["-r"] if recursive else []) + ["--provider", provider(store), target]
     run = subprocess.run(command, capture_output=True, text=True)
     try:
         return json.loads(run.stdout), run.stderr
@@ -85,11 +90,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("models", nargs="*", default=MODELS)
     parser.add_argument("--store", action="append", choices=STORES, help="ask this store only (repeatable)")
+    parser.add_argument("-r", "--recursive", action="store_true", help="ask for every assembly as its parts")
     parser.add_argument("--extra-param", action="append", default=[], help="passed to pc as it is")
     args = parser.parse_args()
     for model in args.models:
         for store in args.store or STORES:
-            line, notes = summary(model, store, *quote(model, store, args.extra_param))
+            line, notes = summary(model, store, *quote(model, store, args.extra_param, args.recursive))
             print(line)
             for note in notes:
                 print("    " + note)

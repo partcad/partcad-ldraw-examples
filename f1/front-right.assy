@@ -108,7 +108,7 @@ links:
       name: stub-axle
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Wheel:41896c01
+  - assembly: //pub/universe/lego/ldraw/Wheel:41896c01
     name: wheel
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -124,7 +124,7 @@ links:
       name: wishbone-upper
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h1-top
-  - part: //pub/universe/lego/ldraw/Technic:76320-f2
+  - assembly: //pub/universe/lego/ldraw/Technic:76320-f2
     name: shock
     connect:
       with: //pub/universe/lego:technic-pin-hole
