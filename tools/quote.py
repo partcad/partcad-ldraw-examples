@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Ask every LEGO store about every model here, and say what each would sell.
 
-For each model and each store under //pub/universe/lego this runs
+For each model and each LEGO store at //pub/svc/commerce this runs
 
     pc -q supply quote --json --provider <store> <model>
 
@@ -22,7 +22,7 @@ Run it from the repository root, with 'pc' on the PATH:
     python tools/quote.py -r f1               # the wheels as rims and tyres
     python tools/quote.py --store pick-a-brick f1
     python tools/quote.py //pub/examples/lego:castle   # from another package
-    python tools/quote.py --extra-param '//pub/universe/lego/pick-a-brick:pick-a-brick.color=Medium Stone Grey' castle
+    python tools/quote.py --extra-param '//pub/svc/commerce/lego-pick-a-brick:pick-a-brick.color=Medium Stone Grey' castle
 """
 
 import argparse
@@ -31,11 +31,16 @@ import subprocess
 import sys
 
 MODELS = ["castle", "f1"]
-STORES = ["pick-a-brick", "bricklink", "brickowl"]
+# The LEGO stores, as the PartCAD index registers them.
+STORES = {
+    "pick-a-brick": "//pub/svc/commerce/lego-pick-a-brick:pick-a-brick",
+    "bricklink": "//pub/svc/commerce/bricklink:bricklink",
+    "brickowl": "//pub/svc/commerce/brickowl:brickowl",
+}
 
 
 def provider(store):
-    return "//pub/universe/lego/%s:%s" % (store, store)
+    return STORES[store]
 
 
 def quote(model, store, extra_params, recursive):
@@ -89,7 +94,7 @@ def summary(model, store, answer, errors):
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("models", nargs="*", default=MODELS)
-    parser.add_argument("--store", action="append", choices=STORES, help="ask this store only (repeatable)")
+    parser.add_argument("--store", action="append", choices=list(STORES), help="ask this store only (repeatable)")
     parser.add_argument("-r", "--recursive", action="store_true", help="ask for every assembly as its parts")
     parser.add_argument("--extra-param", action="append", default=[], help="passed to pc as it is")
     args = parser.parse_args()
