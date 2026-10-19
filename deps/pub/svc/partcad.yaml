@@ -1,7 +1,7 @@
 # '//pub/svc' as this package sees it when it is the root: only the stores of
 # the PartCAD index, '//pub/svc/commerce', taken from the index itself. The LEGO
-# parts name three of them as their suppliers - LEGO's Pick a Brick, BrickLink
-# and Brick Owl - and the index is what registers them there.
+# parts name two of them as their suppliers - LEGO's Pick a Brick and BrickLink -
+# and the index is what registers them there.
 desc: The stores of the PartCAD index the LEGO examples are bought at.
 
 dependencies:

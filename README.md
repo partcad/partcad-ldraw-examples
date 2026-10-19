@@ -429,7 +429,7 @@ car, its pieces and the set pass `pc test`.
 ## Buying the parts
 
 Every part here is a LEGO part, sold as `vendor: lego` by its LDraw number,
-and three stores sell them, which the PartCAD index registers at
+and two stores sell them, which the PartCAD index registers at
 `//pub/svc/commerce`. This package names them as its `suppliers`, so
 `pc supply` looks for every part of a model at them, in this order, and buys
 each part from the first that has it:
@@ -438,7 +438,6 @@ each part from the first that has it:
 | --- | --- | --- |
 | LEGO's [Pick a Brick](https://www.lego.com/pick-and-build/pick-a-brick) | `//pub/svc/commerce/lego-pick-a-brick:pick-a-brick` | Nothing |
 | [BrickLink](https://www.bricklink.com) | `//pub/svc/commerce/bricklink:bricklink` | An account's four OAuth values |
-| [Brick Owl](https://www.brickowl.com) | `//pub/svc/commerce/brickowl:brickowl` | An API key approved for its catalogue, and one line of code that a person writes: its API terms do not allow a tool built with AI-written code |
 
 Each store's README says how to give it what it needs. One that has not been
 given it says, quietly, that it has nothing.
@@ -485,8 +484,8 @@ What Pick a Brick's US shop had, asked on 2026-10-18:
 What it did not have for the car is what LEGO no longer makes: the Power
 Functions battery box, XL motor, servo, IR receiver and remote, the 10L damped
 shocks, and the large rims and tyres of the rear wheels. Those are the parts
-the marketplaces are for. BrickLink and Brick Owl were not asked: this was run
-without the credentials they need.
+BrickLink, a marketplace, is for. It was not asked: this was run without the
+credentials it needs.
 
 ## This README
 

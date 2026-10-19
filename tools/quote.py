@@ -35,7 +35,6 @@ MODELS = ["castle", "f1"]
 STORES = {
     "pick-a-brick": "//pub/svc/commerce/lego-pick-a-brick:pick-a-brick",
     "bricklink": "//pub/svc/commerce/bricklink:bricklink",
-    "brickowl": "//pub/svc/commerce/brickowl:brickowl",
 }
 
 
