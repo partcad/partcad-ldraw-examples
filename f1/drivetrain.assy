@@ -117,7 +117,7 @@ links:
       name: half-axle-l
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Wheel:49294c01
+  - assembly: //pub/universe/lego/ldraw/Wheel:49294c01
     name: wheel-l
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -135,7 +135,7 @@ links:
       name: outer-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h3-top
-  - part: //pub/universe/lego/ldraw/Technic:76320-f2
+  - assembly: //pub/universe/lego/ldraw/Technic:76320-f2
     name: shock-l
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -206,7 +206,7 @@ links:
       name: half-axle-r
       to: //pub/universe/lego:technic-axle
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Wheel:49294c01
+  - assembly: //pub/universe/lego/ldraw/Wheel:49294c01
     name: wheel-r
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -224,7 +224,7 @@ links:
       name: outer-r
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h3-bottom
-  - part: //pub/universe/lego/ldraw/Technic:76320-f2
+  - assembly: //pub/universe/lego/ldraw/Technic:76320-f2
     name: shock-r
     connect:
       with: //pub/universe/lego:technic-pin-hole

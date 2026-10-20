@@ -9,7 +9,7 @@
 links:
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-l-lo-front
-  - part: //pub/universe/lego/ldraw/Electric:58119
+  - assembly: //pub/universe/lego/ldraw/Electric:58119
     name: battery-box
     connect:
       with: //pub/universe/lego:technic-pin-hole

@@ -27,6 +27,17 @@ dependencies:
     type: local
     path: deps/pub
 
+# Where the parts of these models are bought, in the order they are looked for:
+# LEGO's own shop, then BrickLink, which the index registers at
+# //pub/svc/commerce. Every part is a LEGO part, sold by its LDraw number (see
+# //pub/universe/lego), and 'pc supply' asks these about each part of a model
+# before the stores the parts library names - which are the same two, so a
+# PartCAD from before an assembly's package could say where to buy its parts
+# finds them all the same. See "Buying the parts" below.
+suppliers:
+  //pub/svc/commerce/lego-pick-a-brick:pick-a-brick:
+  //pub/svc/commerce/bricklink:bricklink:
+
 assemblies:
   castle/spire:
     type: assy
@@ -746,6 +757,67 @@ docs:
     top half, which LDraw declares "Inside not modelled", is closed across its rim
     as a filled envelope. Every part of the car is now served as a solid, and the
     car, its pieces and the set pass `pc test`.
+
+    ## Buying the parts
+
+    Every part here is a LEGO part, sold as `vendor: lego` by its LDraw number,
+    and two stores sell them, which the PartCAD index registers at
+    `//pub/svc/commerce`. This package names them as its `suppliers`, so
+    `pc supply` looks for every part of a model at them, in this order, and buys
+    each part from the first that has it:
+
+    | Store | Provider | What it needs |
+    | --- | --- | --- |
+    | LEGO's [Pick a Brick](https://www.lego.com/pick-and-build/pick-a-brick) | `//pub/svc/commerce/lego-pick-a-brick:pick-a-brick` | Nothing |
+    | [BrickLink](https://www.bricklink.com) | `//pub/svc/commerce/bricklink:bricklink` | An account's four OAuth values |
+
+    Each store's README says how to give it what it needs. One that has not been
+    given it says, quietly, that it has nothing.
+
+    ```shell
+    pc supply quote castle                                                              # each part where it is first found
+    pc supply quote -r --provider //pub/svc/commerce/lego-pick-a-brick:pick-a-brick f1  # everything at one store
+    pc -q supply quote --json --provider //pub/svc/commerce/bricklink:bricklink f1/front-end
+    python tools/quote.py -r                                                            # every model at every store
+    ```
+
+    A part has no colour - the geometry has none - so a store quotes the cheapest
+    colour it has, unless it is told one:
+
+    ```shell
+    pc --extra-param '//pub/svc/commerce/lego-pick-a-brick:pick-a-brick.color=Medium Stone Grey' \
+      supply quote --provider //pub/svc/commerce/lego-pick-a-brick:pick-a-brick castle
+    ```
+
+    No store sells by the LDraw number alone, and each works out what to buy for
+    it: the LEGO elements Rebrickable's public catalogue says the part has been
+    made as, and the mould LEGO makes in its place where none of those is on sale -
+    the friction pin LDraw draws as `2780` is sold as `61332`, the 2L axle `3704`
+    as `32062`, the 2 x 2 cone `3942b` as `3942c`. Pick a Brick is asked for those
+    elements by number, and is not searched. BrickLink sells in lots, each bought
+    whole, so what it quotes is what the lots cost, the pieces over what was asked
+    for included.
+
+    What LDraw draws as one part and LEGO makes as several - the front wheels,
+    `41896c01`, are a rim with its tyre on - is an assembly in the parts library,
+    with an SKU of its own: the car links its wheels, its shock absorbers, the
+    servo and the battery box as assemblies. `pc supply quote` asks for each of
+    them whole, as a set or a marketplace may sell it; `-r` asks for its parts
+    instead, which is how Pick a Brick sells a wheel.
+
+    What Pick a Brick's US shop had, asked on 2026-10-18:
+
+    | Model | Parts it had | Pieces | Price |
+    | --- | --- | --- | --- |
+    | `castle`, cheapest colours | 9 of 9 | 731 of 731 | $82.01 |
+    | `castle`, Medium Stone Grey | 7 of 9: not the two cones in grey | 711 of 731 | $78.00 |
+    | `f1 -r`, cheapest colours | 25 of 40 | 204 of 237 | $34.24 |
+
+    What it did not have for the car is what LEGO no longer makes: the Power
+    Functions battery box, XL motor, servo, IR receiver and remote, the 10L damped
+    shocks, and the large rims and tyres of the rear wheels. Those are the parts
+    BrickLink, a marketplace, is for. It was not asked: this was run without the
+    credentials it needs.
 
     ## This README
 

@@ -207,9 +207,17 @@ class Index:
                     if pid not in self.category:
                         self.category[pid] = member[2:-5]
                         self.entry[pid] = entry
+        # What the library draws as other parts - a wheel with its tyre on -
+        # partcad-ldraw serves as an assembly of them, with the same ports
+        # under the same names, rather than as a part.
+        self.shortcuts = set(json.loads(z.read("shortcuts.json"))) if "shortcuts.json" in z.namelist() else set()
 
     def ref(self, pid):
         return "%s/ldraw/%s:%s" % (LEGO, self.category[pid], pid)
+
+    def kind(self, pid):
+        """How an ASSY file links it: 'assembly' for a shortcut, 'part' for anything else."""
+        return "assembly" if pid in self.shortcuts else "part"
 
     def desc(self, pid):
         return self.entry[pid][0]
@@ -1074,7 +1082,7 @@ def write_module(plan, module, header, location=None):
     joints = {(src, where): (j, w, dst, t) for where, src, j, w, dst, t in plan.joints}
     for kind, x in plan.elements(module):
         if kind == "node":
-            out.append("  - part: %s" % plan.S.ix.ref(x.pid))
+            out.append("  - %s: %s" % (plan.S.ix.kind(x.pid), plan.S.ix.ref(x.pid)))
             out.append("    name: %s" % x.name)
             key = (x.name, module)
         else:
@@ -1148,7 +1156,7 @@ def write_set(S):
     for n in S.order:
         if n.module != SET:
             continue
-        out.append("  - part: %s" % S.ix.ref(n.pid))
+        out.append("  - %s: %s" % (S.ix.kind(n.pid), S.ix.ref(n.pid)))
         out.append("    name: %s" % n.name)
         out.append("    # %s%s, so it is placed rather than joined." % (n.note[0].upper(), n.note[1:]))
         out.append("    location: %s" % placement(n.M))

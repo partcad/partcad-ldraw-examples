@@ -9,7 +9,7 @@
 links:
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-servo-1
-  - part: //pub/universe/lego/ldraw/Electric:99498
+  - assembly: //pub/universe/lego/ldraw/Electric:99498
     name: servo
     connect:
       with: //pub/universe/lego:technic-pin-hole
