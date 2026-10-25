@@ -238,17 +238,15 @@ its Power Functions electrics and the IR remote control beside it.
 ```shell
 pc inspect -a f1                # the car and its remote
 pc inspect -a f1/car            # the car alone
-pc render -a -t png --viewport-origin 10000,-10000,10000 --viewport-up 0,0,1 f1
+pc render -a -t png --view right f1
 ```
 
 The pictures above are `f1-iso`, `f1-front`, `f1-right` and `f1-top` in
-`partcad.yaml`: aliases of `f1`, each with a camera of its own 10 m away along
-the direction it looks from (`[0, -10000, 0]` for the front, `[10000, 0, 0]` for
-the right side, `[0, 0, 10000]` with `[0, 1, 0]` up from above) rather than a
-`--view`. A named view is a camera point 100 mm off the origin aimed at the
-object's centre, which for a car 44 cm long is close enough to see it from an
-angle: `--view right` of this car is not a side view. The castle's two pictures
-are aliases of `castle` in the same way.
+`partcad.yaml`: aliases of `f1`, each looking at it from a direction of its
+own (`[0, -100, 0]` for the front, `[100, 0, 0]` for the right side,
+`[0, 0, 100]` with `[0, 1, 0]` up from above) - the same directions `--view`
+names, written down so that `pc render -r` draws them with everything else.
+The castle's two pictures are aliases of `castle` in the same way.
 
 It is not small - 44 cm from the back of the rear tyres to the tip of
 the nose, 19.5 cm across the rear wheels - and that is what fitting a battery box,

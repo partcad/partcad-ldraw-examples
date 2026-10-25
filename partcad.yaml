@@ -9,7 +9,13 @@ name: //pub/examples/lego
 desc: Assemblies built from the LDraw LEGO parts library.
 url: https://library.ldraw.org/
 poc: kuzmenkor@gmail.com
-partcad: ">=0.8.115"
+# Requires the PartCAD release that keeps a package's render settings for a file
+# type when an object overrides one of them (partcad/partcad#772, in 0.8.191).
+# The castle and the car override 'reproducible' for 'png', and an older release
+# drops the package's 'prefix' along with it, so their pictures are written
+# somewhere the README does not look. It also reads 'viewport_origin' as a
+# direction (partcad/partcad#771, in 0.8.190), which the cameras below are.
+partcad: ">=0.8.191"
 
 # Nothing here is a catalogue item somebody can order: these are models built
 # out of parts that already exist.
@@ -238,17 +244,15 @@ assemblies:
   # a camera of its own: an alias renders under its own name with its own
   # 'render:' settings, so 'pc render -r' writes images/<name>.png like any
   # other assembly here, and a README that shows it is never older than the
-  # model. The cameras stand 10 m off along the direction they look from: a
-  # viewport origin is a point the camera is placed at and aimed from towards
-  # the object's centre, and at 100 mm - where '--view' puts it - a model this
-  # size is seen from an angle rather than along an axis.
+  # model. A viewport origin is the direction the model is looked at from,
+  # wherever it sits, spelled at 100 mm the way '--view' spells it.
   castle-birdseye:
     type: alias
     source: :castle
     desc: The castle from above its front right corner
     render:
       png:
-        viewport_origin: [10000, -10000, 10000]
+        viewport_origin: [100, -100, 100]
         viewport_up: [0, 0, 1]
         reproducible: false
   castle-front:
@@ -257,7 +261,7 @@ assemblies:
     desc: The castle from in front, a little to its right and above
     render:
       png:
-        viewport_origin: [4000, -10000, 3000]
+        viewport_origin: [40, -100, 30]
         viewport_up: [0, 0, 1]
         reproducible: false
   f1-iso:
@@ -266,7 +270,7 @@ assemblies:
     desc: The car and its remote from the front right, above
     render:
       png:
-        viewport_origin: [10000, -10000, 10000]
+        viewport_origin: [100, -100, 100]
         viewport_up: [0, 0, 1]
         reproducible: false
   f1-front:
@@ -275,7 +279,7 @@ assemblies:
     desc: The car nose-on
     render:
       png:
-        viewport_origin: [0, -10000, 0]
+        viewport_origin: [0, -100, 0]
         viewport_up: [0, 0, 1]
         reproducible: false
   f1-right:
@@ -284,7 +288,7 @@ assemblies:
     desc: The car from its right side
     render:
       png:
-        viewport_origin: [10000, 0, 0]
+        viewport_origin: [100, 0, 0]
         viewport_up: [0, 0, 1]
         reproducible: false
   f1-top:
@@ -293,7 +297,7 @@ assemblies:
     desc: The car from above, its nose down the page
     render:
       png:
-        viewport_origin: [0, 0, 10000]
+        viewport_origin: [0, 0, 100]
         viewport_up: [0, 1, 0]
         reproducible: false
 
@@ -563,17 +567,15 @@ docs:
     ```shell
     pc inspect -a f1                # the car and its remote
     pc inspect -a f1/car            # the car alone
-    pc render -a -t png --viewport-origin 10000,-10000,10000 --viewport-up 0,0,1 f1
+    pc render -a -t png --view right f1
     ```
 
     The pictures above are `f1-iso`, `f1-front`, `f1-right` and `f1-top` in
-    `partcad.yaml`: aliases of `f1`, each with a camera of its own 10 m away along
-    the direction it looks from (`[0, -10000, 0]` for the front, `[10000, 0, 0]` for
-    the right side, `[0, 0, 10000]` with `[0, 1, 0]` up from above) rather than a
-    `--view`. A named view is a camera point 100 mm off the origin aimed at the
-    object's centre, which for a car 44 cm long is close enough to see it from an
-    angle: `--view right` of this car is not a side view. The castle's two pictures
-    are aliases of `castle` in the same way.
+    `partcad.yaml`: aliases of `f1`, each looking at it from a direction of its
+    own (`[0, -100, 0]` for the front, `[100, 0, 0]` for the right side,
+    `[0, 0, 100]` with `[0, 1, 0]` up from above) - the same directions `--view`
+    names, written down so that `pc render -r` draws them with everything else.
+    The castle's two pictures are aliases of `castle` in the same way.
 
     It is not small - 44 cm from the back of the rear tyres to the tip of
     the nose, 19.5 cm across the rear wheels - and that is what fitting a battery box,
