@@ -9,7 +9,13 @@ name: //pub/examples/lego
 desc: Assemblies built from the LDraw LEGO parts library.
 url: https://library.ldraw.org/
 poc: kuzmenkor@gmail.com
-partcad: ">=0.8.115"
+# Requires the PartCAD release that keeps a package's render settings for a file
+# type when an object overrides one of them (partcad/partcad#772, in 0.8.191).
+# The castle and the car override 'reproducible' for 'png', and an older release
+# drops the package's 'prefix' along with it, so their pictures are written
+# somewhere the README does not look. It also reads 'viewport_origin' as a
+# direction (partcad/partcad#771, in 0.8.190), which the cameras below are.
+partcad: ">=0.8.191"
 
 # Nothing here is a catalogue item somebody can order: these are models built
 # out of parts that already exist.
@@ -100,14 +106,10 @@ assemblies:
     type: assy
     path: castle.assy
     desc: A gothic castle built from LDraw LEGO parts.
-    # Too big to draw exactly: see 'render:' at the end of this file. The prefix
-    # is the package's said again, because PartCAD's README generator takes this
-    # section in place of the package's rather than merging the two; see
-    # TRIANGULATED in tools/gen_f1.py.
+    # Too big to draw exactly: see 'render:' at the end of this file.
     render:
       png:
         reproducible: false
-        prefix: ./images
     # Every part is placed by coordinates rather than joined, and a LEGO stud is
     # meant to occupy the part above it - that interference is what makes bricks
     # grip. So the interference check has something true to say about almost
@@ -163,7 +165,6 @@ assemblies:
     render:
       png:
         reproducible: false
-        prefix: ./images
   f1/front-frame:
     type: assy
     map:
@@ -230,7 +231,6 @@ assemblies:
     render:
       png:
         reproducible: false
-        prefix: ./images
   f1:
     type: assy
     path: f1.assy
@@ -238,42 +238,28 @@ assemblies:
     render:
       png:
         reproducible: false
-        prefix: ./images
   # --- end of f1 ---
 
-  # The pictures the README shows. Each is the model it names, looked at from
-  # a camera of its own: an alias renders under its own name with its own
-  # 'render:' settings, so 'pc render -r' writes images/<name>.png like any
-  # other assembly here, and a README that shows it is never older than the
-  # model. The cameras stand 10 m off along the direction they look from: a
-  # viewport origin is a point the camera is placed at and aimed from towards
-  # the object's centre, and at 100 mm - where '--view' puts it - a model this
-  # size is seen from an angle rather than along an axis.
-  castle-birdseye:
-    type: alias
-    source: :castle
-    desc: The castle from above its front right corner
-    render:
-      png:
-        viewport_origin: [10000, -10000, 10000]
-        viewport_up: [0, 0, 1]
-        reproducible: false
+  # The pictures the README shows besides the castle's and the car's own. Each
+  # is the model it names, looked at from a camera of its own: an alias renders
+  # under its own name with its own 'render:' settings, so 'pc render -r' writes
+  # images/<name>.png like any other assembly here, and a README that shows it
+  # is never older than the model. A viewport origin is the direction the model
+  # is looked at from, wherever it sits, spelled at 100 mm the way '--view'
+  # spells it.
+  #
+  # None of them looks from above the front right corner: that is where every
+  # assembly is drawn from when nothing says otherwise ('iso', which is
+  # [100, -100, 100] with Z up), so images/castle.png and images/f1.png are
+  # that view already. An alias asking for it again draws the same file a
+  # second time, and for the castle that is minutes and several GB for nothing.
   castle-front:
     type: alias
     source: :castle
     desc: The castle from in front, a little to its right and above
     render:
       png:
-        viewport_origin: [4000, -10000, 3000]
-        viewport_up: [0, 0, 1]
-        reproducible: false
-  f1-iso:
-    type: alias
-    source: :f1
-    desc: The car and its remote from the front right, above
-    render:
-      png:
-        viewport_origin: [10000, -10000, 10000]
+        viewport_origin: [40, -100, 30]
         viewport_up: [0, 0, 1]
         reproducible: false
   f1-front:
@@ -282,7 +268,7 @@ assemblies:
     desc: The car nose-on
     render:
       png:
-        viewport_origin: [0, -10000, 0]
+        viewport_origin: [0, -100, 0]
         viewport_up: [0, 0, 1]
         reproducible: false
   f1-right:
@@ -291,7 +277,7 @@ assemblies:
     desc: The car from its right side
     render:
       png:
-        viewport_origin: [10000, 0, 0]
+        viewport_origin: [100, 0, 0]
         viewport_up: [0, 0, 1]
         reproducible: false
   f1-top:
@@ -300,15 +286,17 @@ assemblies:
     desc: The car from above, its nose down the page
     render:
       png:
-        viewport_origin: [0, 0, 10000]
+        viewport_origin: [0, 0, 100]
         viewport_up: [0, 1, 0]
         reproducible: false
 
 render:
   # README.md is generated, and so is every image in it: 'pc render -r' writes
   # them all, and the CI fails when what it writes differs from what is checked
-  # in. The aliases above are left out of its list of assemblies - they are the
-  # pictures at the top of it, not models of their own.
+  # in. 'exclude: [aliases]' asks for the aliases above to be left out of its
+  # list of assemblies - they are views at the top of it, not models of their
+  # own - though PartCAD 0.8.208 still lists each of them, as an alias to its
+  # model.
   readme:
     exclude: [aliases]
   png:
@@ -345,7 +333,7 @@ docs:
     the bays, and a tall turreted keep.
 
     <table><tr>
-    <td valign=top><a href="./images/castle-birdseye.png"><img src="./images/castle-birdseye.png" alt="The castle from above" width="420"></a></td>
+    <td valign=top><a href="./images/castle.png"><img src="./images/castle.png" alt="The castle from above" width="420"></a></td>
     <td valign=top><a href="./images/castle-front.png"><img src="./images/castle-front.png" alt="The castle from the front" width="420"></a></td>
     </tr></table>
 
@@ -548,7 +536,7 @@ docs:
     its Power Functions electrics and the IR remote control beside it.
 
     <table><tr>
-    <td valign=top><a href="./images/f1-iso.png"><img src="./images/f1-iso.png" alt="The car from the front right, above" width="420"></a></td>
+    <td valign=top><a href="./images/f1.png"><img src="./images/f1.png" alt="The car from the front right, above" width="420"></a></td>
     <td valign=top><a href="./images/f1-right.png"><img src="./images/f1-right.png" alt="The car from its right side" width="420"></a></td>
     </tr><tr>
     <td valign=top><a href="./images/f1-front.png"><img src="./images/f1-front.png" alt="The car nose-on" width="420"></a></td>
@@ -570,17 +558,18 @@ docs:
     ```shell
     pc inspect -a f1                # the car and its remote
     pc inspect -a f1/car            # the car alone
-    pc render -a -t png --viewport-origin 10000,-10000,10000 --viewport-up 0,0,1 f1
+    pc render -a -t png --view right f1
     ```
 
-    The pictures above are `f1-iso`, `f1-front`, `f1-right` and `f1-top` in
-    `partcad.yaml`: aliases of `f1`, each with a camera of its own 10 m away along
-    the direction it looks from (`[0, -10000, 0]` for the front, `[10000, 0, 0]` for
-    the right side, `[0, 0, 10000]` with `[0, 1, 0]` up from above) rather than a
-    `--view`. A named view is a camera point 100 mm off the origin aimed at the
-    object's centre, which for a car 44 cm long is close enough to see it from an
-    angle: `--view right` of this car is not a side view. The castle's two pictures
-    are aliases of `castle` in the same way.
+    The first picture above is `f1`'s own, drawn from where PartCAD looks at an
+    assembly when nothing says otherwise: `iso`, `[100, -100, 100]`, above its
+    front right corner. The other three are `f1-front`, `f1-right` and `f1-top`
+    in `partcad.yaml`: aliases of `f1`, each looking at it from a direction of
+    its own (`[0, -100, 0]` for the front, `[100, 0, 0]` for the right side,
+    `[0, 0, 100]` with `[0, 1, 0]` up from above) - the same directions `--view`
+    names, written down so that `pc render -r` draws them with everything else.
+    The castle's two pictures are made the same way: `castle`'s own, and
+    `castle-front`, an alias of it looking from in front.
 
     It is not small - 44 cm from the back of the rear tyres to the tip of
     the nose, 19.5 cm across the rear wheels - and that is what fitting a battery box,
@@ -823,12 +812,13 @@ docs:
 
     It is generated, and so is every picture in it: the text is the `docs:` section
     of `partcad.yaml`, and `pc render -r` writes `README.md` and the images under
-    `images/` - the pictures above from the aliases beside the models, and one for
-    each assembly in the list below. They are rendered with `reproducible: true`,
-    so the same model gives the same file: drawn exactly, from the surfaces, by
-    OpenCASCADE's hidden-line removal.
+    `images/` - one for each assembly in the list below, the castle and the car
+    among them, and one for each of the aliases that look at those two from
+    elsewhere. They are rendered with `reproducible: true`, so the same model
+    gives the same file: drawn exactly, from the surfaces, by OpenCASCADE's
+    hidden-line removal.
 
-    All but the whole castle, the whole car, the six views of them and the car's
+    All but the whole castle, the whole car, the four views of them and the car's
     front end, which are too big to be drawn that way. The exact algorithm sets
     memory aside for every pair of edges in the picture before it draws any of
     them, so what it needs grows with the square of the model: the car has
