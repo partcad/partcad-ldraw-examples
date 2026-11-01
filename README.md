@@ -35,6 +35,13 @@ Everything sits on LEGO's own grid: 8 mm stud pitch, 9.6 mm brick height. The
 parts arrive standing upright in PartCAD's Z-up world, so `front`, `top`, `right`
 and `iso` mean what they say.
 
+The walls and the keep are light bluish grey, the round towers dark bluish
+grey, every spire and pinnacle dark red, and the baseplate green. An LDraw part
+has no colour of its own - LDraw draws nearly every part in "whatever colour
+places me" - so each link says what colour it places its part in (`color:`),
+in LDraw's own colours, named beside each one. A PartCAD that does not read a
+link's `color:` draws all of it in its default goldenrod.
+
 ```shell
 pc inspect -a castle
 pc render -a -t png --view iso castle
@@ -255,6 +262,17 @@ It is not small - 44 cm from the back of the rear tyres to the tip of
 the nose, 19.5 cm across the rear wheels - and that is what fitting a battery box,
 an XL motor, a servo and a receiver takes, with suspension at both ends.
 
+It is red, in the colours LEGO makes its parts in: red beams and panels; black
+friction pins, even-length axles and pinion; light grey pins that turn,
+odd-length axles and bushes; a dark grey differential, knuckles and shock
+absorbers; light grey Power Functions parts and wheel rims. The tyres are
+rubber black, and the battery box's lids dark grey and its switch orange,
+because the parts library places them so: what LDraw draws as one part and
+LEGO makes as several (see "Buying the parts") comes in the colours its own
+file gives its parts, and in the colour the car places it in for the rest. The
+motor, the receiver and the remote are one colour each, though LEGO makes each
+of them in several: the parts library draws each as one part.
+
 ### The pieces it is built from
 
 `f1` is the car and the remote beside it; `f1/car` is the car. The car is split
@@ -336,7 +354,10 @@ parameters, the part's own port undone - is computed there with the same rule,
 and has to come out exactly where the part was designed to be. A part with no
 such pair is an error, and the design changes until it has one. The ports come
 from `//pub/universe/lego`'s own index, so a joint the package does not serve
-cannot be written.
+cannot be written. So do the colours: each part's is named by its LDraw code in
+the generator, and its value is the one `//pub/universe/lego`'s index has from
+LDraw's own colour table (see `tools/ldraw_colors.py`), as `tools/gen_castle.py`
+names the castle's.
 
 The result was then checked the way the `gen-assembly` skill asks: PartCAD
 instantiated `f1`, the tree was walked down to its 213 parts composing every
@@ -450,8 +471,9 @@ pc -q supply quote --json --provider //pub/svc/commerce/bricklink:bricklink f1/f
 python tools/quote.py -r                                                            # every model at every store
 ```
 
-A part has no colour - the geometry has none - so a store quotes the cheapest
-colour it has, unless it is told one:
+A part has no colour of its own - the models say what colour each part is, on
+the link that places it, but a store is not told that yet - so a store quotes
+the cheapest colour it has, unless it is told one:
 
 ```shell
 pc --extra-param '//pub/svc/commerce/lego-pick-a-brick:pick-a-brick.color=Medium Stone Grey' \
