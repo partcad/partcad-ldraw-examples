@@ -21,6 +21,7 @@ location: [[0, 0, 0], [0, 0, 1], 0]   # set the offset to [100.0, -100.0, 0.0] t
 links:
   - part: //pub/universe/lego/ldraw/Baseplate:3811
     name: baseplate
+    color: "#00852B" # LDraw 2, Green
   - assembly: castle/wall-gate
     name: wallS
     connect:

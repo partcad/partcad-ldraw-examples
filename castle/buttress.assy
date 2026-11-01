@@ -6,8 +6,10 @@
 links:
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: butt_c0
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: butt_c1
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -16,6 +18,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: butt_c2
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -24,6 +27,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: butt_c3
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -32,6 +36,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: butt_c4
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -40,6 +45,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: butt_c5
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -48,6 +54,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: butt_c6
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -56,6 +63,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: butt_c7
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -64,6 +72,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: butt_p
+    color: "#720012" # LDraw 320, Dark_Red
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0

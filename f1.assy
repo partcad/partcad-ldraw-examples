@@ -10,5 +10,6 @@ links:
     name: car
   - part: //pub/universe/lego/ldraw/Electric:58122
     name: ir-remote
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     # A handset is not joined to the car it drives, so it is placed rather than joined.
     location: [[150, -180.8, 18.4], [0, 0, 1], 0]

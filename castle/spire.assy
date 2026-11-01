@@ -6,8 +6,10 @@
 links:
   - part: //pub/universe/lego/ldraw/Cone:3942b
     name: spire_s0
+    color: "#720012" # LDraw 320, Dark_Red
   - part: //pub/universe/lego/ldraw/Cone:3942b
     name: spire_s1
+    color: "#720012" # LDraw 320, Dark_Red
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: centre
@@ -16,6 +18,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: spire_s2
+    color: "#720012" # LDraw 320, Dark_Red
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -24,6 +27,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: spire_s3
+    color: "#720012" # LDraw 320, Dark_Red
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0

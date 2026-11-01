@@ -9,8 +9,10 @@
 links:
   - part: //pub/universe/lego/ldraw/Technic:3704
     name: axle-l
+    color: "#1B2A34" # LDraw 0, Black
   - part: //pub/universe/lego/ldraw/Technic:6536
     name: block-l
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle-hole
       withInstance: a0
@@ -19,6 +21,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-beam-l
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -29,6 +32,7 @@ links:
       toInstance: h1
   - part: //pub/universe/lego/ldraw/Technic:40490
     name: beam
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h0-top
@@ -37,6 +41,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-beam-r
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -45,6 +50,7 @@ links:
       toInstance: h8-top
   - part: //pub/universe/lego/ldraw/Technic:6536
     name: block-r
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h0
@@ -55,6 +61,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:3704
     name: axle-r
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-axle
       withInstance: left
@@ -63,6 +70,7 @@ links:
       toInstance: a0
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-rx-1
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -71,6 +79,7 @@ links:
       toInstance: h3-bottom
   - part: //pub/universe/lego/ldraw/Electric:58123
     name: ir-receiver
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h2
@@ -81,6 +90,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-rx-2
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left

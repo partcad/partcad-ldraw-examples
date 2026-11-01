@@ -9,8 +9,10 @@
 links:
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-motor-l1
+    color: "#1B2A34" # LDraw 0, Black
   - part: //pub/universe/lego/ldraw/Electric:58121
     name: xl-motor
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h0
@@ -21,6 +23,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-motor-l2
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: right
@@ -31,6 +34,7 @@ links:
       toInstance: h1
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-motor-r1
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -41,6 +45,7 @@ links:
       toInstance: h8
   - part: //pub/universe/lego/ldraw/Technic:32524
     name: spacer
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h0-bottom
@@ -51,6 +56,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-motor-r2
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -63,6 +69,7 @@ links:
       interferes: [spacer]
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-bracket-1
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -73,6 +80,7 @@ links:
       toInstance: h4
   - part: //pub/universe/lego/ldraw/Technic:32316
     name: bracket
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h3-top
@@ -83,6 +91,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-bracket-2
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -95,6 +104,7 @@ links:
       interferes: [bracket]
   - part: //pub/universe/lego/ldraw/Technic:4519
     name: pinion-shaft
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle
       withInstance: right
@@ -103,6 +113,7 @@ links:
       toInstance: a1
   - part: //pub/universe/lego/ldraw/Technic:32270
     name: pinion
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-axle-hole
       withInstance: a0
@@ -111,6 +122,7 @@ links:
       toInstance: left
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-spacer-1
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -121,6 +133,7 @@ links:
       toInstance: h1-top
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-spacer-2
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left

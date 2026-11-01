@@ -9,6 +9,7 @@
 links:
   - part: //pub/universe/lego/ldraw/Technic:32525
     name: inner-l
+    color: "#B40000" # LDraw 4, Red
   - assembly: f1/motor-unit
     name: motor-unit
     connect:
@@ -23,6 +24,7 @@ links:
       interferes: [inner-l, inner-r]
   - part: //pub/universe/lego/ldraw/Technic:32525
     name: inner-r
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h5-bottom
@@ -33,6 +35,7 @@ links:
       toInstance: pin-spacer-1-pin-right
   - part: //pub/universe/lego/ldraw/Technic:60485
     name: half-axle-r
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-axle
       withInstance: left
@@ -45,6 +48,7 @@ links:
         turnZ: -180
   - part: //pub/universe/lego/ldraw/Technic:60485
     name: half-axle-l
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-axle
       withInstance: right
@@ -57,6 +61,7 @@ links:
         turnZ: 180
   - part: //pub/universe/lego/ldraw/Technic:62821
     name: differential
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h1
@@ -68,6 +73,7 @@ links:
       toInstance: left
   - part: //pub/universe/lego/ldraw/Technic:40490
     name: outer-l
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h0-bottom
@@ -79,6 +85,7 @@ links:
       toInstance: left
   - part: //pub/universe/lego/ldraw/Technic:4519
     name: tie-l-8
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle
       withInstance: right
@@ -89,6 +96,7 @@ links:
         turnZ: 180
   - part: //pub/universe/lego/ldraw/Technic:4519
     name: tie-l-56
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle
       withInstance: right
@@ -99,6 +107,7 @@ links:
         turnZ: 180
   - part: //pub/universe/lego/ldraw/Technic:3713
     name: bush-l-1
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle-hole
       withInstance: a0
@@ -109,6 +118,7 @@ links:
       toInstance: left
   - part: //pub/universe/lego/ldraw/Technic:3713
     name: bush-l-2
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle-hole
       withInstance: a0
@@ -119,6 +129,7 @@ links:
       toInstance: left
   - assembly: //pub/universe/lego/ldraw/Wheel:49294c01
     name: wheel-l
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle-hole
       withInstance: a1
@@ -127,6 +138,7 @@ links:
       toInstance: left
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-shock-foot-l
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -137,6 +149,7 @@ links:
       toInstance: h3-top
   - assembly: //pub/universe/lego/ldraw/Technic:76320-f2
     name: shock-l
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h2
@@ -147,6 +160,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-shock-head-l
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -157,6 +171,7 @@ links:
       toInstance: h0
   - part: //pub/universe/lego/ldraw/Technic:40490
     name: outer-r
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h0-top
@@ -168,6 +183,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:3705
     name: tie-r-8
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-axle
       withInstance: left
@@ -178,6 +194,7 @@ links:
         turnZ: -180
   - part: //pub/universe/lego/ldraw/Technic:3705
     name: tie-r-56
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-axle
       withInstance: left
@@ -188,6 +205,7 @@ links:
         turnZ: -180
   - part: //pub/universe/lego/ldraw/Technic:3713
     name: bush-r-1
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle-hole
       withInstance: a1
@@ -198,6 +216,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:3713
     name: bush-r-2
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle-hole
       withInstance: a1
@@ -208,6 +227,7 @@ links:
       toInstance: right
   - assembly: //pub/universe/lego/ldraw/Wheel:49294c01
     name: wheel-r
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle-hole
       withInstance: a1
@@ -216,6 +236,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-shock-foot-r
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -226,6 +247,7 @@ links:
       toInstance: h3-bottom
   - assembly: //pub/universe/lego/ldraw/Technic:76320-f2
     name: shock-r
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h3
@@ -236,6 +258,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-shock-head-r
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left

@@ -47,6 +47,7 @@ links:
       interferes: [front-frame]
   - part: //pub/universe/lego/ldraw/Technic:3673
     name: pin-shock-top-l
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -57,6 +58,7 @@ links:
       interferes: [front-left]
   - part: //pub/universe/lego/ldraw/Technic:3673
     name: pin-shock-top-r
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -67,6 +69,7 @@ links:
       interferes: [front-right]
   - part: //pub/universe/lego/ldraw/Technic:3673
     name: pin-track-rod-l
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -79,6 +82,7 @@ links:
       interferes: [front-left]
   - part: //pub/universe/lego/ldraw/Technic:3673
     name: pin-track-rod-r
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left

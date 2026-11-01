@@ -9,8 +9,10 @@
 links:
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-l-lo-front
+    color: "#1B2A34" # LDraw 0, Black
   - assembly: //pub/universe/lego/ldraw/Electric:58119
     name: battery-box
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h0
@@ -19,6 +21,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-l-lo-back
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -27,6 +30,7 @@ links:
       toInstance: h2
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-l-up-front
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -35,6 +39,7 @@ links:
       toInstance: h1
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-l-up-back
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -43,6 +48,7 @@ links:
       toInstance: h3
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-r-lo-front
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -53,6 +59,7 @@ links:
       toInstance: h30
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-r-lo-back
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -63,6 +70,7 @@ links:
       toInstance: h32
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-r-up-front
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -73,6 +81,7 @@ links:
       toInstance: h31
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-r-up-back
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left

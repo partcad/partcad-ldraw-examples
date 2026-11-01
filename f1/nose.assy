@@ -9,8 +9,10 @@
 links:
   - part: //pub/universe/lego/ldraw/Technic:3708
     name: axle
+    color: "#1B2A34" # LDraw 0, Black
   - part: //pub/universe/lego/ldraw/Technic:6536
     name: block-l
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle-hole
       withInstance: a0
@@ -21,6 +23,7 @@ links:
       toInstance: left
   - part: //pub/universe/lego/ldraw/Technic:6536
     name: block-r
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle-hole
       withInstance: a0
@@ -31,6 +34,7 @@ links:
       toInstance: left
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-beam-l
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -41,6 +45,7 @@ links:
       toInstance: h1
   - part: //pub/universe/lego/ldraw/Technic:40490
     name: beam
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h0-bottom
@@ -49,6 +54,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-beam-r
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -59,6 +65,7 @@ links:
       interferes: [block-r]
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-cone-r-1
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -67,6 +74,7 @@ links:
       toInstance: h5-top
   - part: //pub/universe/lego/ldraw/Technic:64681
     name: cone-r
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h6
@@ -77,6 +85,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-cone-r-2
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -89,6 +98,7 @@ links:
       interferes: [beam]
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-cone-l-1
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -97,6 +107,7 @@ links:
       toInstance: h3-top
   - part: //pub/universe/lego/ldraw/Technic:64393
     name: cone-l
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h0
@@ -107,6 +118,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-cone-l-2
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left

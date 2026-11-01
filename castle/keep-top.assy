@@ -6,8 +6,10 @@
 links:
   - part: //pub/universe/lego/ldraw/Brick:3010
     name: kS_c0_0
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
   - part: //pub/universe/lego/ldraw/Brick:3004
     name: kS_c1_0
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -16,6 +18,7 @@ links:
       toInstance: c1r0
   - part: //pub/universe/lego/ldraw/Brick:3004
     name: kS_c1_1
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -24,6 +27,7 @@ links:
       toInstance: c3r0
   - part: //pub/universe/lego/ldraw/Brick:3004
     name: kS_c0_1
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:stud
       withInstance: c0r0
@@ -32,6 +36,7 @@ links:
       toInstance: c1r0
   - part: //pub/universe/lego/ldraw/Brick:3004
     name: kW_c1_0
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c1r0
@@ -42,6 +47,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3010
     name: kW_c0_0
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:stud
       withInstance: c3r0
@@ -50,6 +56,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3010
     name: kW_c1_1
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c1r0
@@ -58,6 +65,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3010
     name: kN_c0_0
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:stud
       withInstance: c0r0
@@ -68,6 +76,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3004
     name: kN_c1_0
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -76,6 +85,7 @@ links:
       toInstance: c1r0
   - part: //pub/universe/lego/ldraw/Brick:3004
     name: kN_c1_1
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -84,6 +94,7 @@ links:
       toInstance: c3r0
   - part: //pub/universe/lego/ldraw/Brick:3004
     name: kN_c0_1
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:stud
       withInstance: c0r0
@@ -92,6 +103,7 @@ links:
       toInstance: c1r0
   - part: //pub/universe/lego/ldraw/Brick:3004
     name: kE_c1_0
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c1r0
@@ -102,6 +114,7 @@ links:
       toInstance: c1r0
   - part: //pub/universe/lego/ldraw/Brick:3010
     name: kE_c0_0
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:stud
       withInstance: c3r0
@@ -110,6 +123,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3010
     name: kE_c1_1
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -120,6 +134,7 @@ links:
       toInstance: c1r0
   - part: //pub/universe/lego/ldraw/Brick:3009
     name: keep_roof0
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c1r0
@@ -128,6 +143,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3009
     name: keep_roof1
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -138,6 +154,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3009
     name: keep_roof2
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -148,6 +165,7 @@ links:
       toInstance: c3r0
   - part: //pub/universe/lego/ldraw/Brick:3009
     name: keep_roof3
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -158,6 +176,7 @@ links:
       toInstance: c2r0
   - part: //pub/universe/lego/ldraw/Brick:3009
     name: keep_roof4
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -168,6 +187,7 @@ links:
       toInstance: c1r0
   - part: //pub/universe/lego/ldraw/Brick:3009
     name: keep_roof5
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -178,6 +198,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_mS2
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -186,6 +207,7 @@ links:
       toInstance: c2r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_mN2
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -194,6 +216,7 @@ links:
       toInstance: c2r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_mW2
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -202,6 +225,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_mE2
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -210,6 +234,7 @@ links:
       toInstance: c5r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_sw_c3
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -218,6 +243,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_sw_c4
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -226,6 +252,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_sw_c5
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -234,6 +261,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_sw_p0
+    color: "#720012" # LDraw 320, Dark_Red
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -242,6 +270,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_sw_p1
+    color: "#720012" # LDraw 320, Dark_Red
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -250,6 +279,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_se_c3
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -258,6 +288,7 @@ links:
       toInstance: c5r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_se_c4
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -266,6 +297,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_se_c5
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -274,6 +306,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_se_p0
+    color: "#720012" # LDraw 320, Dark_Red
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -282,6 +315,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_se_p1
+    color: "#720012" # LDraw 320, Dark_Red
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -290,6 +324,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_nw_c3
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -298,6 +333,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_nw_c4
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -306,6 +342,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_nw_c5
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -314,6 +351,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_nw_p0
+    color: "#720012" # LDraw 320, Dark_Red
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -322,6 +360,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_nw_p1
+    color: "#720012" # LDraw 320, Dark_Red
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -330,6 +369,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_ne_c3
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -338,6 +378,7 @@ links:
       toInstance: c5r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_ne_c4
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -346,6 +387,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3005
     name: keep_ne_c5
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -354,6 +396,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_ne_p0
+    color: "#720012" # LDraw 320, Dark_Red
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -362,6 +405,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_ne_p1
+    color: "#720012" # LDraw 320, Dark_Red
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -370,6 +414,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:3943b
     name: keep_spire
+    color: "#720012" # LDraw 320, Dark_Red
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c1r0
@@ -378,6 +423,7 @@ links:
       toInstance: c2r0
   - part: //pub/universe/lego/ldraw/Cone:3942b
     name: keep_spire2
+    color: "#720012" # LDraw 320, Dark_Red
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -386,6 +432,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_f0
+    color: "#720012" # LDraw 320, Dark_Red
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -394,6 +441,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Cone:4589
     name: keep_f1
+    color: "#720012" # LDraw 320, Dark_Red
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0

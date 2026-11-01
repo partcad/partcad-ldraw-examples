@@ -25,11 +25,17 @@ every part standing upright in PartCAD's Z-up world, which is this frame turned
 +90 deg about X. Nothing here has to say so - every piece is joined through the
 studs the parts carry, and those are turned with them - so the castle comes out
 standing up, and front/top/right/iso mean what they say.
+
+Each part is placed in a colour of LDraw's (see COLORS), whose value is read
+from partcad-ldraw's index: a checkout of partcad-ldraw beside this one, or the
+file LDRAW_INDEX names (see ldraw_colors.py).
 """
 import collections
 import math
 import re
 import sys
+
+from ldraw_colors import DARK_BLUISH_GREY, DARK_RED, GREEN, LIGHT_BLUISH_GREY, color_line
 
 STUD = 8.0     # stud pitch, mm
 BRICK = 9.6    # brick height, mm
@@ -47,6 +53,30 @@ CONE_3X3X2 = f"{LEGO}/Cone:6233"        # 2 courses tall
 CONE_1X1 = f"{LEGO}/Cone:4589"          # 1 course tall
 BRICK_1X6 = f"{LEGO}/Brick:3009"
 CONE_4X4X2 = f"{LEGO}/Cone:3943b"       # 2 courses tall, a 2 x 2 of studs on top
+
+# What colour each part is placed in, by LDraw colour code (see ldraw_colors.py):
+# the masonry in light grey, the round towers a shade darker so that they read
+# as towers against the curtain wall, and every spire and pinnacle in dark red.
+# The baseplate is added where it is declared, below. A part with no colour
+# here is an error rather than a goldenrod brick in the picture.
+COLORS = {
+    BRICK_1X1: LIGHT_BLUISH_GREY,
+    BRICK_1X2: LIGHT_BLUISH_GREY,
+    BRICK_1X4: LIGHT_BLUISH_GREY,
+    BRICK_1X6: LIGHT_BLUISH_GREY,
+    ROUND_2X2: DARK_BLUISH_GREY,
+    CONE_1X1: DARK_RED,
+    CONE_2X2X2: DARK_RED,
+    CONE_3X3X2: DARK_RED,
+    CONE_4X4X2: DARK_RED,
+}
+
+
+def _color(ref, indent):
+    """The 'color:' line of a link placing 'ref', indented as its 'name:' is."""
+    if ref not in COLORS:
+        sys.exit(f"{ref}: no colour for this part in COLORS")
+    return color_line(COLORS[ref], indent)
 
 SIZE = 26         # curtain wall footprint, studs
 WALL_TOP = 7      # solid wall courses 0..6; crenellations on course 7
@@ -815,6 +845,7 @@ def _table_loop(items, indent):
         f"{indent}  ] %}}",
         f"{indent}- {kind}: {ref}",
         f"{indent}  name: {{{{ name }}}}",
+        _color(ref, f"{indent}  "),
         f"{indent}  location: [[{coords[0]}, {coords[1]}, {coords[2]}], {_axis_yaml(axis, ang)}]",
         f"{indent}{{% endfor %}}",
     ]
@@ -836,6 +867,7 @@ def _fold(items, indent="  "):
         if length < MIN_RUN:
             out.append(f"{indent}- {kind}: {ref}")
             out.append(f"{indent}  name: {name}")
+            out.append(_color(ref, f"{indent}  "))
             out.append(f"{indent}  location: [[{_num(pos[0])}, {_num(pos[1])}, {_num(pos[2])}], {_axis_yaml(axis, ang)}]")
             i += 1
             continue
@@ -854,6 +886,7 @@ def _fold(items, indent="  "):
         out.append(f"{indent}{{% for {var} in range({length}) %}}")
         out.append(f"{indent}- {kind}: {ref}")
         out.append(f"{indent}  name: {prefix}{counted}")
+        out.append(_color(ref, f"{indent}  "))
         out.append(f"{indent}  location: [[{coords[0]}, {coords[1]}, {coords[2]}], {_axis_yaml(axis, ang)}]")
         out.append(f"{indent}{{% endfor %}}")
         i += length
@@ -879,6 +912,7 @@ def _nodes_yaml(ordered, indent="  "):
             # and the coordinates are relative to this node anyway.
             out.append(f"{indent}- part: {part}")
             out.append(f"{indent}  name: {nm}")
+            out.append(_color(part, f"{indent}  "))
             if ang:
                 out.append(f"{indent}  location: [[0.0, 0.0, 0.0], [{axis[0]}, {axis[1]}, {axis[2]}], {ang}]")
             continue
@@ -890,6 +924,7 @@ def _nodes_yaml(ordered, indent="  "):
         to_iface = STUD_IFACE if kind == "anti" else ANTI_IFACE
         out.append(f"{indent}- part: {part}")
         out.append(f"{indent}  name: {nm}")
+        out.append(_color(part, f"{indent}  "))
         out.append(f"{indent}  connect:")
         out.append(f"{indent}    with: {with_iface}")
         out.append(f"{indent}    withInstance: {mine}")
@@ -945,6 +980,7 @@ def write_units(directory):
 # what LEGO answers that with, and the library has one big enough: 32 x 32
 # studs against the castle's 30, a stud to spare all round.
 BASEPLATE = f"{LEGO}/Baseplate:3811"
+COLORS[BASEPLATE] = GREEN
 BASEPLATE_STUDS = 32
 # Its studs are a centred grid: 'c<col>r<row>' at (8*col - 124, 0, 8*row - 124),
 # and its top is y = 0, which is where a brick on course 0 has its anti-studs.
@@ -1147,6 +1183,10 @@ def write(path, name, header):
     for index, ((u, nm, pos, ang), joint) in enumerate(_piece_joints()):
         out.append(f"  - {'part' if u == BASEPLATE else 'assembly'}: {u}")
         out.append(f"    name: {nm}")
+        if u == BASEPLATE:
+            # A piece is in the colours its parts are placed in, and says none
+            # of its own; the baseplate is a part, and is placed in one.
+            out.append(_color(u, "    "))
         if joint is None:
             # The one thing nothing holds up, because everything is on it. Where
             # it goes decides nothing - every other node is placed relative to

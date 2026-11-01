@@ -9,8 +9,10 @@
 links:
   - part: //pub/universe/lego/ldraw/Technic:3708
     name: axle
+    color: "#1B2A34" # LDraw 0, Black
   - part: //pub/universe/lego/ldraw/Technic:6536
     name: block-l
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle-hole
       withInstance: a0
@@ -21,6 +23,7 @@ links:
       toInstance: left
   - part: //pub/universe/lego/ldraw/Technic:6536
     name: block-r
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle-hole
       withInstance: a0
@@ -31,6 +34,7 @@ links:
       toInstance: left
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-pylon-l
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -41,6 +45,7 @@ links:
       toInstance: h1
   - part: //pub/universe/lego/ldraw/Technic:32524
     name: pylon-l
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h0-top
@@ -51,6 +56,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-slat-lo-l
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -61,6 +67,7 @@ links:
       toInstance: h5-bottom
   - part: //pub/universe/lego/ldraw/Technic:32278
     name: slat-lo
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h4-top
@@ -69,6 +76,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-slat-hi-l
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -79,6 +87,7 @@ links:
       toInstance: h6-bottom
   - part: //pub/universe/lego/ldraw/Technic:32278
     name: slat-hi
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h4-top
@@ -87,6 +96,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-slat-lo-r
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -95,6 +105,7 @@ links:
       toInstance: h10-top
   - part: //pub/universe/lego/ldraw/Technic:32524
     name: pylon-r
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h5-bottom
@@ -105,6 +116,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-slat-hi-r
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -117,6 +129,7 @@ links:
       interferes: [slat-hi]
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-pylon-r
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -129,6 +142,7 @@ links:
       interferes: [block-r]
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-endplate-l-lo
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -137,6 +151,7 @@ links:
       toInstance: h0-bottom
   - part: //pub/universe/lego/ldraw/Technic:32316
     name: endplate-l
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h3-top
@@ -147,6 +162,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-endplate-l-hi
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -159,6 +175,7 @@ links:
       interferes: [slat-hi]
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-endplate-r-lo
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -167,6 +184,7 @@ links:
       toInstance: h14-bottom
   - part: //pub/universe/lego/ldraw/Technic:32316
     name: endplate-r
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h3-top
@@ -177,6 +195,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-endplate-r-hi
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left

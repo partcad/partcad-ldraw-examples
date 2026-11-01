@@ -6,8 +6,10 @@
 links:
   - part: //pub/universe/lego/ldraw/Brick:3941
     name: t_c0
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
   - part: //pub/universe/lego/ldraw/Brick:3941
     name: t_c1
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -16,6 +18,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3941
     name: t_c2
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -24,6 +27,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3941
     name: t_c3
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -32,6 +36,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3941
     name: t_c4
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -40,6 +45,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3941
     name: t_c5
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -48,6 +54,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3941
     name: t_c6
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -56,6 +63,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3941
     name: t_c7
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -64,6 +72,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3941
     name: t_c8
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -72,6 +81,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3941
     name: t_c9
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -80,6 +90,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3941
     name: t_c10
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -88,6 +99,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3941
     name: t_c11
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0
@@ -96,6 +108,7 @@ links:
       toInstance: c0r0
   - part: //pub/universe/lego/ldraw/Brick:3941
     name: t_c12
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
     connect:
       with: //pub/universe/lego:anti-stud
       withInstance: c0r0

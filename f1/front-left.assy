@@ -9,8 +9,10 @@
 links:
   - part: //pub/universe/lego/ldraw/Technic:3673
     name: pin-lower-in
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
   - part: //pub/universe/lego/ldraw/Technic:32316
     name: wishbone-lower
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h4-bottom
@@ -19,6 +21,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:3673
     name: pin-lower-out
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: right
@@ -27,6 +30,7 @@ links:
       toInstance: h0-top
   - part: //pub/universe/lego/ldraw/Technic:6536
     name: kingpin-lower
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h0
@@ -35,6 +39,7 @@ links:
       toInstance: left
   - part: //pub/universe/lego/ldraw/Technic:4519
     name: kingpin
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle
       withInstance: left
@@ -43,6 +48,7 @@ links:
       toInstance: a0
   - part: //pub/universe/lego/ldraw/Technic:6536
     name: kingpin-upper
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle-hole
       withInstance: a0
@@ -53,6 +59,7 @@ links:
       toInstance: left
   - part: //pub/universe/lego/ldraw/Technic:3673
     name: pin-upper-out
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: right
@@ -61,6 +68,7 @@ links:
       toInstance: h0
   - part: //pub/universe/lego/ldraw/Technic:32316
     name: wishbone-upper
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h0-top
@@ -69,6 +77,7 @@ links:
       toInstance: left
   - part: //pub/universe/lego/ldraw/Technic:3673
     name: pin-upper-in
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left
@@ -77,6 +86,7 @@ links:
       toInstance: h4-bottom
   - part: //pub/universe/lego/ldraw/Technic:32557
     name: knuckle
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h1
@@ -88,6 +98,7 @@ links:
       toInstance: left
   - part: //pub/universe/lego/ldraw/Technic:3705
     name: stub-axle
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-axle
       withInstance: left
@@ -96,6 +107,7 @@ links:
       toInstance: h7
   - part: //pub/universe/lego/ldraw/Technic:3713
     name: bush
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle-hole
       withInstance: a0
@@ -106,6 +118,7 @@ links:
       toInstance: left
   - assembly: //pub/universe/lego/ldraw/Wheel:41896c01
     name: wheel
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-axle-hole
       withInstance: a1
@@ -114,6 +127,7 @@ links:
       toInstance: right
   - part: //pub/universe/lego/ldraw/Technic:3673
     name: pin-shock
+    color: "#969696" # LDraw 71, Light_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: right
@@ -122,6 +136,7 @@ links:
       toInstance: h3-top
   - assembly: //pub/universe/lego/ldraw/Technic:76320-f2
     name: shock
+    color: "#646464" # LDraw 72, Dark_Bluish_Grey
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h2

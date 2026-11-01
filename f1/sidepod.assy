@@ -9,8 +9,10 @@
 links:
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-front
+    color: "#1B2A34" # LDraw 0, Black
   - part: //pub/universe/lego/ldraw/Technic:62531
     name: panel
+    color: "#B40000" # LDraw 4, Red
     connect:
       with: //pub/universe/lego:technic-pin-hole
       withInstance: h0
@@ -21,6 +23,7 @@ links:
       toInstance: left
   - part: //pub/universe/lego/ldraw/Technic:2780
     name: pin-back
+    color: "#1B2A34" # LDraw 0, Black
     connect:
       with: //pub/universe/lego:technic-pin
       withInstance: left

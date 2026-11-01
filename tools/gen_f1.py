@@ -78,7 +78,8 @@ design frame is the parts' LDraw frame and not the frame they are served in:
 see UPRIGHT.
 
 Usage, from the repository root, with a checkout of partcad-ldraw beside this
-one (or LDRAW_INDEX pointing at its parts-index.zip):
+one (or LDRAW_INDEX pointing at its parts-index.zip), which is where the ports
+come from and the colours too (see COLORS and ldraw_colors.py):
 
     python3 tools/gen_f1.py          # writes f1.assy, f1/*.assy and the f1 block of partcad.yaml
     python3 tools/gen_f1.py --check  # only re-derives every joint and reports
@@ -90,6 +91,8 @@ import os
 import re
 import sys
 import zipfile
+
+from ldraw_colors import BLACK, DARK_BLUISH_GREY, LIGHT_BLUISH_GREY, RED, color_line
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -400,6 +403,51 @@ AXLE = {2: "3704", 3: "4519", 4: "3705", 9: "60485", 12: "3708"}
 BUSH = "3713"
 SHOCK = "76320-f2"  # Shock Absorber 10L Damped, compressed: its eyes are 6 studs apart
 CROSS_BLOCK = "6536"  # Cross Block 1 x 2 (Axle/Pin): an axle one way, a pin hole the other
+
+# What colour each part is placed in, by LDraw colour code (see ldraw_colors.py).
+# A red car, in the colours LEGO makes these parts in: the beams and the panels
+# red; the friction pins, the even axles and the pinion black, and the pins that
+# turn, the odd axles and the bushes light grey, which is how a Technic model
+# tells one from the other at a glance; the differential, the 2 x 3 cross blocks
+# and the shock absorbers dark grey. The wheels' rims are light grey, and their
+# tyres are rubber black whatever this says, because the wheel's own file says
+# so (partcad-ldraw places them in it). So are the Power Functions parts,
+# whose lids, switches and connectors are coloured the same way. A part with no
+# colour here is an error rather than a goldenrod part in the picture.
+COLORS = {
+    **{pid: RED for pid in BEAM.values()},
+    "62531": RED,  # Panel Smooth 11 x 2 x 3
+    "64393": RED,  # Panel Fairing #6
+    "64681": RED,  # Panel Fairing #5
+    "11478": BLACK,  # Beam 5 x 0.5 Liftarm, the track rod
+    FPIN: BLACK,
+    PIN: LIGHT_BLUISH_GREY,
+    AXLE[2]: BLACK,
+    AXLE[3]: LIGHT_BLUISH_GREY,
+    AXLE[4]: BLACK,
+    AXLE[9]: BLACK,
+    AXLE[12]: BLACK,
+    BUSH: LIGHT_BLUISH_GREY,
+    CROSS_BLOCK: LIGHT_BLUISH_GREY,
+    "32557": DARK_BLUISH_GREY,  # Cross Block 2 x 3
+    "32270": BLACK,  # Gear 12 Tooth Double Bevel, the pinion
+    "62821": DARK_BLUISH_GREY,  # Differential
+    SHOCK: DARK_BLUISH_GREY,
+    "41896c01": LIGHT_BLUISH_GREY,  # front wheels
+    "49294c01": LIGHT_BLUISH_GREY,  # rear wheels
+    "58119": LIGHT_BLUISH_GREY,  # battery box
+    "58121": LIGHT_BLUISH_GREY,  # XL motor
+    "58122": LIGHT_BLUISH_GREY,  # IR remote control
+    "58123": LIGHT_BLUISH_GREY,  # IR receiver
+    "99498": LIGHT_BLUISH_GREY,  # servo motor
+}
+
+
+def color_yaml(pid, indent="    "):
+    """The 'color:' line of a link placing part 'pid'."""
+    if pid not in COLORS:
+        sys.exit("%s: no colour for this part in COLORS" % pid)
+    return color_line(COLORS[pid], indent)
 
 
 def beam(mod, name, n, center, long, holes, to):
@@ -1084,6 +1132,7 @@ def write_module(plan, module, header, location=None):
         if kind == "node":
             out.append("  - %s: %s" % (plan.S.ix.kind(x.pid), plan.S.ix.ref(x.pid)))
             out.append("    name: %s" % x.name)
+            out.append(color_yaml(x.pid))
             key = (x.name, module)
         else:
             out.append("  - assembly: %s" % object_of(x))
@@ -1158,6 +1207,7 @@ def write_set(S):
             continue
         out.append("  - %s: %s" % (S.ix.kind(n.pid), S.ix.ref(n.pid)))
         out.append("    name: %s" % n.name)
+        out.append(color_yaml(n.pid))
         out.append("    # %s%s, so it is placed rather than joined." % (n.note[0].upper(), n.note[1:]))
         out.append("    location: %s" % placement(n.M))
     return "\n".join(out) + "\n"
