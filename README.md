@@ -17,19 +17,20 @@ the bays, and a tall turreted keep.
 <td valign=top><a href="./images/castle-front.png"><img src="./images/castle-front.png" alt="The castle from the front" width="420"></a></td>
 </tr></table>
 
-731 parts, nine distinct LDraw parts between them:
+731 parts, nine distinct LDraw parts between them, each in the colour LEGO
+makes it in here (see "Colours" below):
 
-| part | count | |
-| --- | --- | --- |
-| `Brick:3005` | 271 | 1 x 1 brick |
-| `Brick:3004` | 153 | 1 x 2 brick |
-| `Brick:3941` | 122 | 2 x 2 round brick |
-| `Brick:3010` | 114 | 1 x 4 brick |
-| `Cone:4589` | 44 | 1 x 1 cone — the spires |
-| `Cone:3942b` | 19 | 2 x 2 cone |
-| `Brick:3009` | 6 | 1 x 6 brick — the keep's floor |
-| `Baseplate:3811` | 1 | 32 x 32 baseplate — what it all stands on |
-| `Cone:3943b` | 1 | 4 x 4 cone — the keep's spire |
+| part | colour | count | |
+| --- | --- | --- | --- |
+| `castle/3005-stone` | Medium Stone Grey | 271 | 1 x 1 brick |
+| `castle/3004-stone` | Medium Stone Grey | 153 | 1 x 2 brick |
+| `castle/3941-dark-stone` | Dark Stone Grey | 122 | 2 x 2 round brick |
+| `castle/3010-stone` | Medium Stone Grey | 114 | 1 x 4 brick |
+| `castle/4589-dark-red` | New Dark Red | 44 | 1 x 1 cone — the spires |
+| `castle/3942b-dark-red` | New Dark Red | 19 | 2 x 2 cone |
+| `castle/3009-stone` | Medium Stone Grey | 6 | 1 x 6 brick — the keep's floor |
+| `castle/3811-green` | Dark Green | 1 | 32 x 32 baseplate — what it all stands on |
+| `castle/3943b-dark-red` | New Dark Red | 1 | 4 x 4 cone — the keep's spire |
 
 Everything sits on LEGO's own grid: 8 mm stud pitch, 9.6 mm brick height. The
 parts arrive standing upright in PartCAD's Z-up world, so `front`, `top`, `right`
@@ -367,6 +368,37 @@ inside the car.
   settled. The shocks are LDraw's 10L damped shock *compressed* (`76320-f2`),
   whose eyes are six studs apart, so that each one lands on the stud grid.
 
+## Colours
+
+LEGO sells an *element*: a design in a colour. So every part these models
+link is one - `castle/3005-stone` is LDraw's 1 x 1 brick in Medium Stone Grey,
+`f1/32524-red` the 7L beam in Bright Red - declared in `partcad.yaml` as an
+`enrich` of the LDraw part with its `color` fixed, and written there by the
+generators beside the links that use it (`tools/lego_colors.py`). A wheel or a
+battery box, which the parts library serves as an assembly of its parts, is an
+assembly in a colour the same way.
+
+The colours are LEGO's own, as `//pub/universe/lego` declares them from
+LDraw's colour table, by names of this package's own:
+
+| name | LEGO colour | LDraw |
+| --- | --- | --- |
+| `:stone` | Medium Stone Grey | 71 |
+| `:dark-stone` | Dark Stone Grey | 72 |
+| `:dark-red` | New Dark Red | 320 |
+| `:green` | Dark Green | 2 |
+| `:red` | Bright Red | 4 |
+| `:black` | Black | 0 |
+
+A part LDraw draws in colours of its own is drawn in them whatever it is
+named in: the XL motor's orange and black, the IR remote's buttons, the tyres
+on the wheels, which the wheel's own file draws in black rubber.
+
+A model could set a colour on the link instead (`params: {color: ":stone"}`),
+which draws the same picture. These are not written that way: a colour set
+on a link draws the assembly rather than saying what is in it, and these are
+parts to be bought, in the colour they are bought in.
+
 ## A note on interference
 
 A LEGO stud is *meant* to occupy the part above it, and a Technic pin the hole
@@ -450,8 +482,10 @@ pc -q supply quote --json --provider //pub/svc/commerce/bricklink:bricklink f1/f
 python tools/quote.py -r                                                            # every model at every store
 ```
 
-A part has no colour - the geometry has none - so a store quotes the cheapest
-colour it has, unless it is told one:
+Each part here is a design in a colour - the castle's 1 x 1 brick is
+`castle/3005-stone`, LDraw's 3005 in Medium Stone Grey (see "Colours") - but a
+store is asked by LDraw number, and quotes the cheapest colour it has unless
+it is told one:
 
 ```shell
 pc --extra-param '//pub/svc/commerce/lego-pick-a-brick:pick-a-brick.color=Medium Stone Grey' \
@@ -611,6 +645,56 @@ next render.
 <table><tr>
 <td valign=top><a href="f1.assy"><img src="././images/f1-top.png" alt="f1-top" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></a></td>
 <td valign=top>A Formula 1 car in LEGO Technic - Power Functions motors, suspension, and the IR remote control.</td>
+</tr></table>
+
+### f1/41896c01-stone
+<table><tr>
+<td valign=top><img src="././images/f1/41896c01-stone.png" alt="f1/41896c01-stone" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></td>
+<td valign=top>41896c01 in Medium Stone Grey (LDraw 71)</td>
+<td valign=top>Parameters:<br/><ul>
+<li>color: //pub/universe/lego:Medium Stone Grey</li>
+</ul>
+</td>
+</tr></table>
+
+### f1/49294c01-stone
+<table><tr>
+<td valign=top><img src="././images/f1/49294c01-stone.png" alt="f1/49294c01-stone" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></td>
+<td valign=top>49294c01 in Medium Stone Grey (LDraw 71)</td>
+<td valign=top>Parameters:<br/><ul>
+<li>color: //pub/universe/lego:Medium Stone Grey</li>
+</ul>
+</td>
+</tr></table>
+
+### f1/58119-stone
+<table><tr>
+<td valign=top><img src="././images/f1/58119-stone.png" alt="f1/58119-stone" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></td>
+<td valign=top>58119 in Medium Stone Grey (LDraw 71)</td>
+<td valign=top>Parameters:<br/><ul>
+<li>color: //pub/universe/lego:Medium Stone Grey</li>
+</ul>
+</td>
+</tr></table>
+
+### f1/76320-f2-dark-stone
+<table><tr>
+<td valign=top><img src="././images/f1/76320-f2-dark-stone.png" alt="f1/76320-f2-dark-stone" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></td>
+<td valign=top>76320-f2 in Dark Stone Grey (LDraw 72)</td>
+<td valign=top>Parameters:<br/><ul>
+<li>color: //pub/universe/lego:Dark Stone Grey</li>
+</ul>
+</td>
+</tr></table>
+
+### f1/99498-stone
+<table><tr>
+<td valign=top><img src="././images/f1/99498-stone.png" alt="f1/99498-stone" style="width: auto; height: auto; max-width: 200px; max-height: 200px;"></td>
+<td valign=top>99498 in Medium Stone Grey (LDraw 71)</td>
+<td valign=top>Parameters:<br/><ul>
+<li>color: //pub/universe/lego:Medium Stone Grey</li>
+</ul>
+</td>
 </tr></table>
 
 ### f1/airbox
