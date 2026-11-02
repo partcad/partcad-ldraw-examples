@@ -7,9 +7,9 @@
 # ports to something before it. What the piece is joined by from outside
 # is what 'map:' externalizes in partcad.yaml.
 links:
-  - part: //pub/universe/lego/ldraw/Technic:3673
+  - part: f1/3673-stone
     name: pin-lower-in
-  - part: //pub/universe/lego/ldraw/Technic:32316
+  - part: f1/32316-red
     name: wishbone-lower
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -17,7 +17,7 @@ links:
       name: pin-lower-in
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:3673
+  - part: f1/3673-stone
     name: pin-lower-out
     connect:
       with: //pub/universe/lego:technic-pin
@@ -25,7 +25,7 @@ links:
       name: wishbone-lower
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h4-top
-  - part: //pub/universe/lego/ldraw/Technic:6536
+  - part: f1/6536-stone
     name: kingpin-lower
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -35,7 +35,7 @@ links:
       name: pin-lower-out
       to: //pub/universe/lego:technic-pin
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:4519
+  - part: f1/4519-stone
     name: kingpin
     connect:
       with: //pub/universe/lego:technic-axle
@@ -43,7 +43,7 @@ links:
       name: kingpin-lower
       to: //pub/universe/lego:technic-axle-hole
       toInstance: a1
-  - part: //pub/universe/lego/ldraw/Technic:6536
+  - part: f1/6536-stone
     name: kingpin-upper
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -53,7 +53,7 @@ links:
       name: kingpin
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:3673
+  - part: f1/3673-stone
     name: pin-upper-out
     connect:
       with: //pub/universe/lego:technic-pin
@@ -63,7 +63,7 @@ links:
       name: kingpin-upper
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h0
-  - part: //pub/universe/lego/ldraw/Technic:32316
+  - part: f1/32316-red
     name: wishbone-upper
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -71,7 +71,7 @@ links:
       name: pin-upper-out
       to: //pub/universe/lego:technic-pin
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:3673
+  - part: f1/3673-stone
     name: pin-upper-in
     connect:
       with: //pub/universe/lego:technic-pin
@@ -79,7 +79,7 @@ links:
       name: wishbone-upper
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h0-bottom
-  - part: //pub/universe/lego/ldraw/Technic:32557
+  - part: f1/32557-dark-stone
     name: knuckle
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -90,7 +90,7 @@ links:
       name: kingpin
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:3705
+  - part: f1/3705-black
     name: stub-axle
     connect:
       with: //pub/universe/lego:technic-axle
@@ -98,7 +98,7 @@ links:
       name: knuckle
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h6
-  - part: //pub/universe/lego/ldraw/Technic:3713
+  - part: f1/3713-stone
     name: bush
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -108,7 +108,7 @@ links:
       name: stub-axle
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - assembly: //pub/universe/lego/ldraw/Wheel:41896c01
+  - assembly: f1/41896c01-stone
     name: wheel
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -116,7 +116,7 @@ links:
       name: stub-axle
       to: //pub/universe/lego:technic-axle
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:3673
+  - part: f1/3673-stone
     name: pin-shock
     connect:
       with: //pub/universe/lego:technic-pin
@@ -124,7 +124,7 @@ links:
       name: wishbone-upper
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h1-top
-  - assembly: //pub/universe/lego/ldraw/Technic:76320-f2
+  - assembly: f1/76320-f2-dark-stone
     name: shock
     connect:
       with: //pub/universe/lego:technic-pin-hole

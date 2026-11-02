@@ -4,9 +4,9 @@
 # whatever places the piece to decide. Everything after it names the brick
 # and the stud it goes on.
 links:
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: kS_c0_0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: kS_c1_0
     connect:
       with: //pub/universe/lego:anti-stud
@@ -14,7 +14,7 @@ links:
       name: kS_c0_0
       to: //pub/universe/lego:stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: kS_c1_1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -22,7 +22,7 @@ links:
       name: kS_c0_0
       to: //pub/universe/lego:stud
       toInstance: c3r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: kS_c0_1
     connect:
       with: //pub/universe/lego:stud
@@ -30,7 +30,7 @@ links:
       name: kS_c1_1
       to: //pub/universe/lego:anti-stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: kW_c1_0
     connect:
       with: //pub/universe/lego:anti-stud
@@ -40,7 +40,7 @@ links:
       name: kS_c0_0
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: kW_c0_0
     connect:
       with: //pub/universe/lego:stud
@@ -48,7 +48,7 @@ links:
       name: kW_c1_0
       to: //pub/universe/lego:anti-stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: kW_c1_1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -56,7 +56,7 @@ links:
       name: kW_c0_0
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: kN_c0_0
     connect:
       with: //pub/universe/lego:stud
@@ -66,7 +66,7 @@ links:
       name: kW_c1_1
       to: //pub/universe/lego:anti-stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: kN_c1_0
     connect:
       with: //pub/universe/lego:anti-stud
@@ -74,7 +74,7 @@ links:
       name: kN_c0_0
       to: //pub/universe/lego:stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: kN_c1_1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -82,7 +82,7 @@ links:
       name: kN_c0_0
       to: //pub/universe/lego:stud
       toInstance: c3r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: kN_c0_1
     connect:
       with: //pub/universe/lego:stud
@@ -90,7 +90,7 @@ links:
       name: kN_c1_1
       to: //pub/universe/lego:anti-stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: kE_c1_0
     connect:
       with: //pub/universe/lego:anti-stud
@@ -100,7 +100,7 @@ links:
       name: kS_c0_1
       to: //pub/universe/lego:stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: kE_c0_0
     connect:
       with: //pub/universe/lego:stud
@@ -108,7 +108,7 @@ links:
       name: kE_c1_0
       to: //pub/universe/lego:anti-stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: kE_c1_1
     connect:
       with: //pub/universe/lego:anti-stud

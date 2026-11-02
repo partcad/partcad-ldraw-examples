@@ -8,7 +8,7 @@ name: f1
 links:
   - assembly: f1/car
     name: car
-  - part: //pub/universe/lego/ldraw/Electric:58122
+  - part: f1/58122-stone
     name: ir-remote
     # A handset is not joined to the car it drives, so it is placed rather than joined.
     location: [[150, -180.8, 18.4], [0, 0, 1], 0]

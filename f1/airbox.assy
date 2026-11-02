@@ -7,9 +7,9 @@
 # ports to something before it. What the piece is joined by from outside
 # is what 'map:' externalizes in partcad.yaml.
 links:
-  - part: //pub/universe/lego/ldraw/Technic:3704
+  - part: f1/3704-black
     name: axle-l
-  - part: //pub/universe/lego/ldraw/Technic:6536
+  - part: f1/6536-stone
     name: block-l
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -17,7 +17,7 @@ links:
       name: axle-l
       to: //pub/universe/lego:technic-axle
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-beam-l
     connect:
       with: //pub/universe/lego:technic-pin
@@ -27,7 +27,7 @@ links:
       name: block-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h1
-  - part: //pub/universe/lego/ldraw/Technic:40490
+  - part: f1/40490-red
     name: beam
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -35,7 +35,7 @@ links:
       name: pin-beam-l
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-beam-r
     connect:
       with: //pub/universe/lego:technic-pin
@@ -43,7 +43,7 @@ links:
       name: beam
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h8-top
-  - part: //pub/universe/lego/ldraw/Technic:6536
+  - part: f1/6536-stone
     name: block-r
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -53,7 +53,7 @@ links:
       name: pin-beam-r
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:3704
+  - part: f1/3704-black
     name: axle-r
     connect:
       with: //pub/universe/lego:technic-axle
@@ -61,7 +61,7 @@ links:
       name: block-r
       to: //pub/universe/lego:technic-axle-hole
       toInstance: a0
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-rx-1
     connect:
       with: //pub/universe/lego:technic-pin
@@ -69,7 +69,7 @@ links:
       name: beam
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h3-bottom
-  - part: //pub/universe/lego/ldraw/Electric:58123
+  - part: f1/58123-stone
     name: ir-receiver
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -79,7 +79,7 @@ links:
       name: pin-rx-1
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-rx-2
     connect:
       with: //pub/universe/lego:technic-pin

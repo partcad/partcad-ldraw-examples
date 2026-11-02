@@ -19,7 +19,7 @@
 name: castle
 location: [[0, 0, 0], [0, 0, 1], 0]   # set the offset to [100.0, -100.0, 0.0] to read coordinates off the stud grid
 links:
-  - part: //pub/universe/lego/ldraw/Baseplate:3811
+  - part: castle/3811-green
     name: baseplate
   - assembly: castle/wall-gate
     name: wallS

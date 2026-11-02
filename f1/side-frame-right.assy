@@ -7,9 +7,9 @@
 # ports to something before it. What the piece is joined by from outside
 # is what 'map:' externalizes in partcad.yaml.
 links:
-  - part: //pub/universe/lego/ldraw/Technic:32278
+  - part: f1/32278-red
     name: rail-lo
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-post-lo
     connect:
       with: //pub/universe/lego:technic-pin
@@ -19,7 +19,7 @@ links:
       name: rail-lo
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h1-bottom
-  - part: //pub/universe/lego/ldraw/Technic:32524
+  - part: f1/32524-red
     name: post
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -29,7 +29,7 @@ links:
       name: pin-post-lo
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-post-up
     connect:
       with: //pub/universe/lego:technic-pin
@@ -39,7 +39,7 @@ links:
       name: post
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h2-top
-  - part: //pub/universe/lego/ldraw/Technic:32278
+  - part: f1/32278-red
     name: rail-up
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -49,7 +49,7 @@ links:
       name: pin-post-up
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-post-tower
     connect:
       with: //pub/universe/lego:technic-pin
@@ -59,7 +59,7 @@ links:
       name: post
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h6-top
-  - part: //pub/universe/lego/ldraw/Technic:41239
+  - part: f1/41239-red
     name: tower
     connect:
       with: //pub/universe/lego:technic-pin-hole

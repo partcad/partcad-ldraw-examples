@@ -7,7 +7,7 @@
 # ports to something before it. What the piece is joined by from outside
 # is what 'map:' externalizes in partcad.yaml.
 links:
-  - part: //pub/universe/lego/ldraw/Technic:32525
+  - part: f1/32525-red
     name: inner-l
   - assembly: f1/motor-unit
     name: motor-unit
@@ -21,7 +21,7 @@ links:
       toInstance: h4-top
       # its other end snaps into these as well (see snap_in_elsewhere)
       interferes: [inner-l, inner-r]
-  - part: //pub/universe/lego/ldraw/Technic:32525
+  - part: f1/32525-red
     name: inner-r
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -31,7 +31,7 @@ links:
       name: motor-unit
       to: //pub/universe/lego:technic-pin
       toInstance: pin-spacer-1-pin-right
-  - part: //pub/universe/lego/ldraw/Technic:60485
+  - part: f1/60485-black
     name: half-axle-r
     connect:
       with: //pub/universe/lego:technic-axle
@@ -43,7 +43,7 @@ links:
       toInstance: h0-bottom
       toParams:
         turnZ: -180
-  - part: //pub/universe/lego/ldraw/Technic:60485
+  - part: f1/60485-black
     name: half-axle-l
     connect:
       with: //pub/universe/lego:technic-axle
@@ -55,7 +55,7 @@ links:
       toInstance: h0-top
       toParams:
         turnZ: 180
-  - part: //pub/universe/lego/ldraw/Technic:62821
+  - part: f1/62821-dark-stone
     name: differential
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -66,7 +66,7 @@ links:
       name: half-axle-r
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:40490
+  - part: f1/40490-red
     name: outer-l
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -77,7 +77,7 @@ links:
       name: half-axle-l
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:4519
+  - part: f1/4519-stone
     name: tie-l-8
     connect:
       with: //pub/universe/lego:technic-axle
@@ -87,7 +87,7 @@ links:
       toInstance: h1-top
       toParams:
         turnZ: 180
-  - part: //pub/universe/lego/ldraw/Technic:4519
+  - part: f1/4519-stone
     name: tie-l-56
     connect:
       with: //pub/universe/lego:technic-axle
@@ -97,7 +97,7 @@ links:
       toInstance: h7-top
       toParams:
         turnZ: 180
-  - part: //pub/universe/lego/ldraw/Technic:3713
+  - part: f1/3713-stone
     name: bush-l-1
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -107,7 +107,7 @@ links:
       name: half-axle-l
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:3713
+  - part: f1/3713-stone
     name: bush-l-2
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -117,7 +117,7 @@ links:
       name: half-axle-l
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - assembly: //pub/universe/lego/ldraw/Wheel:49294c01
+  - assembly: f1/49294c01-stone
     name: wheel-l
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -125,7 +125,7 @@ links:
       name: half-axle-l
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-shock-foot-l
     connect:
       with: //pub/universe/lego:technic-pin
@@ -135,7 +135,7 @@ links:
       name: outer-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h3-top
-  - assembly: //pub/universe/lego/ldraw/Technic:76320-f2
+  - assembly: f1/76320-f2-dark-stone
     name: shock-l
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -145,7 +145,7 @@ links:
       name: pin-shock-foot-l
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-shock-head-l
     connect:
       with: //pub/universe/lego:technic-pin
@@ -155,7 +155,7 @@ links:
       name: shock-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h0
-  - part: //pub/universe/lego/ldraw/Technic:40490
+  - part: f1/40490-red
     name: outer-r
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -166,7 +166,7 @@ links:
       name: half-axle-r
       to: //pub/universe/lego:technic-axle
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:3705
+  - part: f1/3705-black
     name: tie-r-8
     connect:
       with: //pub/universe/lego:technic-axle
@@ -176,7 +176,7 @@ links:
       toInstance: h1-bottom
       toParams:
         turnZ: -180
-  - part: //pub/universe/lego/ldraw/Technic:3705
+  - part: f1/3705-black
     name: tie-r-56
     connect:
       with: //pub/universe/lego:technic-axle
@@ -186,7 +186,7 @@ links:
       toInstance: h7-bottom
       toParams:
         turnZ: -180
-  - part: //pub/universe/lego/ldraw/Technic:3713
+  - part: f1/3713-stone
     name: bush-r-1
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -196,7 +196,7 @@ links:
       name: half-axle-r
       to: //pub/universe/lego:technic-axle
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:3713
+  - part: f1/3713-stone
     name: bush-r-2
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -206,7 +206,7 @@ links:
       name: half-axle-r
       to: //pub/universe/lego:technic-axle
       toInstance: right
-  - assembly: //pub/universe/lego/ldraw/Wheel:49294c01
+  - assembly: f1/49294c01-stone
     name: wheel-r
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -214,7 +214,7 @@ links:
       name: half-axle-r
       to: //pub/universe/lego:technic-axle
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-shock-foot-r
     connect:
       with: //pub/universe/lego:technic-pin
@@ -224,7 +224,7 @@ links:
       name: outer-r
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h3-bottom
-  - assembly: //pub/universe/lego/ldraw/Technic:76320-f2
+  - assembly: f1/76320-f2-dark-stone
     name: shock-r
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -234,7 +234,7 @@ links:
       name: pin-shock-foot-r
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-shock-head-r
     connect:
       with: //pub/universe/lego:technic-pin

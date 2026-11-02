@@ -7,9 +7,9 @@
 # ports to something before it. What the piece is joined by from outside
 # is what 'map:' externalizes in partcad.yaml.
 links:
-  - part: //pub/universe/lego/ldraw/Technic:3708
+  - part: f1/3708-black
     name: axle
-  - part: //pub/universe/lego/ldraw/Technic:6536
+  - part: f1/6536-stone
     name: block-l
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -19,7 +19,7 @@ links:
       name: axle
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:6536
+  - part: f1/6536-stone
     name: block-r
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -29,7 +29,7 @@ links:
       name: axle
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-pylon-l
     connect:
       with: //pub/universe/lego:technic-pin
@@ -39,7 +39,7 @@ links:
       name: block-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h1
-  - part: //pub/universe/lego/ldraw/Technic:32524
+  - part: f1/32524-red
     name: pylon-l
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -49,7 +49,7 @@ links:
       name: pin-pylon-l
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-slat-lo-l
     connect:
       with: //pub/universe/lego:technic-pin
@@ -59,7 +59,7 @@ links:
       name: pylon-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h5-bottom
-  - part: //pub/universe/lego/ldraw/Technic:32278
+  - part: f1/32278-red
     name: slat-lo
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -67,7 +67,7 @@ links:
       name: pin-slat-lo-l
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-slat-hi-l
     connect:
       with: //pub/universe/lego:technic-pin
@@ -77,7 +77,7 @@ links:
       name: pylon-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h6-bottom
-  - part: //pub/universe/lego/ldraw/Technic:32278
+  - part: f1/32278-red
     name: slat-hi
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -85,7 +85,7 @@ links:
       name: pin-slat-hi-l
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-slat-lo-r
     connect:
       with: //pub/universe/lego:technic-pin
@@ -93,7 +93,7 @@ links:
       name: slat-lo
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h10-top
-  - part: //pub/universe/lego/ldraw/Technic:32524
+  - part: f1/32524-red
     name: pylon-r
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -103,7 +103,7 @@ links:
       name: pin-slat-lo-r
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-slat-hi-r
     connect:
       with: //pub/universe/lego:technic-pin
@@ -115,7 +115,7 @@ links:
       toInstance: h6-bottom
       # its other end snaps into these as well (see snap_in_elsewhere)
       interferes: [slat-hi]
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-pylon-r
     connect:
       with: //pub/universe/lego:technic-pin
@@ -127,7 +127,7 @@ links:
       toInstance: h0-top
       # its other end snaps into these as well (see snap_in_elsewhere)
       interferes: [block-r]
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-endplate-l-lo
     connect:
       with: //pub/universe/lego:technic-pin
@@ -135,7 +135,7 @@ links:
       name: slat-lo
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h0-bottom
-  - part: //pub/universe/lego/ldraw/Technic:32316
+  - part: f1/32316-red
     name: endplate-l
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -145,7 +145,7 @@ links:
       name: pin-endplate-l-lo
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-endplate-l-hi
     connect:
       with: //pub/universe/lego:technic-pin
@@ -157,7 +157,7 @@ links:
       toInstance: h4-top
       # its other end snaps into these as well (see snap_in_elsewhere)
       interferes: [slat-hi]
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-endplate-r-lo
     connect:
       with: //pub/universe/lego:technic-pin
@@ -165,7 +165,7 @@ links:
       name: slat-lo
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h14-bottom
-  - part: //pub/universe/lego/ldraw/Technic:32316
+  - part: f1/32316-red
     name: endplate-r
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -175,7 +175,7 @@ links:
       name: pin-endplate-r-lo
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-endplate-r-hi
     connect:
       with: //pub/universe/lego:technic-pin

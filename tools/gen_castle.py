@@ -28,8 +28,11 @@ standing up, and front/top/right/iso mean what they say.
 """
 import collections
 import math
+import os
 import re
 import sys
+
+from lego_colors import Variants
 
 STUD = 8.0     # stud pitch, mm
 BRICK = 9.6    # brick height, mm
@@ -47,6 +50,36 @@ CONE_3X3X2 = f"{LEGO}/Cone:6233"        # 2 courses tall
 CONE_1X1 = f"{LEGO}/Cone:4589"          # 1 course tall
 BRICK_1X6 = f"{LEGO}/Brick:3009"
 CONE_4X4X2 = f"{LEGO}/Cone:3943b"       # 2 courses tall, a 2 x 2 of studs on top
+
+# What colour each part is in, by this package's names for LEGO's colours (see
+# lego_colors.py): the masonry in Medium Stone Grey, the round towers a shade
+# darker so that they read as towers against the curtain wall, every spire and
+# pinnacle in New Dark Red, and the baseplate green. Each design in its colour
+# is a part of its own, declared in partcad.yaml by write_variants() and linked
+# by that name. A part with no colour here is an error rather than a part in no
+# colour at all.
+COLORS = {
+    BRICK_1X1: "stone",
+    BRICK_1X2: "stone",
+    BRICK_1X4: "stone",
+    BRICK_1X6: "stone",
+    ROUND_2X2: "dark-stone",
+    CONE_1X1: "dark-red",
+    CONE_2X2X2: "dark-red",
+    CONE_3X3X2: "dark-red",
+    CONE_4X4X2: "dark-red",
+    f"{LEGO}/Baseplate:3811": "green",
+}
+VARIANTS = Variants("castle")
+
+
+def _variant(kind, ref):
+    """The part (or assembly) that is 'ref' in the colour COLORS gives it."""
+    if not ref.startswith(LEGO):
+        return ref  # one of this castle's own assemblies
+    if ref not in COLORS:
+        sys.exit(f"{ref}: no colour for this part in COLORS")
+    return VARIANTS.name(kind, ref, COLORS[ref])
 
 SIZE = 26         # curtain wall footprint, studs
 WALL_TOP = 7      # solid wall courses 0..6; crenellations on course 7
@@ -813,7 +846,7 @@ def _table_loop(items, indent):
         f"{indent}{{% for {', '.join(fields)} in [",
         *rows,
         f"{indent}  ] %}}",
-        f"{indent}- {kind}: {ref}",
+        f"{indent}- {kind}: {_variant(kind, ref)}",
         f"{indent}  name: {{{{ name }}}}",
         f"{indent}  location: [[{coords[0]}, {coords[1]}, {coords[2]}], {_axis_yaml(axis, ang)}]",
         f"{indent}{{% endfor %}}",
@@ -834,7 +867,7 @@ def _fold(items, indent="  "):
                 i += group
                 continue
         if length < MIN_RUN:
-            out.append(f"{indent}- {kind}: {ref}")
+            out.append(f"{indent}- {kind}: {_variant(kind, ref)}")
             out.append(f"{indent}  name: {name}")
             out.append(f"{indent}  location: [[{_num(pos[0])}, {_num(pos[1])}, {_num(pos[2])}], {_axis_yaml(axis, ang)}]")
             i += 1
@@ -852,7 +885,7 @@ def _fold(items, indent="  "):
             for k in range(3)
         ]
         out.append(f"{indent}{{% for {var} in range({length}) %}}")
-        out.append(f"{indent}- {kind}: {ref}")
+        out.append(f"{indent}- {kind}: {_variant(kind, ref)}")
         out.append(f"{indent}  name: {prefix}{counted}")
         out.append(f"{indent}  location: [[{coords[0]}, {coords[1]}, {coords[2]}], {_axis_yaml(axis, ang)}]")
         out.append(f"{indent}{{% endfor %}}")
@@ -877,7 +910,7 @@ def _nodes_yaml(ordered, indent="  "):
             # The piece's own origin. Where it goes is decided by whatever
             # places the piece, so saying it here would be saying it twice -
             # and the coordinates are relative to this node anyway.
-            out.append(f"{indent}- part: {part}")
+            out.append(f"{indent}- part: {_variant('part', part)}")
             out.append(f"{indent}  name: {nm}")
             if ang:
                 out.append(f"{indent}  location: [[0.0, 0.0, 0.0], [{axis[0]}, {axis[1]}, {axis[2]}], {ang}]")
@@ -888,7 +921,7 @@ def _nodes_yaml(ordered, indent="  "):
         kind, mine, other, theirs, turn = joint
         with_iface = ANTI_IFACE if kind == "anti" else STUD_IFACE
         to_iface = STUD_IFACE if kind == "anti" else ANTI_IFACE
-        out.append(f"{indent}- part: {part}")
+        out.append(f"{indent}- part: {_variant('part', part)}")
         out.append(f"{indent}  name: {nm}")
         out.append(f"{indent}  connect:")
         out.append(f"{indent}    with: {with_iface}")
@@ -1145,7 +1178,7 @@ def write(path, name, header):
     # the two are apart in the piece's own frame; turned with the piece, it is
     # what puts the piece back where the grid wanted it.
     for index, ((u, nm, pos, ang), joint) in enumerate(_piece_joints()):
-        out.append(f"  - {'part' if u == BASEPLATE else 'assembly'}: {u}")
+        out.append(f"  - {'part' if u == BASEPLATE else 'assembly'}: {_variant('part', u) if u == BASEPLATE else u}")
         out.append(f"    name: {nm}")
         if joint is None:
             # The one thing nothing holds up, because everything is on it. Where
@@ -1205,6 +1238,20 @@ def check():
     return 1
 
 
+def write_variants(path=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "partcad.yaml")):
+    """Declare every design in its colour the castle links, in partcad.yaml's block for them."""
+    begin = "  # --- castle parts: generated by tools/gen_castle.py; edit the generator, not this block ---"
+    end = "  # --- end of castle parts ---"
+    with open(path) as f:
+        text = f.read()
+    block = VARIANTS.block("part", begin, end)
+    text, count = re.subn(re.escape(begin) + ".*?" + re.escape(end), lambda _: block, text, flags=re.S)
+    if count != 1:
+        sys.exit(f"{path}: no castle parts block to write into")
+    with open(path, "w") as f:
+        f.write(text)
+
+
 build_castle()
 if "--check" in sys.argv:
     sys.exit(check())
@@ -1229,3 +1276,4 @@ write("castle.assy", "castle", [
     "# runs on whole studs from a known corner, which is worth having while",
     "# reading the numbers by hand and costs the rendered views their framing.",
 ])
+write_variants()
