@@ -397,7 +397,8 @@ on the wheels, which the wheel's own file draws in black rubber.
 A model could set a colour on the link instead (`params: {color: ":stone"}`),
 which draws the same picture. These are not written that way: a colour set
 on a link draws the assembly rather than saying what is in it, and these are
-parts to be bought, in the colour they are bought in.
+parts, each a line of its own in the bill of materials, in its colour. A
+store is still asked for them by LDraw number (see "Buying the parts").
 
 ## A note on interference
 
@@ -491,6 +492,11 @@ it is told one:
 pc --extra-param '//pub/svc/commerce/lego-pick-a-brick:pick-a-brick.color=Medium Stone Grey' \
   supply quote --provider //pub/svc/commerce/lego-pick-a-brick:pick-a-brick castle
 ```
+
+That colour is the one asked for every part of the run, so a quote for a
+model in several colours - the castle's stone, green and dark red - is a
+quote for its parts in whatever colours the store has: what they cost, not
+yet what to order in each colour.
 
 No store sells by the LDraw number alone, and each works out what to buy for
 it: the LEGO elements Rebrickable's public catalogue says the part has been
