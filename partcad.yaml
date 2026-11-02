@@ -12,10 +12,11 @@ poc: kuzmenkor@gmail.com
 # Requires the PartCAD release that reads colours, materials and finishes as
 # declarations (partcad/partcad#891, #892, #894): the parts below are LEGO's
 # designs in LEGO's colours, as //pub/universe/lego declares them, and they are
-# drawn in them. It also keeps a package's render settings for a file type when
-# an object overrides one of them (#772), which the castle and the car do for
-# 'png', and reads 'viewport_origin' as a direction (#771).
-partcad: ">=0.8.274"
+# drawn in them. 0.8.276 is the first release with #891, and the floor moves to
+# the one with #894 once it is cut. It also keeps a package's render settings
+# for a file type when an object overrides one of them (#772), which the castle
+# and the car do for 'png', and reads 'viewport_origin' as a direction (#771).
+partcad: ">=0.8.276"
 
 # Nothing here is a catalogue item somebody can order: these are models built
 # out of parts that already exist.
@@ -1073,8 +1074,9 @@ docs:
 
     Each part here is a design in a colour - the castle's 1 x 1 brick is
     `castle/3005-stone`, LDraw's 3005 in Medium Stone Grey (see "Colours") - but a
-    store is asked by LDraw number, and quotes the cheapest colour it has unless
-    it is told one:
+    store is asked by LDraw number, and unless it is told a colour it quotes one
+    of its own choosing - Pick a Brick the cheapest it has, BrickLink the
+    cheapest of the part's three most stocked:
 
     ```shell
     pc --extra-param '//pub/svc/commerce/lego-pick-a-brick:pick-a-brick.color=Medium Stone Grey' \

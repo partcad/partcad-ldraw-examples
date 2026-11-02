@@ -485,8 +485,9 @@ python tools/quote.py -r                                                        
 
 Each part here is a design in a colour - the castle's 1 x 1 brick is
 `castle/3005-stone`, LDraw's 3005 in Medium Stone Grey (see "Colours") - but a
-store is asked by LDraw number, and quotes the cheapest colour it has unless
-it is told one:
+store is asked by LDraw number, and unless it is told a colour it quotes one
+of its own choosing - Pick a Brick the cheapest it has, BrickLink the
+cheapest of the part's three most stocked:
 
 ```shell
 pc --extra-param '//pub/svc/commerce/lego-pick-a-brick:pick-a-brick.color=Medium Stone Grey' \
