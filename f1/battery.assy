@@ -7,9 +7,9 @@
 # ports to something before it. What the piece is joined by from outside
 # is what 'map:' externalizes in partcad.yaml.
 links:
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-l-lo-front
-  - assembly: //pub/universe/lego/ldraw/Electric:58119
+  - assembly: f1/58119-stone
     name: battery-box
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -17,7 +17,7 @@ links:
       name: pin-l-lo-front
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-l-lo-back
     connect:
       with: //pub/universe/lego:technic-pin
@@ -25,7 +25,7 @@ links:
       name: battery-box
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h2
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-l-up-front
     connect:
       with: //pub/universe/lego:technic-pin
@@ -33,7 +33,7 @@ links:
       name: battery-box
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h1
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-l-up-back
     connect:
       with: //pub/universe/lego:technic-pin
@@ -41,7 +41,7 @@ links:
       name: battery-box
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h3
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-r-lo-front
     connect:
       with: //pub/universe/lego:technic-pin
@@ -51,7 +51,7 @@ links:
       name: battery-box
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h30
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-r-lo-back
     connect:
       with: //pub/universe/lego:technic-pin
@@ -61,7 +61,7 @@ links:
       name: battery-box
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h32
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-r-up-front
     connect:
       with: //pub/universe/lego:technic-pin
@@ -71,7 +71,7 @@ links:
       name: battery-box
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h31
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-r-up-back
     connect:
       with: //pub/universe/lego:technic-pin

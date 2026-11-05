@@ -7,9 +7,9 @@
 # ports to something before it. What the piece is joined by from outside
 # is what 'map:' externalizes in partcad.yaml.
 links:
-  - part: //pub/universe/lego/ldraw/Technic:3708
+  - part: f1/3708-black
     name: axle
-  - part: //pub/universe/lego/ldraw/Technic:6536
+  - part: f1/6536-stone
     name: block-l
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -19,7 +19,7 @@ links:
       name: axle
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:6536
+  - part: f1/6536-stone
     name: block-r
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -29,7 +29,7 @@ links:
       name: axle
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-beam-l
     connect:
       with: //pub/universe/lego:technic-pin
@@ -39,7 +39,7 @@ links:
       name: block-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h1
-  - part: //pub/universe/lego/ldraw/Technic:40490
+  - part: f1/40490-red
     name: beam
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -47,7 +47,7 @@ links:
       name: pin-beam-l
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-beam-r
     connect:
       with: //pub/universe/lego:technic-pin
@@ -57,7 +57,7 @@ links:
       toInstance: h8-bottom
       # its other end snaps into these as well (see snap_in_elsewhere)
       interferes: [block-r]
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-cone-r-1
     connect:
       with: //pub/universe/lego:technic-pin
@@ -65,7 +65,7 @@ links:
       name: beam
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h5-top
-  - part: //pub/universe/lego/ldraw/Technic:64681
+  - part: f1/64681-red
     name: cone-r
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -75,7 +75,7 @@ links:
       name: pin-cone-r-1
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-cone-r-2
     connect:
       with: //pub/universe/lego:technic-pin
@@ -87,7 +87,7 @@ links:
       toInstance: h4
       # its other end snaps into these as well (see snap_in_elsewhere)
       interferes: [beam]
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-cone-l-1
     connect:
       with: //pub/universe/lego:technic-pin
@@ -95,7 +95,7 @@ links:
       name: beam
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h3-top
-  - part: //pub/universe/lego/ldraw/Technic:64393
+  - part: f1/64393-red
     name: cone-l
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -105,7 +105,7 @@ links:
       name: pin-cone-l-1
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-cone-l-2
     connect:
       with: //pub/universe/lego:technic-pin

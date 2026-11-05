@@ -7,9 +7,9 @@
 # ports to something before it. What the piece is joined by from outside
 # is what 'map:' externalizes in partcad.yaml.
 links:
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-front
-  - part: //pub/universe/lego/ldraw/Technic:62531
+  - part: f1/62531-red
     name: panel
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -19,7 +19,7 @@ links:
       name: pin-front
       to: //pub/universe/lego:technic-pin
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-back
     connect:
       with: //pub/universe/lego:technic-pin

@@ -31,7 +31,7 @@ links:
       name: battery
       to: //pub/universe/lego:technic-pin
       toInstance: pin-r-lo-front-pin-right
-  - part: //pub/universe/lego/ldraw/Technic:3708
+  - part: f1/3708-black
     name: pivot
     connect:
       with: //pub/universe/lego:technic-axle
@@ -43,7 +43,7 @@ links:
       toInstance: rail-lo-hole-h0-bottom
       toParams:
         turnZ: -180
-  - part: //pub/universe/lego/ldraw/Technic:3713
+  - part: f1/3713-stone
     name: pivot-bush-l
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -53,7 +53,7 @@ links:
       name: pivot
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:3713
+  - part: f1/3713-stone
     name: pivot-bush-r1
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -63,7 +63,7 @@ links:
       name: pivot
       to: //pub/universe/lego:technic-axle
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:3713
+  - part: f1/3713-stone
     name: pivot-bush-r2
     connect:
       with: //pub/universe/lego:technic-axle-hole

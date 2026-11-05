@@ -4,9 +4,9 @@
 # whatever places the piece to decide. Everything after it names the brick
 # and the stud it goes on.
 links:
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: butt_c0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: butt_c1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -14,7 +14,7 @@ links:
       name: butt_c0
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: butt_c2
     connect:
       with: //pub/universe/lego:anti-stud
@@ -22,7 +22,7 @@ links:
       name: butt_c1
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: butt_c3
     connect:
       with: //pub/universe/lego:anti-stud
@@ -30,7 +30,7 @@ links:
       name: butt_c2
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: butt_c4
     connect:
       with: //pub/universe/lego:anti-stud
@@ -38,7 +38,7 @@ links:
       name: butt_c3
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: butt_c5
     connect:
       with: //pub/universe/lego:anti-stud
@@ -46,7 +46,7 @@ links:
       name: butt_c4
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: butt_c6
     connect:
       with: //pub/universe/lego:anti-stud
@@ -54,7 +54,7 @@ links:
       name: butt_c5
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: butt_c7
     connect:
       with: //pub/universe/lego:anti-stud
@@ -62,7 +62,7 @@ links:
       name: butt_c6
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Cone:4589
+  - part: castle/4589-dark-red
     name: butt_p
     connect:
       with: //pub/universe/lego:anti-stud

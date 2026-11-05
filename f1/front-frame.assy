@@ -7,9 +7,9 @@
 # ports to something before it. What the piece is joined by from outside
 # is what 'map:' externalizes in partcad.yaml.
 links:
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-nose-1-l
-  - part: //pub/universe/lego/ldraw/Technic:41239
+  - part: f1/41239-red
     name: nose-up-l
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -19,7 +19,7 @@ links:
       name: pin-nose-1-l
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-nose-2-l
     connect:
       with: //pub/universe/lego:technic-pin
@@ -29,7 +29,7 @@ links:
       name: nose-up-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h1-bottom
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-link-up-l
     connect:
       with: //pub/universe/lego:technic-pin
@@ -39,7 +39,7 @@ links:
       name: nose-up-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h8-top
-  - part: //pub/universe/lego/ldraw/Technic:32316
+  - part: f1/32316-red
     name: nose-link-l
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -49,7 +49,7 @@ links:
       name: pin-link-up-l
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-link-lo-l
     connect:
       with: //pub/universe/lego:technic-pin
@@ -59,7 +59,7 @@ links:
       name: nose-link-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h1-bottom
-  - part: //pub/universe/lego/ldraw/Technic:32316
+  - part: f1/32316-red
     name: nose-lo-l
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -69,7 +69,7 @@ links:
       name: pin-link-lo-l
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:3705
+  - part: f1/3705-black
     name: bulk-axle-l
     connect:
       with: //pub/universe/lego:technic-axle
@@ -79,7 +79,7 @@ links:
       toInstance: h11-bottom
       toParams:
         turnZ: 90
-  - part: //pub/universe/lego/ldraw/Technic:6536
+  - part: f1/6536-stone
     name: bulk-block-l
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -87,7 +87,7 @@ links:
       name: bulk-axle-l
       to: //pub/universe/lego:technic-axle
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-bulk-l
     connect:
       with: //pub/universe/lego:technic-pin
@@ -97,7 +97,7 @@ links:
       name: bulk-block-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h0
-  - part: //pub/universe/lego/ldraw/Technic:40490
+  - part: f1/40490-red
     name: bulk-l
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -107,7 +107,7 @@ links:
       name: pin-bulk-l
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:3713
+  - part: f1/3713-stone
     name: bulk-bush-l-1
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -117,7 +117,7 @@ links:
       name: bulk-axle-l
       to: //pub/universe/lego:technic-axle
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:3713
+  - part: f1/3713-stone
     name: bulk-bush-l-2
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -127,7 +127,7 @@ links:
       name: bulk-axle-l
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:3705
+  - part: f1/3705-black
     name: servo-axle-l
     connect:
       with: //pub/universe/lego:technic-axle
@@ -137,7 +137,7 @@ links:
       toInstance: h3-bottom
       toParams:
         turnZ: 180
-  - part: //pub/universe/lego/ldraw/Technic:32523
+  - part: f1/32523-red
     name: servo-rail-l
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -147,7 +147,7 @@ links:
       name: servo-axle-l
       to: //pub/universe/lego:technic-axle
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:3713
+  - part: f1/3713-stone
     name: servo-bush-l-1
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -157,7 +157,7 @@ links:
       name: servo-axle-l
       to: //pub/universe/lego:technic-axle
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:3713
+  - part: f1/3713-stone
     name: servo-bush-l-2
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -167,7 +167,7 @@ links:
       name: servo-axle-l
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-ext-1-l
     connect:
       with: //pub/universe/lego:technic-pin
@@ -177,7 +177,7 @@ links:
       name: nose-up-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h10-bottom
-  - part: //pub/universe/lego/ldraw/Technic:40490
+  - part: f1/40490-red
     name: nose-ext-l
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -187,7 +187,7 @@ links:
       name: pin-ext-1-l
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-ext-2-l
     connect:
       with: //pub/universe/lego:technic-pin
@@ -199,7 +199,7 @@ links:
       toInstance: h12-bottom
       # its other end snaps into these as well (see snap_in_elsewhere)
       interferes: [nose-ext-l]
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-shock-beam-l
     connect:
       with: //pub/universe/lego:technic-pin
@@ -209,7 +209,7 @@ links:
       name: bulk-l
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h8-top
-  - part: //pub/universe/lego/ldraw/Technic:32525
+  - part: f1/32525-red
     name: shock-beam
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -217,7 +217,7 @@ links:
       name: pin-shock-beam-l
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-shock-beam-r
     connect:
       with: //pub/universe/lego:technic-pin
@@ -225,7 +225,7 @@ links:
       name: shock-beam
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h7-bottom
-  - part: //pub/universe/lego/ldraw/Technic:40490
+  - part: f1/40490-red
     name: bulk-r
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -235,7 +235,7 @@ links:
       name: pin-shock-beam-r
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-bulk-r
     connect:
       with: //pub/universe/lego:technic-pin
@@ -245,7 +245,7 @@ links:
       name: bulk-r
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h4-bottom
-  - part: //pub/universe/lego/ldraw/Technic:6536
+  - part: f1/6536-stone
     name: bulk-block-r
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -255,7 +255,7 @@ links:
       name: pin-bulk-r
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:3705
+  - part: f1/3705-black
     name: bulk-axle-r
     connect:
       with: //pub/universe/lego:technic-axle
@@ -263,7 +263,7 @@ links:
       name: bulk-block-r
       to: //pub/universe/lego:technic-axle-hole
       toInstance: a0
-  - part: //pub/universe/lego/ldraw/Technic:41239
+  - part: f1/41239-red
     name: nose-up-r
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -273,7 +273,7 @@ links:
       name: bulk-axle-r
       to: //pub/universe/lego:technic-axle
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-nose-2-r
     connect:
       with: //pub/universe/lego:technic-pin
@@ -283,7 +283,7 @@ links:
       name: nose-up-r
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h1-top
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-nose-1-r
     connect:
       with: //pub/universe/lego:technic-pin
@@ -293,7 +293,7 @@ links:
       name: nose-up-r
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h0-top
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-link-up-r
     connect:
       with: //pub/universe/lego:technic-pin
@@ -303,7 +303,7 @@ links:
       name: nose-up-r
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h8-bottom
-  - part: //pub/universe/lego/ldraw/Technic:32316
+  - part: f1/32316-red
     name: nose-link-r
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -313,7 +313,7 @@ links:
       name: pin-link-up-r
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-link-lo-r
     connect:
       with: //pub/universe/lego:technic-pin
@@ -323,7 +323,7 @@ links:
       name: nose-link-r
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h1-top
-  - part: //pub/universe/lego/ldraw/Technic:32316
+  - part: f1/32316-red
     name: nose-lo-r
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -333,7 +333,7 @@ links:
       name: pin-link-lo-r
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:3713
+  - part: f1/3713-stone
     name: bulk-bush-r-1
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -343,7 +343,7 @@ links:
       name: bulk-axle-r
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:3713
+  - part: f1/3713-stone
     name: bulk-bush-r-2
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -353,7 +353,7 @@ links:
       name: bulk-axle-r
       to: //pub/universe/lego:technic-axle
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:3705
+  - part: f1/3705-black
     name: servo-axle-r
     connect:
       with: //pub/universe/lego:technic-axle
@@ -363,7 +363,7 @@ links:
       toInstance: h3-top
       toParams:
         turnZ: -180
-  - part: //pub/universe/lego/ldraw/Technic:32523
+  - part: f1/32523-red
     name: servo-rail-r
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -373,7 +373,7 @@ links:
       name: servo-axle-r
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:3713
+  - part: f1/3713-stone
     name: servo-bush-r-1
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -383,7 +383,7 @@ links:
       name: servo-axle-r
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:3713
+  - part: f1/3713-stone
     name: servo-bush-r-2
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -393,7 +393,7 @@ links:
       name: servo-axle-r
       to: //pub/universe/lego:technic-axle
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-ext-1-r
     connect:
       with: //pub/universe/lego:technic-pin
@@ -403,7 +403,7 @@ links:
       name: nose-up-r
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h10-top
-  - part: //pub/universe/lego/ldraw/Technic:40490
+  - part: f1/40490-red
     name: nose-ext-r
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -413,7 +413,7 @@ links:
       name: pin-ext-1-r
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-ext-2-r
     connect:
       with: //pub/universe/lego:technic-pin

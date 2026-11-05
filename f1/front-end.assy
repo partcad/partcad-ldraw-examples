@@ -45,7 +45,7 @@ links:
       toInstance: bulk-l-hole-h0-top
       # its other end snaps into these as well (see snap_in_elsewhere)
       interferes: [front-frame]
-  - part: //pub/universe/lego/ldraw/Technic:3673
+  - part: f1/3673-stone
     name: pin-shock-top-l
     connect:
       with: //pub/universe/lego:technic-pin
@@ -55,7 +55,7 @@ links:
       toInstance: shock-beam-hole-h2-top
       # its other end snaps into these as well (see snap_in_elsewhere)
       interferes: [front-left]
-  - part: //pub/universe/lego/ldraw/Technic:3673
+  - part: f1/3673-stone
     name: pin-shock-top-r
     connect:
       with: //pub/universe/lego:technic-pin
@@ -65,7 +65,7 @@ links:
       toInstance: shock-beam-hole-h8-top
       # its other end snaps into these as well (see snap_in_elsewhere)
       interferes: [front-right]
-  - part: //pub/universe/lego/ldraw/Technic:3673
+  - part: f1/3673-stone
     name: pin-track-rod-l
     connect:
       with: //pub/universe/lego:technic-pin
@@ -77,7 +77,7 @@ links:
       toInstance: track-rod-hole-h0-bottom
       # its other end snaps into these as well (see snap_in_elsewhere)
       interferes: [front-left]
-  - part: //pub/universe/lego/ldraw/Technic:3673
+  - part: f1/3673-stone
     name: pin-track-rod-r
     connect:
       with: //pub/universe/lego:technic-pin
