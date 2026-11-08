@@ -1221,9 +1221,10 @@ def write(path, name, header):
 def check():
     """Report stud cells more than one part claims.
 
-    An assembly whose parts are all in the wrong place still passes `pc test`,
-    and 666 parts is too many to check by eye. Two parts in one cell is either
-    a mistake or a deliberate bond; either way it should be a decision.
+    An assembly whose parts are all in the wrong place still passes
+    `pc qual test`, and 666 parts is too many to check by eye. Two parts in
+    one cell is either a mistake or a deliberate bond; either way it should be
+    a decision.
     """
     clashes = {k: v for k, v in cells.items() if len(v) > 1}
     if not clashes:

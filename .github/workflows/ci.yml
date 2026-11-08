@@ -113,7 +113,7 @@ jobs:
         # '-r' walks this package. It imports what this package imports first,
         # which is why 'pub' is the one branch of the index these models are
         # built from rather than all of it (see deps/pub/partcad.yaml).
-        run: pc --no-ansi test -r
+        run: pc --no-ansi qual test -r
 
       - name: Render
         run: pc --no-ansi render -r
