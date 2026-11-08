@@ -7,9 +7,9 @@
 # ports to something before it. What the piece is joined by from outside
 # is what 'map:' externalizes in partcad.yaml.
 links:
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-motor-l1
-  - part: //pub/universe/lego/ldraw/Electric:58121
+  - part: f1/58121-stone
     name: xl-motor
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -19,7 +19,7 @@ links:
       name: pin-motor-l1
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-motor-l2
     connect:
       with: //pub/universe/lego:technic-pin
@@ -29,7 +29,7 @@ links:
       name: xl-motor
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h1
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-motor-r1
     connect:
       with: //pub/universe/lego:technic-pin
@@ -39,7 +39,7 @@ links:
       name: xl-motor
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h8
-  - part: //pub/universe/lego/ldraw/Technic:32524
+  - part: f1/32524-red
     name: spacer
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -49,7 +49,7 @@ links:
       name: pin-motor-r1
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-motor-r2
     connect:
       with: //pub/universe/lego:technic-pin
@@ -61,7 +61,7 @@ links:
       toInstance: h9
       # its other end snaps into these as well (see snap_in_elsewhere)
       interferes: [spacer]
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-bracket-1
     connect:
       with: //pub/universe/lego:technic-pin
@@ -71,7 +71,7 @@ links:
       name: xl-motor
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h4
-  - part: //pub/universe/lego/ldraw/Technic:32316
+  - part: f1/32316-red
     name: bracket
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -81,7 +81,7 @@ links:
       name: pin-bracket-1
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-bracket-2
     connect:
       with: //pub/universe/lego:technic-pin
@@ -93,7 +93,7 @@ links:
       toInstance: h5
       # its other end snaps into these as well (see snap_in_elsewhere)
       interferes: [bracket]
-  - part: //pub/universe/lego/ldraw/Technic:4519
+  - part: f1/4519-stone
     name: pinion-shaft
     connect:
       with: //pub/universe/lego:technic-axle
@@ -101,7 +101,7 @@ links:
       name: xl-motor
       to: //pub/universe/lego:technic-axle-hole
       toInstance: a1
-  - part: //pub/universe/lego/ldraw/Technic:32270
+  - part: f1/32270-black
     name: pinion
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -109,7 +109,7 @@ links:
       name: pinion-shaft
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-spacer-1
     connect:
       with: //pub/universe/lego:technic-pin
@@ -119,7 +119,7 @@ links:
       name: spacer
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h1-top
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-spacer-2
     connect:
       with: //pub/universe/lego:technic-pin

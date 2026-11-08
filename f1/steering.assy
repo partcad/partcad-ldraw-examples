@@ -7,9 +7,9 @@
 # ports to something before it. What the piece is joined by from outside
 # is what 'map:' externalizes in partcad.yaml.
 links:
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-servo-1
-  - assembly: //pub/universe/lego/ldraw/Electric:99498
+  - assembly: f1/99498-stone
     name: servo
     connect:
       with: //pub/universe/lego:technic-pin-hole
@@ -19,7 +19,7 @@ links:
       name: pin-servo-1
       to: //pub/universe/lego:technic-pin
       toInstance: right
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-servo-2
     connect:
       with: //pub/universe/lego:technic-pin
@@ -29,7 +29,7 @@ links:
       name: servo
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h11
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-servo-3
     connect:
       with: //pub/universe/lego:technic-pin
@@ -37,7 +37,7 @@ links:
       name: servo
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h0
-  - part: //pub/universe/lego/ldraw/Technic:2780
+  - part: f1/2780-black
     name: pin-servo-4
     connect:
       with: //pub/universe/lego:technic-pin
@@ -45,7 +45,7 @@ links:
       name: servo
       to: //pub/universe/lego:technic-pin-hole
       toInstance: h1
-  - part: //pub/universe/lego/ldraw/Technic:3704
+  - part: f1/3704-black
     name: output
     connect:
       with: //pub/universe/lego:technic-axle
@@ -53,7 +53,7 @@ links:
       name: servo
       to: //pub/universe/lego:technic-axle-hole
       toInstance: a1
-  - part: //pub/universe/lego/ldraw/Technic:11478
+  - part: f1/11478-black
     name: arm
     connect:
       with: //pub/universe/lego:technic-axle-hole
@@ -63,7 +63,7 @@ links:
       name: output
       to: //pub/universe/lego:technic-axle
       toInstance: left
-  - part: //pub/universe/lego/ldraw/Technic:3704
+  - part: f1/3704-black
     name: arm-tip
     connect:
       with: //pub/universe/lego:technic-axle
@@ -71,7 +71,7 @@ links:
       name: arm
       to: //pub/universe/lego:technic-axle-hole
       toInstance: a3
-  - part: //pub/universe/lego/ldraw/Technic:32278
+  - part: f1/32278-red
     name: track-rod
     connect:
       with: //pub/universe/lego:technic-pin-hole

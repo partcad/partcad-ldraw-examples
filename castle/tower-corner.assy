@@ -4,9 +4,9 @@
 # whatever places the piece to decide. Everything after it names the brick
 # and the stud it goes on.
 links:
-  - part: //pub/universe/lego/ldraw/Brick:3941
+  - part: castle/3941-dark-stone
     name: t_c0
-  - part: //pub/universe/lego/ldraw/Brick:3941
+  - part: castle/3941-dark-stone
     name: t_c1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -14,7 +14,7 @@ links:
       name: t_c0
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3941
+  - part: castle/3941-dark-stone
     name: t_c2
     connect:
       with: //pub/universe/lego:anti-stud
@@ -22,7 +22,7 @@ links:
       name: t_c1
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3941
+  - part: castle/3941-dark-stone
     name: t_c3
     connect:
       with: //pub/universe/lego:anti-stud
@@ -30,7 +30,7 @@ links:
       name: t_c2
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3941
+  - part: castle/3941-dark-stone
     name: t_c4
     connect:
       with: //pub/universe/lego:anti-stud
@@ -38,7 +38,7 @@ links:
       name: t_c3
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3941
+  - part: castle/3941-dark-stone
     name: t_c5
     connect:
       with: //pub/universe/lego:anti-stud
@@ -46,7 +46,7 @@ links:
       name: t_c4
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3941
+  - part: castle/3941-dark-stone
     name: t_c6
     connect:
       with: //pub/universe/lego:anti-stud
@@ -54,7 +54,7 @@ links:
       name: t_c5
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3941
+  - part: castle/3941-dark-stone
     name: t_c7
     connect:
       with: //pub/universe/lego:anti-stud
@@ -62,7 +62,7 @@ links:
       name: t_c6
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3941
+  - part: castle/3941-dark-stone
     name: t_c8
     connect:
       with: //pub/universe/lego:anti-stud
@@ -70,7 +70,7 @@ links:
       name: t_c7
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3941
+  - part: castle/3941-dark-stone
     name: t_c9
     connect:
       with: //pub/universe/lego:anti-stud
@@ -78,7 +78,7 @@ links:
       name: t_c8
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3941
+  - part: castle/3941-dark-stone
     name: t_c10
     connect:
       with: //pub/universe/lego:anti-stud
@@ -86,7 +86,7 @@ links:
       name: t_c9
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3941
+  - part: castle/3941-dark-stone
     name: t_c11
     connect:
       with: //pub/universe/lego:anti-stud
@@ -94,7 +94,7 @@ links:
       name: t_c10
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3941
+  - part: castle/3941-dark-stone
     name: t_c12
     connect:
       with: //pub/universe/lego:anti-stud
@@ -102,7 +102,7 @@ links:
       name: t_c11
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3941
+  - part: castle/3941-dark-stone
     name: t_c13
     connect:
       with: //pub/universe/lego:anti-stud
@@ -110,7 +110,7 @@ links:
       name: t_c12
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3941
+  - part: castle/3941-dark-stone
     name: t_c14
     connect:
       with: //pub/universe/lego:anti-stud

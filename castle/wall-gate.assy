@@ -4,9 +4,9 @@
 # whatever places the piece to decide. Everything after it names the brick
 # and the stud it goes on.
 links:
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: wL_c0_0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wL_c1_0
     connect:
       with: //pub/universe/lego:anti-stud
@@ -14,7 +14,7 @@ links:
       name: wL_c0_0
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: wL_c1_1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -22,7 +22,7 @@ links:
       name: wL_c0_0
       to: //pub/universe/lego:stud
       toInstance: c2r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: wL_c0_1
     connect:
       with: //pub/universe/lego:stud
@@ -30,7 +30,7 @@ links:
       name: wL_c1_1
       to: //pub/universe/lego:anti-stud
       toInstance: c2r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wL_c1_2
     connect:
       with: //pub/universe/lego:anti-stud
@@ -38,7 +38,7 @@ links:
       name: wL_c0_1
       to: //pub/universe/lego:stud
       toInstance: c2r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wL_c1_3
     connect:
       with: //pub/universe/lego:anti-stud
@@ -46,7 +46,7 @@ links:
       name: wL_c0_1
       to: //pub/universe/lego:stud
       toInstance: c3r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wL_c0_2
     connect:
       with: //pub/universe/lego:stud
@@ -54,7 +54,7 @@ links:
       name: wL_c1_3
       to: //pub/universe/lego:anti-stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wL_c2_0
     connect:
       with: //pub/universe/lego:anti-stud
@@ -62,7 +62,7 @@ links:
       name: wL_c1_0
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wL_c2_1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -70,7 +70,7 @@ links:
       name: wL_c1_0
       to: //pub/universe/lego:stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wL_c2_2
     connect:
       with: //pub/universe/lego:anti-stud
@@ -78,7 +78,7 @@ links:
       name: wL_c1_1
       to: //pub/universe/lego:stud
       toInstance: c2r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wL_c2_3
     connect:
       with: //pub/universe/lego:anti-stud
@@ -86,7 +86,7 @@ links:
       name: wL_c1_1
       to: //pub/universe/lego:stud
       toInstance: c3r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wL_c2_4
     connect:
       with: //pub/universe/lego:anti-stud
@@ -94,7 +94,7 @@ links:
       name: wL_c1_3
       to: //pub/universe/lego:stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wL_c3_0
     connect:
       with: //pub/universe/lego:anti-stud
@@ -102,7 +102,7 @@ links:
       name: wL_c2_0
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wL_c3_1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -110,7 +110,7 @@ links:
       name: wL_c2_1
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wL_c3_2
     connect:
       with: //pub/universe/lego:anti-stud
@@ -118,7 +118,7 @@ links:
       name: wL_c2_2
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wL_c3_3
     connect:
       with: //pub/universe/lego:anti-stud
@@ -126,7 +126,7 @@ links:
       name: wL_c2_3
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wL_c3_4
     connect:
       with: //pub/universe/lego:anti-stud
@@ -134,7 +134,7 @@ links:
       name: wL_c2_4
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wL_c4_0
     connect:
       with: //pub/universe/lego:anti-stud
@@ -142,7 +142,7 @@ links:
       name: wL_c3_0
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wL_c4_1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -150,7 +150,7 @@ links:
       name: wL_c3_1
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wL_c4_2
     connect:
       with: //pub/universe/lego:anti-stud
@@ -158,7 +158,7 @@ links:
       name: wL_c3_2
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wL_c4_3
     connect:
       with: //pub/universe/lego:anti-stud
@@ -166,7 +166,7 @@ links:
       name: wL_c3_3
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wL_c4_4
     connect:
       with: //pub/universe/lego:anti-stud
@@ -174,7 +174,7 @@ links:
       name: wL_c3_4
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wL_c5_0
     connect:
       with: //pub/universe/lego:anti-stud
@@ -182,7 +182,7 @@ links:
       name: wL_c4_0
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: wL_c5_1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -190,7 +190,7 @@ links:
       name: wL_c4_1
       to: //pub/universe/lego:stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wL_c5_2
     connect:
       with: //pub/universe/lego:anti-stud
@@ -198,7 +198,7 @@ links:
       name: wL_c4_3
       to: //pub/universe/lego:stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wL_c5_3
     connect:
       with: //pub/universe/lego:anti-stud
@@ -206,7 +206,7 @@ links:
       name: wL_c4_4
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: wL_c6_0
     connect:
       with: //pub/universe/lego:anti-stud
@@ -214,7 +214,7 @@ links:
       name: wL_c5_0
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: wL_c6_1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -222,7 +222,7 @@ links:
       name: wL_c5_1
       to: //pub/universe/lego:stud
       toInstance: c2r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: w_m0
     connect:
       with: //pub/universe/lego:anti-stud
@@ -230,7 +230,7 @@ links:
       name: wL_c6_0
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: w_m2
     connect:
       with: //pub/universe/lego:anti-stud
@@ -238,7 +238,7 @@ links:
       name: wL_c6_0
       to: //pub/universe/lego:stud
       toInstance: c2r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: w_m4
     connect:
       with: //pub/universe/lego:anti-stud
@@ -246,7 +246,7 @@ links:
       name: wL_c6_1
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: w_m6
     connect:
       with: //pub/universe/lego:anti-stud
@@ -254,7 +254,7 @@ links:
       name: wL_c6_1
       to: //pub/universe/lego:stud
       toInstance: c2r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: gate_d_c6_0
     connect:
       with: //pub/universe/lego:anti-stud
@@ -262,7 +262,7 @@ links:
       name: wL_c5_3
       to: //pub/universe/lego:stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: w_m8
     connect:
       with: //pub/universe/lego:anti-stud
@@ -270,7 +270,7 @@ links:
       name: gate_d_c6_0
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: w_m10
     connect:
       with: //pub/universe/lego:anti-stud
@@ -278,7 +278,7 @@ links:
       name: gate_d_c6_0
       to: //pub/universe/lego:stud
       toInstance: c2r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: gate_c0
     connect:
       with: //pub/universe/lego:stud
@@ -286,7 +286,7 @@ links:
       name: gate_d_c6_0
       to: //pub/universe/lego:anti-stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: gate_b0
     connect:
       with: //pub/universe/lego:stud
@@ -294,7 +294,7 @@ links:
       name: gate_c0
       to: //pub/universe/lego:anti-stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: gate_a0
     connect:
       with: //pub/universe/lego:stud
@@ -302,7 +302,7 @@ links:
       name: gate_b0
       to: //pub/universe/lego:anti-stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: gate_b1
     connect:
       with: //pub/universe/lego:stud
@@ -310,7 +310,7 @@ links:
       name: gate_c0
       to: //pub/universe/lego:anti-stud
       toInstance: c3r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: gate_a1
     connect:
       with: //pub/universe/lego:stud
@@ -318,7 +318,7 @@ links:
       name: gate_b1
       to: //pub/universe/lego:anti-stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: gate_c1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -326,7 +326,7 @@ links:
       name: gate_b1
       to: //pub/universe/lego:stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: gate_d_c6_1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -334,7 +334,7 @@ links:
       name: gate_c0
       to: //pub/universe/lego:stud
       toInstance: c3r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: w_m12
     connect:
       with: //pub/universe/lego:anti-stud
@@ -342,7 +342,7 @@ links:
       name: gate_d_c6_1
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: gate_d_c6_2
     connect:
       with: //pub/universe/lego:anti-stud
@@ -350,7 +350,7 @@ links:
       name: gate_c1
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wR_c5_0
     connect:
       with: //pub/universe/lego:stud
@@ -358,7 +358,7 @@ links:
       name: gate_d_c6_2
       to: //pub/universe/lego:anti-stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wR_c4_0
     connect:
       with: //pub/universe/lego:stud
@@ -366,7 +366,7 @@ links:
       name: wR_c5_0
       to: //pub/universe/lego:anti-stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wR_c3_0
     connect:
       with: //pub/universe/lego:stud
@@ -374,7 +374,7 @@ links:
       name: wR_c4_0
       to: //pub/universe/lego:anti-stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wR_c2_0
     connect:
       with: //pub/universe/lego:stud
@@ -382,7 +382,7 @@ links:
       name: wR_c3_0
       to: //pub/universe/lego:anti-stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wR_c1_0
     connect:
       with: //pub/universe/lego:stud
@@ -390,7 +390,7 @@ links:
       name: wR_c2_0
       to: //pub/universe/lego:anti-stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: wR_c0_0
     connect:
       with: //pub/universe/lego:stud
@@ -398,7 +398,7 @@ links:
       name: wR_c1_0
       to: //pub/universe/lego:anti-stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: wR_c1_1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -406,7 +406,7 @@ links:
       name: wR_c0_0
       to: //pub/universe/lego:stud
       toInstance: c2r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: wR_c0_1
     connect:
       with: //pub/universe/lego:stud
@@ -414,7 +414,7 @@ links:
       name: wR_c1_1
       to: //pub/universe/lego:anti-stud
       toInstance: c2r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wR_c1_2
     connect:
       with: //pub/universe/lego:anti-stud
@@ -422,7 +422,7 @@ links:
       name: wR_c0_1
       to: //pub/universe/lego:stud
       toInstance: c2r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wR_c2_1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -430,7 +430,7 @@ links:
       name: wR_c1_1
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wR_c2_2
     connect:
       with: //pub/universe/lego:anti-stud
@@ -438,7 +438,7 @@ links:
       name: wR_c1_1
       to: //pub/universe/lego:stud
       toInstance: c3r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wR_c2_3
     connect:
       with: //pub/universe/lego:anti-stud
@@ -446,7 +446,7 @@ links:
       name: wR_c1_2
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wR_c3_1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -454,7 +454,7 @@ links:
       name: wR_c2_1
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wR_c3_2
     connect:
       with: //pub/universe/lego:anti-stud
@@ -462,7 +462,7 @@ links:
       name: wR_c2_2
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wR_c3_3
     connect:
       with: //pub/universe/lego:anti-stud
@@ -470,7 +470,7 @@ links:
       name: wR_c2_3
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wR_c4_1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -478,7 +478,7 @@ links:
       name: wR_c3_1
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wR_c4_2
     connect:
       with: //pub/universe/lego:anti-stud
@@ -486,7 +486,7 @@ links:
       name: wR_c3_2
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wR_c4_3
     connect:
       with: //pub/universe/lego:anti-stud
@@ -494,7 +494,7 @@ links:
       name: wR_c3_3
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: wR_c5_1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -502,7 +502,7 @@ links:
       name: wR_c4_1
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wR_c5_2
     connect:
       with: //pub/universe/lego:anti-stud
@@ -510,7 +510,7 @@ links:
       name: wR_c4_3
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3010
+  - part: castle/3010-stone
     name: wR_c6_0
     connect:
       with: //pub/universe/lego:anti-stud
@@ -518,7 +518,7 @@ links:
       name: wR_c5_0
       to: //pub/universe/lego:stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: wR_c6_1
     connect:
       with: //pub/universe/lego:anti-stud
@@ -526,7 +526,7 @@ links:
       name: wR_c5_1
       to: //pub/universe/lego:stud
       toInstance: c3r0
-  - part: //pub/universe/lego/ldraw/Brick:3004
+  - part: castle/3004-stone
     name: wR_c6_2
     connect:
       with: //pub/universe/lego:anti-stud
@@ -534,7 +534,7 @@ links:
       name: wR_c5_2
       to: //pub/universe/lego:stud
       toInstance: c0r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: w_m14
     connect:
       with: //pub/universe/lego:anti-stud
@@ -542,7 +542,7 @@ links:
       name: gate_d_c6_2
       to: //pub/universe/lego:stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: w_m16
     connect:
       with: //pub/universe/lego:anti-stud
@@ -550,7 +550,7 @@ links:
       name: wR_c6_0
       to: //pub/universe/lego:stud
       toInstance: c1r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: w_m18
     connect:
       with: //pub/universe/lego:anti-stud
@@ -558,7 +558,7 @@ links:
       name: wR_c6_0
       to: //pub/universe/lego:stud
       toInstance: c3r0
-  - part: //pub/universe/lego/ldraw/Brick:3005
+  - part: castle/3005-stone
     name: w_m20
     connect:
       with: //pub/universe/lego:anti-stud
