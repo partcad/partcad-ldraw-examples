@@ -547,7 +547,8 @@ them, so what it needs grows with the square of the model: the car has
 end 199,000 and 10 GB. Those are drawn from a triangulation instead, which
 comes out the same again on the same kind of machine.
 
-[CI](.github/workflows/ci.yml) installs the latest PartCAD from PyPI on the
+[CI](.github/workflows/ci.yml) installs the latest PartCAD from TestPyPI -- every
+version PartCAD's `devel` reaches, before any of them is released -- on the
 latest Ubuntu, runs `pc qual test -r` and `pc render -r`, and fails if anything
 it rendered differs from what is checked in. So a change to a model, to the
 parts library or to how PartCAD draws shows up as a diff rather than as a
