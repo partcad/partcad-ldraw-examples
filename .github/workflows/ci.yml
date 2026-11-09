@@ -96,20 +96,25 @@ jobs:
 
       - name: Install the latest PartCAD from TestPyPI
         id: partcad
-        # Only PartCAD itself comes from TestPyPI, and by exact version: anybody
-        # can upload a package of any name there, so its dependencies are
-        # installed from PyPI as they always were, and nothing on TestPyPI is
-        # asked for but the one wheel. 'info.version' is the newest version
-        # that is not a pre-release, which every version bump is.
+        # Only PartCAD itself comes from TestPyPI, and as one wheel: anybody can
+        # upload a package of any name there, so its dependencies are installed
+        # from PyPI as they always were, and nothing on TestPyPI is asked for
+        # but that file. pip passes over pre-releases unless told otherwise, and
+        # no version bump is one.
+        #
+        # The newest version is whichever TestPyPI's simple index lists, which is
+        # what pip reads and downloads from: one source, so there is nothing to
+        # disagree with it. (Its JSON API, asked first, could name a version the
+        # index did not list yet.) For up to a quarter of an hour after a bump
+        # a CDN can still serve the list from before it, and a run then tests
+        # the version before; 'pc version' below says which one it got.
         run: |
           set -euo pipefail
           python -m pip install --upgrade pip
-          version="$(curl -fsS https://test.pypi.org/pypi/partcad/json |
-            python -c 'import json, sys; print(json.load(sys.stdin)["info"]["version"])')"
-          echo "PartCAD ${version} from TestPyPI"
-          python -m pip download --no-deps --dest "${RUNNER_TEMP}/partcad" \
-            --index-url https://test.pypi.org/simple/ "partcad==${version}"
-          python -m pip install "${RUNNER_TEMP}/partcad/partcad-${version}-py3-none-any.whl"
+          dest="${RUNNER_TEMP}/partcad"
+          python -m pip download --no-deps --only-binary=:all: --dest "$dest" \
+            --index-url https://test.pypi.org/simple/ partcad
+          python -m pip install "$dest"/partcad-*-py3-none-any.whl
           pc --no-ansi version
           echo "version=$(python -c 'import partcad; print(partcad.__version__)')" >> "$GITHUB_OUTPUT"
 
