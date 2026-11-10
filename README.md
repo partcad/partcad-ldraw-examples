@@ -317,13 +317,13 @@ and not for a cross block, whose pin hole has to be where the design put it. For
 those the axle itself is turned, in the round hole it went into.
 
 Three contacts in `f1/drivetrain` are true of the geometry without being a
-joint that excuses them, and `pc test` reports them: the pinion's mesh with the
-differential's crown (21.979 mm^3; the crown has no gear ports, and the pinion's
-describe a spur mesh, not a bevel one), the end of the pinion's shaft against
-the differential (4.220 mm^3), and the right half axle inside the differential
-that sits on it (11.115 mm^3) - an axle snaps past nothing, so the length of it
-inside the differential is reported. The bevel gears inside it, which the two
-half axles would turn, are not modelled.
+joint that excuses them, and `pc qual test` reports them: the pinion's mesh with
+the differential's crown (21.979 mm^3; the crown has no gear ports, and the
+pinion's describe a spur mesh, not a bevel one), the end of the pinion's shaft
+against the differential (4.220 mm^3), and the right half axle inside the
+differential that sits on it (11.115 mm^3) - an axle snaps past nothing, so the
+length of it inside the differential is reported. The bevel gears inside it,
+which the two half axles would turn, are not modelled.
 
 ### How it was made, and checked
 
@@ -355,7 +355,7 @@ carries two beams, two bushes and a wheel, each joined to its end at its own
 `moveZ`, and PartCAD's connectivity test reported them as crowding one port
 until `technic-axle` said `multiConnect: true`.
 
-Every piece passes `pc test -f connect`, `connectivity`, `validity`,
+Every piece passes `pc qual test -f connect`, `connectivity`, `validity`,
 `degenerate`, `solidity`, `shell` and `manufacturability` on its own as well as
 inside the car.
 
@@ -404,10 +404,10 @@ store is still asked for them by LDraw number (see "Buying the parts").
 
 A LEGO stud is *meant* to occupy the part above it, and a Technic pin the hole
 it is in — that interference is what makes the parts grip. So
-`partcad.test.interference` has something true to report about almost every
-joint in both models, and nowhere to read that it is intended: an overlap which
-is meant to be there is stated on the joint that causes it, and these joints do
-not say so.
+`partcad.qual.topology.interference` has something true to report about almost
+every joint in both models, and nowhere to read that it is intended: an overlap
+which is meant to be there is stated on the joint that causes it, and these
+joints do not say so.
 
 Nothing here turns the check off. The package is `manufacturable: false` —
 nobody is ordering a castle, or this car — and that is what makes interference
@@ -458,7 +458,7 @@ LDraw's own files and applies as it reads them, each pinned to the file it was
 written against. One of them is authored rather than corrected: the IR remote's
 top half, which LDraw declares "Inside not modelled", is closed across its rim
 as a filled envelope. Every part of the car is now served as a solid, and the
-car, its pieces and the set pass `pc test`.
+car, its pieces and the set pass `pc qual test`.
 
 ## Buying the parts
 
@@ -547,13 +547,14 @@ them, so what it needs grows with the square of the model: the car has
 end 199,000 and 10 GB. Those are drawn from a triangulation instead, which
 comes out the same again on the same kind of machine.
 
-[CI](.github/workflows/ci.yml) installs the latest PartCAD from PyPI on the
-latest Ubuntu, runs `pc test -r` and `pc render -r`, and fails if anything it
-rendered differs from what is checked in. So a change to a model, to the parts
-library or to how PartCAD draws shows up as a diff rather than as a README that
-quietly stopped describing the model. To change this text, edit `partcad.yaml`
-and run `pc render -r`; an edit to `README.md` itself is overwritten by the
-next render.
+[CI](.github/workflows/ci.yml) installs the latest PartCAD from TestPyPI -- every
+version PartCAD's `devel` reaches, before any of them is released -- on the
+latest Ubuntu, runs `pc qual test -r` and `pc render -r`, and fails if anything
+it rendered differs from what is checked in. So a change to a model, to the
+parts library or to how PartCAD draws shows up as a diff rather than as a
+README that quietly stopped describing the model. To change this text, edit
+`partcad.yaml` and run `pc render -r`; an edit to `README.md` itself is
+overwritten by the next render.
 
 
 ## Assemblies

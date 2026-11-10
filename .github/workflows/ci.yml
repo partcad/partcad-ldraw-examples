@@ -1,6 +1,12 @@
 # Tests every assembly here and renders everything this package publishes, with
-# the latest PartCAD from PyPI on the latest Ubuntu, and fails when what it
+# the latest PartCAD from TestPyPI on the latest Ubuntu, and fails when what it
 # rendered differs from what is checked in.
+#
+# TestPyPI rather than PyPI because this package is in the index
+# ('//pub/examples/lego'), and the index moves with PartCAD's 'devel': every
+# version bump there is published to TestPyPI, a release to PyPI only later. A
+# change to PartCAD that this package has to follow is then found here when it
+# lands, rather than after it is released.
 #
 # README.md and every picture in it are generated: the text is the 'docs:'
 # section of partcad.yaml, and 'pc render -r' writes the file and the images
@@ -88,11 +94,27 @@ jobs:
           mkdir -p ~/.partcad
           printf 'pythonSandbox: venv\nthreadsMax: 3\n' > ~/.partcad/config.yaml
 
-      - name: Install the latest PartCAD
+      - name: Install the latest PartCAD from TestPyPI
         id: partcad
+        # Only PartCAD itself comes from TestPyPI, and as one wheel: anybody can
+        # upload a package of any name there, so its dependencies are installed
+        # from PyPI as they always were, and nothing on TestPyPI is asked for
+        # but that file. pip passes over pre-releases unless told otherwise, and
+        # no version bump is one.
+        #
+        # The newest version is whichever TestPyPI's simple index lists, which is
+        # what pip reads and downloads from: one source, so there is nothing to
+        # disagree with it. (Its JSON API, asked first, could name a version the
+        # index did not list yet.) For up to a quarter of an hour after a bump
+        # a CDN can still serve the list from before it, and a run then tests
+        # the version before; 'pc version' below says which one it got.
         run: |
+          set -euo pipefail
           python -m pip install --upgrade pip
-          python -m pip install --upgrade partcad
+          dest="${RUNNER_TEMP}/partcad"
+          python -m pip download --no-deps --only-binary=:all: --dest "$dest" \
+            --index-url https://test.pypi.org/simple/ partcad
+          python -m pip install "$dest"/partcad-*-py3-none-any.whl
           pc --no-ansi version
           echo "version=$(python -c 'import partcad; print(partcad.__version__)')" >> "$GITHUB_OUTPUT"
 
@@ -113,7 +135,7 @@ jobs:
         # '-r' walks this package. It imports what this package imports first,
         # which is why 'pub' is the one branch of the index these models are
         # built from rather than all of it (see deps/pub/partcad.yaml).
-        run: pc --no-ansi test -r
+        run: pc --no-ansi qual test -r
 
       - name: Render
         run: pc --no-ansi render -r
